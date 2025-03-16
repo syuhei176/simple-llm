@@ -1,98 +1,66 @@
-// 簡易的なTokenizer
-class SimpleTokenizer {
-  vocab: Record<string, number> = {};
-  invVocab: Record<number, string> = {};
+import { SimpleLLM } from './llm';
+import * as readline from 'readline';
 
-  constructor(vocabList: string[]) {
-    vocabList.forEach((word, idx) => {
-      this.vocab[word] = idx;
-      this.invVocab[idx] = word;
-    });
-  }
 
-  encode(text: string): number[] {
-    return text.split(' ').map(w => this.vocab[w] || 0);
-  }
+// 会話データセット
+const conversationData = [
+  { input: "Hello", target: "Hi, how can I help you?" },
+  { input: "How are you?", target: "I'm doing well, thank you!" },
+  { input: "What is your name?", target: "I am an AI assistant." },
+  { input: "who are you?", target: "I am an AI assistant." },
+  { input: "What is your favorite color?", target: "green" },
+  { input: "Tell me a joke", target: "Why did the AI cross the road? To optimize the other side!" },
+  { input: "Goodbye", target: "Goodbye! Have a great day!" },
+  { input: "I'm hungry", target: "I'm sorry, I can't help with that." },
+  { input: "I'm tired", target: "I'm sorry, I can't help with that." },
+  { input: "I'm happy", target: "I'm sorry, I can't help with that." },
+  { input: "I'm sad", target: "I'm sorry, I can't help with that." },
+  { input: "function add(a, b)", target: "{ return a + b; }" }
+   
+];
 
-  decode(tokens: number[]): string {
-    return tokens.map(t => this.invVocab[t] || '[UNK]').join(' ');
-  }
+// 単語リスト（Vocabulary）を生成する関数
+function buildVocabulary(data: { input: string; target: string }[]): string[] {
+  const words = new Set<string>();
+  data.forEach(({ input, target }) => {
+    input.split(/\W+/).forEach(word => words.add(word.toLowerCase()));
+    target.split(/\W+/).forEach(word => words.add(word.toLowerCase()));
+  });
+  return Array.from(words).filter(word => word.length > 0); // 空文字を除外
 }
 
-// シンプルなTransformer Layer（Attention含む）
-class SimpleTransformer {
-  weights: number[][];
+// Vocabularyリストを作成
+const vocabulary = buildVocabulary(conversationData);
 
-  constructor(size: number) {
-    this.weights = Array.from({ length: size }, () =>
-      Array.from({ length: size }, () => Math.random() - 0.5)
-    );
-  }
-
-  attention(input: number[]): number[] {
-    const scale = Math.sqrt(input.length);
-    const scores = input.map((_, i) => input.reduce((acc, v) => acc + v * this.weights[i][i], 0) / scale);
-    const expScores = scores.map(Math.exp);
-    const sumExp = expScores.reduce((a, b) => a + b, 0);
-    return expScores.map(v => v / sumExp);
-  }
-
-  forward(input: number[]): number[] {
-    const attn = this.attention(input);
-    return attn.map((a, i) => input[i] * a);
-  }
-
-  quantize() {
-    this.weights = this.weights.map(row => row.map(v => parseFloat(v.toFixed(2))));
-  }
-}
-
-// 簡易LLM
-class SimpleLLM {
-  tokenizer: SimpleTokenizer;
-  transformer: SimpleTransformer;
-
-  constructor(vocab: string[]) {
-    this.tokenizer = new SimpleTokenizer(vocab);
-    this.transformer = new SimpleTransformer(vocab.length);
-  }
-
-  predict(text: string, maxLen = 5): string {
-    let tokens = this.tokenizer.encode(text);
-    for (let i = 0; i < maxLen; i++) {
-      const output = this.transformer.forward(tokens);
-      const nextToken = output.indexOf(Math.max(...output));
-      tokens.push(nextToken);
-    }
-    return this.tokenizer.decode(tokens);
-  }
-
-  train(input: string[], target: string[]) {
-    input.forEach((text, idx) => {
-      const inputTokens = this.tokenizer.encode(text);
-      const targetTokens = this.tokenizer.encode(target[idx]);
-      const outputTokens = this.transformer.forward(inputTokens);
-      // シンプルな重み更新（実際はバックプロパゲーションが必要）
-      this.transformer.weights = this.transformer.weights.map((row, i) =>
-        row.map((w, j) => w + 0.01 * (targetTokens[j] - outputTokens[j]))
-      );
-    });
-  }
-
-  quantize() {
-    this.transformer.quantize();
-  }
-}
+console.log("Vocabulary List:", vocabulary);
 
 // 動作例
-const vocab = ['hello', 'world', 'I', 'am', 'AI', '[UNK]'];
-const llm = new SimpleLLM(vocab);
+const llm = new SimpleLLM(vocabulary);
 
 // 学習（簡易的な更新）
-llm.train(['hello world'], ['I am AI']);
+llm.train(conversationData, 120);
 
 // 量子化
 llm.quantize();
 
-// 推論
-console.log(llm.predict('hello'));
+// ターミナルでの対話処理
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout
+});
+
+function chat() {
+  rl.question("You: ", (input) => {
+    if (input.toLowerCase() === "exit") {
+      console.log("Goodbye!");
+      rl.close();
+      return;
+    }
+    const response = llm.predict(input, 5);
+    console.log("AI:", response);
+    chat();
+  });
+}
+
+console.log("Chatbot initialized. Type 'exit' to quit.");
+chat();
