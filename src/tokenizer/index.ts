@@ -1,20 +1,18 @@
 // 簡易的なTokenizer
 export class SimpleTokenizer {
-  vocab: Record<string, number> = {};
-  invVocab: Record<number, string> = {};
+  vocab: string[];
+  vocabMap: Record<string, number>;
 
   constructor(vocabList: string[]) {
-    vocabList.forEach((word, idx) => {
-      this.vocab[word] = idx;
-      this.invVocab[idx] = word;
-    });
+    this.vocab = vocabList;
+    this.vocabMap = Object.fromEntries(vocabList.map((word, idx) => [word, idx]));
   }
 
   encode(text: string): number[] {
-    return text.split(' ').map(w => this.vocab[w] ?? this.vocab['[UNK]']);
+    return text.split(' ').map(w => this.vocabMap[w] ?? this.vocabMap['[UNK]']);
   }
 
   decode(tokens: number[]): string {
-    return tokens.map(t => this.invVocab[t] || '[UNK]').join(' ');
+    return tokens.map(t => this.vocab[t] ?? '[UNK]').join(' ');
   }
 }

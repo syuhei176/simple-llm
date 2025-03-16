@@ -1,39 +1,29 @@
 import { SimpleTokenizer } from '../tokenizer';
 import { SimpleTransformer } from '../transformer';
+import { EmbeddingLayer } from '../embedding';
+import { transpose } from '../transpose';
 
 // 簡易LLM
 export class SimpleLLM {
   tokenizer: SimpleTokenizer;
+  embedding: EmbeddingLayer;
   transformer: SimpleTransformer;
-  temperature: number = 1;
 
-  constructor(vocab: string[]) {
+  constructor(vocab: string[], embeddingDim = 4) {
     this.tokenizer = new SimpleTokenizer(vocab);
-    this.transformer = new SimpleTransformer(vocab.length);
+    this.embedding = new EmbeddingLayer(vocab.length, embeddingDim);
+    this.transformer = new SimpleTransformer(embeddingDim);
   }
 
   predict(text: string, maxLen = 5): string {
     let tokens = this.tokenizer.encode(text);
+    let embeddedInputs = tokens.map(token => this.embedding.forward(token));
+    embeddedInputs = transpose(embeddedInputs);
+
     for (let i = 0; i < maxLen; i++) {
-      const output = this.transformer.forward(tokens);
-      
-      // ★ 確率分布を正規化（softmax の簡易版）
-      const expOutput = output.map(v => Math.exp(v / this.temperature));
-      const sumExp = expOutput.reduce((a, b) => a + b, 1e-8);
-      const probabilities = expOutput.map(v => v / sumExp);
-      
-      // ★ 確率分布から次の単語をサンプリング
-      let randomVal = Math.random();
-      let cumulativeProb = 0;
-      let nextToken = 0;
-      for (let j = 0; j < probabilities.length; j++) {
-        cumulativeProb += probabilities[j];
-        if (randomVal < cumulativeProb) {
-          nextToken = j;
-          break;
-        }
-      }
-      
+      const output = this.transformer.forward(embeddedInputs);
+      const nextToken = output.map(vec => vec.indexOf(Math.max(...vec)))[0];
+      embeddedInputs.push(this.embedding.forward(nextToken));
       tokens.push(nextToken);
     }
     return this.tokenizer.decode(tokens);
@@ -44,14 +34,33 @@ export class SimpleLLM {
       trainingData.forEach(({ input, target }) => {
         const inputTokens = this.tokenizer.encode(input);
         const targetTokens = this.tokenizer.encode(target);
-        const outputTokens = this.transformer.forward(inputTokens);
-        this.transformer.backward(inputTokens, outputTokens, targetTokens);
+        let inputVectors = inputTokens.map(token => this.embedding.forward(token));
+        let targetVectors = targetTokens.map(token => this.embedding.forward(token));
+
+        inputVectors = transpose(inputVectors);
+        targetVectors = transpose(targetVectors);
+
+        const outputVectors = this.transformer.forward(inputVectors);
+
+        console.log(inputVectors, outputVectors)
+
+
+        printMatrix('inputVectors', inputVectors);
+        printMatrix('outputVectors', outputVectors);
+        printMatrix('targetVectors', targetVectors);
+
+        this.transformer.backward(inputVectors, outputVectors, targetVectors);
       });
       console.log(`Epoch ${epoch + 1}/${epochs} completed.`);
     }
   }
 
+
   quantize() {
     this.transformer.quantize();
   }
+}
+
+function printMatrix(name: string, matrix: number[][]) {
+  console.log(name, matrix.length, matrix[0].length);
 }

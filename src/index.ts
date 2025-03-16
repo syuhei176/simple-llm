@@ -1,49 +1,39 @@
 import { SimpleLLM } from './llm';
 import * as readline from 'readline';
+import * as fs from 'fs';
 
-
-// 会話データセット
-const conversationData = [
-  { input: "Hello", target: "Hi, how can I help you?" },
-  { input: "How are you?", target: "I'm doing well, thank you!" },
-  { input: "What is your name?", target: "I am an AI assistant." },
-  { input: "who are you?", target: "I am an AI assistant." },
-  { input: "What is your favorite color?", target: "green" },
-  { input: "Tell me a joke", target: "Why did the AI cross the road? To optimize the other side!" },
-  { input: "Goodbye", target: "Goodbye! Have a great day!" },
-  { input: "I'm hungry", target: "I'm sorry, I can't help with that." },
-  { input: "I'm tired", target: "I'm sorry, I can't help with that." },
-  { input: "I'm happy", target: "I'm sorry, I can't help with that." },
-  { input: "I'm sad", target: "I'm sorry, I can't help with that." },
-  { input: "function add(a, b)", target: "{ return a + b; }" }
-   
+// 学習データ
+const trainingData = [
+  { input: 'hello world', target: 'I am AI' },
+  { input: 'color', target: 'red blue green yellow' },
+  { input: 'how are you', target: 'thank you and you?' },
+  { input: 'hello', target: 'how are you' },
+  { input: 'animals', target: 'cat dog bird fish' },
 ];
 
-// 単語リスト（Vocabulary）を生成する関数
-function buildVocabulary(data: { input: string; target: string }[]): string[] {
-  const words = new Set<string>();
-  data.forEach(({ input, target }) => {
-    input.split(/\W+/).forEach(word => words.add(word.toLowerCase()));
-    target.split(/\W+/).forEach(word => words.add(word.toLowerCase()));
+function createVocab(data: { input: string, target: string }[]) {
+  const vocab = new Set<string>();
+  data.forEach(d => {
+    d.input.split(' ').forEach(w => vocab.add(w));
+    d.target.split(' ').forEach(w => vocab.add(w));
   });
-  return Array.from(words).filter(word => word.length > 0); // 空文字を除外
+  return Array.from(vocab);
 }
 
-// Vocabularyリストを作成
-const vocabulary = buildVocabulary(conversationData);
+const vocab = createVocab(trainingData);
 
-console.log("Vocabulary List:", vocabulary);
 
-// 動作例
-const llm = new SimpleLLM(vocabulary);
+console.log(vocab);
 
-// 学習（簡易的な更新）
-llm.train(conversationData, 120);
+const llm = new SimpleLLM(vocab, vocab.length);
 
-// 量子化
+// 学習
+llm.train(trainingData, 50);
+
 llm.quantize();
 
-// ターミナルでの対話処理
+console.log(llm.transformer.weights);
+// ターミナル対話
 const rl = readline.createInterface({
   input: process.stdin,
   output: process.stdout
