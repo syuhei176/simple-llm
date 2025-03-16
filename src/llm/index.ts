@@ -18,11 +18,9 @@ export class SimpleLLM {
   predict(text: string, maxLen = 5): string {
     let tokens = this.tokenizer.encode(text);
     let embeddedInputs = tokens.map(token => this.embedding.forward(token));
-    embeddedInputs = transpose(embeddedInputs);
-
     for (let i = 0; i < maxLen; i++) {
       const output = this.transformer.forward(embeddedInputs);
-      const nextToken = output.map(vec => vec.indexOf(Math.max(...vec)))[0];
+      const nextToken = output[output.length - 1].indexOf(Math.max(...output[output.length - 1]));
       embeddedInputs.push(this.embedding.forward(nextToken));
       tokens.push(nextToken);
     }
@@ -34,30 +32,13 @@ export class SimpleLLM {
       trainingData.forEach(({ input, target }) => {
         const inputTokens = this.tokenizer.encode(input);
         const targetTokens = this.tokenizer.encode(target);
-        let inputVectors = inputTokens.map(token => this.embedding.forward(token));
-        let targetVectors = targetTokens.map(token => this.embedding.forward(token));
-
-        inputVectors = transpose(inputVectors);
-        targetVectors = transpose(targetVectors);
-
+        const inputVectors = inputTokens.map(token => this.embedding.forward(token));
+        const targetVectors = targetTokens.map(token => this.embedding.forward(token));
         const outputVectors = this.transformer.forward(inputVectors);
-
-        console.log(inputVectors, outputVectors)
-
-
-        printMatrix('inputVectors', inputVectors);
-        printMatrix('outputVectors', outputVectors);
-        printMatrix('targetVectors', targetVectors);
-
         this.transformer.backward(inputVectors, outputVectors, targetVectors);
       });
       console.log(`Epoch ${epoch + 1}/${epochs} completed.`);
     }
-  }
-
-
-  quantize() {
-    this.transformer.quantize();
   }
 }
 

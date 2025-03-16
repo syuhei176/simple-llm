@@ -30,8 +30,6 @@ const llm = new SimpleLLM(vocab, vocab.length);
 // 学習
 llm.train(trainingData, 50);
 
-llm.quantize();
-
 console.log(llm.transformer.weights);
 // ターミナル対話
 const rl = readline.createInterface({
