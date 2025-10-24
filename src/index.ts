@@ -22,15 +22,16 @@ function createVocab(data: { input: string, target: string }[]) {
 
 const vocab = createVocab(trainingData);
 
+console.log('Vocabulary:', vocab);
+console.log('Vocabulary size:', vocab.length);
 
-console.log(vocab);
-
-const llm = new SimpleLLM(vocab, vocab.length);
+// Embedding次元は適切な値に設定（vocab.lengthではなく固定値）
+const embeddingDim = 16;
+const llm = new SimpleLLM(vocab, embeddingDim);
 
 // 学習
-llm.train(trainingData, 50);
-
-console.log(llm.transformer.weights);
+console.log('Training started...');
+llm.train(trainingData, 100);
 // ターミナル対話
 const rl = readline.createInterface({
   input: process.stdin,
