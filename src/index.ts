@@ -13,9 +13,9 @@ const embeddingDim = 64;
 const numLayers = 3; // 複数のTransformerレイヤーを使用
 const llm = new SimpleLLM(vocab, embeddingDim, numLayers);
 
-// 学習
+// 学習（デバッグ用に短縮）
 console.log('Training started...');
-llm.train(trainingData, 100);
+llm.train(trainingData, 10);
 // ターミナル対話
 const rl = readline.createInterface({
   input: process.stdin,

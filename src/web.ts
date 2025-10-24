@@ -15,6 +15,8 @@ function init() {
 
   console.log('Vocabulary:', vocab);
   console.log('Vocabulary size:', vocab.length);
+  console.log('First 20 vocab words:', vocab.slice(0, 20));
+  console.log('Training data count:', trainingData.length);
 
   // UI要素の取得
   const trainButton = document.getElementById('train-button') as HTMLButtonElement;
