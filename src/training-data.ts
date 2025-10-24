@@ -104,9 +104,21 @@ export const trainingData = [
 
 export function createVocab(data: { input: string, target: string }[]) {
   const vocab = new Set<string>();
+
+  // 特殊トークンを最初に追加
+  vocab.add('[PAD]');  // パディング用
+  vocab.add('[UNK]');  // 未知語用
+  vocab.add('[EOS]');  // 文末用
+
   data.forEach(d => {
-    d.input.split(' ').forEach(w => vocab.add(w));
-    d.target.split(' ').forEach(w => vocab.add(w));
+    // 小文字に正規化して追加
+    d.input.toLowerCase().split(' ').forEach(w => {
+      if (w.trim()) vocab.add(w.trim());
+    });
+    d.target.toLowerCase().split(' ').forEach(w => {
+      if (w.trim()) vocab.add(w.trim());
+    });
   });
+
   return Array.from(vocab);
 }
