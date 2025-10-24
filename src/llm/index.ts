@@ -117,6 +117,14 @@ export class SimpleLLM {
       let totalLoss = 0;
 
       trainingData.forEach(({ input, target }) => {
+        // 勾配をゼロリセット
+        for (const transformer of this.transformers) {
+          transformer.zeroGrad();
+          transformer.layerNorm1.zeroGrad();
+          transformer.layerNorm2.zeroGrad();
+        }
+        this.outputLayer.zeroGrad();
+
         const inputTokens = this.tokenizer.encode(input);
         const targetTokens = this.tokenizer.encode(target);
 
@@ -141,9 +149,9 @@ export class SimpleLLM {
           const logits = this.outputLayer.forward(transformerOutput[i]);
           const probs = this.outputLayer.softmax(logits);
 
-          // Cross-entropy loss の勾配
-          const gradLogits = [...probs];
-          gradLogits[targetTokens[i]] -= 1; // probs - one_hot(target)
+          // Cross-entropy loss の勾配 (negative for gradient descent)
+          const gradLogits = probs.map(p => -p);
+          gradLogits[targetTokens[i]] += 1; // one_hot(target) - probs
 
           // 損失の計算（表示用）
           totalLoss -= Math.log(probs[targetTokens[i]] + 1e-10);
@@ -167,6 +175,14 @@ export class SimpleLLM {
         // Embeddingの更新
         for (let i = 0; i < inputTokens.length && i < gradEmbedding.length; i++) {
           this.embedding.backward(inputTokens[i], gradEmbedding[i]);
+        }
+
+        // パラメータ更新
+        this.outputLayer.updateParameters();
+        for (const transformer of this.transformers) {
+          transformer.updateParameters();
+          transformer.layerNorm1.updateParameters();
+          transformer.layerNorm2.updateParameters();
         }
       });
 

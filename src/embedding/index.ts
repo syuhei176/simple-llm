@@ -1,7 +1,7 @@
 export class EmbeddingLayer {
   weights: number[][];
   embeddingDim: number;
-  learningRate: number = 0.01; // 勾配爆発防止のため学習率を下げる
+  learningRate: number = 0.001; // 勾配爆発防止のため学習率を下げる
 
   constructor(vocabSize: number, embeddingDim: number) {
     this.embeddingDim = embeddingDim;
