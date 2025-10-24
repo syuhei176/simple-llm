@@ -5,8 +5,12 @@ A minimal Transformer-based language model built from scratch in TypeScript.
 ## Features
 
 - **Self-Attention Mechanism**: Implements Query, Key, Value matrices for proper self-attention
-- **Embedding Layer**: Trainable token embeddings with Xavier initialization
+- **Positional Encoding**: Adds position information to token embeddings
+- **Layer Normalization**: Stabilizes training with normalization after each sub-layer
+- **Multiple Transformer Layers**: 3 stacked transformer layers for better representation
+- **Embedding Layer**: Trainable token embeddings with Xavier initialization (64 dimensions)
 - **Output Layer**: Linear transformation from embedding dimension to vocabulary size
+- **Rich Training Data**: 70+ diverse conversation pairs
 - **Backpropagation**: Proper gradient computation and weight updates
 - **Web Interface**: Interactive demo that runs entirely in the browser
 
@@ -15,13 +19,23 @@ A minimal Transformer-based language model built from scratch in TypeScript.
 ```
 Input Tokens
     ↓
-Embedding Layer (vocab_size → embedding_dim)
+Embedding Layer (vocab_size → 64 dims)
     ↓
-Transformer Layer (Self-Attention + Feed-Forward)
+Positional Encoding (adds position info)
     ↓
-Output Layer (embedding_dim → vocab_size)
+Transformer Layer 1:
+  ├─ Self-Attention (Q, K, V)
+  ├─ Residual Connection + Layer Norm
+  ├─ Feed-Forward Network
+  └─ Residual Connection + Layer Norm
     ↓
-Predicted Tokens
+Transformer Layer 2 (same structure)
+    ↓
+Transformer Layer 3 (same structure)
+    ↓
+Output Layer (64 dims → vocab_size)
+    ↓
+Softmax → Predicted Tokens
 ```
 
 ## Installation
@@ -55,13 +69,14 @@ npx ts-node src/index.ts
 
 ## Training Data
 
-The model is trained on simple input-output pairs:
+The model is trained on 70+ diverse conversation pairs covering:
 
-- "hello world" → "I am AI"
-- "color" → "red blue green yellow"
-- "how are you" → "thank you and you?"
-- "hello" → "how are you"
-- "animals" → "cat dog bird fish"
+- **Greetings**: "hello" → "hi there", "good morning" → "good morning to you"
+- **Questions**: "how are you" → "I am doing well thank you", "what is your name" → "I am a simple AI assistant"
+- **Colors**: "colors" → "red blue green yellow orange purple pink"
+- **Animals**: "animals" → "cat dog bird fish elephant tiger bear"
+- **Emotions**: "are you happy" → "yes I am happy to chat"
+- **And many more categories**: food, places, time, hobbies, family, etc.
 
 ## GitHub Pages Deployment
 
@@ -95,14 +110,17 @@ git push origin main
 ```
 simple-llm/
 ├── src/
-│   ├── llm/           # Main LLM orchestrator
-│   ├── tokenizer/     # Simple word tokenizer
-│   ├── embedding/     # Embedding layer
-│   ├── transformer/   # Self-attention transformer
-│   ├── output/        # Output layer
-│   ├── transpose.ts   # Matrix utility
-│   ├── index.ts       # CLI entry point
-│   └── web.ts         # Web entry point
+│   ├── llm/                    # Main LLM orchestrator
+│   ├── tokenizer/              # Simple word tokenizer
+│   ├── embedding/              # Embedding layer
+│   ├── transformer/            # Self-attention transformer with layer norm
+│   ├── output/                 # Output layer
+│   ├── positional-encoding.ts  # Positional encoding utilities
+│   ├── layer-norm.ts           # Layer normalization
+│   ├── training-data.ts        # 70+ training examples
+│   ├── transpose.ts            # Matrix utility
+│   ├── index.ts                # CLI entry point
+│   └── web.ts                  # Web entry point
 ├── docs/              # GitHub Pages directory
 │   ├── index.html     # Web interface
 │   └── bundle.js      # Compiled bundle
@@ -113,8 +131,11 @@ simple-llm/
 
 ## Technical Details
 
-### Embedding Dimension
-Default: 16 (configurable)
+### Model Configuration
+- **Embedding Dimension**: 64
+- **Transformer Layers**: 3
+- **Vocabulary Size**: ~200 words (dynamically generated)
+- **Training Data**: 70+ conversation pairs
 
 ### Training
 - Optimizer: Simple gradient descent
@@ -131,26 +152,39 @@ V = input × Wv
 Attention(Q, K, V) = softmax(Q·K^T / √d) · V
 ```
 
+### Positional Encoding
+```
+PE(pos, 2i) = sin(pos / 10000^(2i/d))
+PE(pos, 2i+1) = cos(pos / 10000^(2i/d))
+```
+
 ### Improvements Made
 
 This implementation includes several improvements over basic neural networks:
 
 1. **Proper Attention**: Uses Q, K, V matrices instead of simple element-wise operations
-2. **Output Layer**: Correctly maps from embedding space to vocabulary space
-3. **Xavier Initialization**: Better weight initialization for training stability
-4. **Residual Connections**: Skip connections in the transformer layer
-5. **Gradient Propagation**: Proper backpropagation through all layers
+2. **Positional Encoding**: Adds position information to embeddings
+3. **Layer Normalization**: Stabilizes training with normalization layers
+4. **Multiple Transformer Layers**: 3 stacked layers for deeper representation
+5. **Increased Embedding Dimension**: 64-dimensional embeddings (up from 16)
+6. **Rich Training Data**: 70+ diverse examples (up from 5)
+7. **Output Layer**: Correctly maps from embedding space to vocabulary space
+8. **Xavier Initialization**: Better weight initialization for training stability
+9. **Residual Connections**: Skip connections in each transformer layer
+10. **Gradient Propagation**: Proper backpropagation through all layers
 
 ## Limitations
 
 This is an educational implementation with simplifications:
 
-- Single transformer layer (real LLMs have many)
-- Small embedding dimension
-- Simple tokenizer (word-level, no subwords)
-- No positional encoding
-- Limited training data
-- Simplified gradient computation
+- Only 3 transformer layers (real LLMs have 12-96+ layers)
+- Simple tokenizer (word-level, no subwords like BPE or WordPiece)
+- No multi-head attention (uses single attention head)
+- Small vocabulary size (~200 words)
+- Simple gradient descent (no Adam optimizer)
+- Simplified gradient computation (not fully accurate backprop)
+- Limited training data (70+ pairs vs millions in production)
+- No dropout or other regularization techniques
 
 ## License
 

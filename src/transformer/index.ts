@@ -1,3 +1,5 @@
+import { LayerNorm } from '../layer-norm';
+
 // シンプルなTransformer Layer（Self-Attention含む）
 export class SimpleTransformer {
   // Query, Key, Value の重み行列
@@ -7,6 +9,9 @@ export class SimpleTransformer {
   // Feed-forward層
   w1: number[][];
   w2: number[][];
+  // Layer Normalization
+  layerNorm1: LayerNorm;
+  layerNorm2: LayerNorm;
   learningRate: number = 0.01;
   embeddingDim: number;
 
@@ -30,6 +35,10 @@ export class SimpleTransformer {
     // Feed-forward層の重み初期化
     this.w1 = this.initWeights(embeddingDim, embeddingDim, scale);
     this.w2 = this.initWeights(embeddingDim, embeddingDim, scale);
+
+    // Layer Normalizationの初期化
+    this.layerNorm1 = new LayerNorm(embeddingDim);
+    this.layerNorm2 = new LayerNorm(embeddingDim);
   }
 
   private initWeights(rows: number, cols: number, scale: number): number[][] {
@@ -134,18 +143,20 @@ export class SimpleTransformer {
     // Self-Attention
     this.lastAttnOutput = this.attention(input);
 
-    // 残差接続
+    // 残差接続 + Layer Normalization
     const attnWithResidual = this.lastAttnOutput.map((row, i) =>
       row.map((val, j) => val + input[i][j])
     );
+    const attnNormalized = this.layerNorm1.forwardBatch(attnWithResidual);
 
     // Feed-forward
-    const ffOutput = this.feedForward(attnWithResidual);
+    const ffOutput = this.feedForward(attnNormalized);
 
-    // 残差接続
-    return ffOutput.map((row, i) =>
-      row.map((val, j) => val + attnWithResidual[i][j])
+    // 残差接続 + Layer Normalization
+    const ffWithResidual = ffOutput.map((row, i) =>
+      row.map((val, j) => val + attnNormalized[i][j])
     );
+    return this.layerNorm2.forwardBatch(ffWithResidual);
   }
 
   // 簡略化された逆伝播
