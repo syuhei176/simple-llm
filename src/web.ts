@@ -1,10 +1,12 @@
 import { SimpleLLM } from './llm';
 import { trainingData, createVocab } from './training-data';
+import { ModelStorage } from './storage';
 
 // グローバル変数
 let llm: SimpleLLM;
 let isTraining = false;
 let isTrainingComplete = false;
+const storage = new ModelStorage();
 
 // 初期化
 function init() {
@@ -21,6 +23,8 @@ function init() {
   // UI要素の取得
   const trainButton = document.getElementById('train-button') as HTMLButtonElement;
   const predictButton = document.getElementById('predict-button') as HTMLButtonElement;
+  const saveButton = document.getElementById('save-button') as HTMLButtonElement;
+  const loadButton = document.getElementById('load-button') as HTMLButtonElement;
   const userInput = document.getElementById('user-input') as HTMLInputElement;
   const outputDiv = document.getElementById('output') as HTMLDivElement;
   const statusDiv = document.getElementById('status') as HTMLDivElement;
@@ -101,7 +105,80 @@ function init() {
     }
   });
 
-  statusDiv.textContent = 'Ready. Click "Train Model" to start.';
+  // 保存ボタンのイベント
+  saveButton.addEventListener('click', async () => {
+    if (!isTrainingComplete) {
+      alert('Please train the model first before saving');
+      return;
+    }
+
+    try {
+      saveButton.disabled = true;
+      statusDiv.textContent = 'Saving model...';
+
+      const modelData = llm.serialize();
+      await storage.saveModel(modelData);
+
+      const message = document.createElement('div');
+      message.className = 'message success';
+      message.textContent = 'Model saved successfully to IndexedDB!';
+      outputDiv.appendChild(message);
+      outputDiv.scrollTop = outputDiv.scrollHeight;
+
+      statusDiv.textContent = 'Model saved!';
+    } catch (error) {
+      const errorMessage = document.createElement('div');
+      errorMessage.className = 'message error';
+      errorMessage.textContent = `Failed to save model: ${error}`;
+      outputDiv.appendChild(errorMessage);
+      console.error(error);
+      statusDiv.textContent = 'Save failed';
+    } finally {
+      saveButton.disabled = false;
+    }
+  });
+
+  // 読み込みボタンのイベント
+  loadButton.addEventListener('click', async () => {
+    try {
+      loadButton.disabled = true;
+      statusDiv.textContent = 'Loading model...';
+
+      const modelData = await storage.loadModel();
+
+      if (modelData) {
+        llm = SimpleLLM.deserialize(modelData);
+        isTrainingComplete = true;
+        predictButton.disabled = false;
+        userInput.disabled = false;
+
+        const message = document.createElement('div');
+        message.className = 'message success';
+        message.textContent = 'Model loaded successfully from IndexedDB! You can now chat with the AI.';
+        outputDiv.appendChild(message);
+        outputDiv.scrollTop = outputDiv.scrollHeight;
+
+        statusDiv.textContent = 'Model loaded!';
+      } else {
+        const message = document.createElement('div');
+        message.className = 'message error';
+        message.textContent = 'No saved model found. Please train a model first.';
+        outputDiv.appendChild(message);
+        statusDiv.textContent = 'No saved model found';
+      }
+    } catch (error) {
+      const errorMessage = document.createElement('div');
+      errorMessage.className = 'message error';
+      errorMessage.textContent = `Failed to load model: ${error}`;
+      outputDiv.appendChild(errorMessage);
+      console.error(error);
+      statusDiv.textContent = 'Load failed';
+    } finally {
+      loadButton.disabled = false;
+    }
+  });
+
+  statusDiv.textContent = 'Ready. Click "Train Model" to start or "Load Model" to load a saved model.';
 }
 
 // ページ読み込み時に初期化
