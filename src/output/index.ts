@@ -2,7 +2,7 @@
 export class OutputLayer {
   weights: number[][];
   bias: number[];
-  learningRate: number = 0.01;
+  learningRate: number = 0.01; // 勾配爆発防止のため学習率を下げる
   vocabSize: number;
   embeddingDim: number;
 
@@ -10,7 +10,7 @@ export class OutputLayer {
     this.embeddingDim = embeddingDim;
     this.vocabSize = vocabSize;
     // Xavier初期化
-    const scale = Math.sqrt(2.0 / (embeddingDim + vocabSize));
+    const scale = Math.sqrt(1.0 / (embeddingDim + vocabSize));
     this.weights = Array.from({ length: embeddingDim }, () =>
       Array.from({ length: vocabSize }, () => (Math.random() * 2 - 1) * scale)
     );
@@ -42,16 +42,26 @@ export class OutputLayer {
   backward(input: number[], gradOutput: number[]): number[] {
     const gradInput = new Array(this.embeddingDim).fill(0);
 
+    // Gradient Clipping
+    const clipValue = 5.0;
+
     // 重みとバイアスの更新
     for (let i = 0; i < this.embeddingDim; i++) {
       for (let j = 0; j < this.vocabSize; j++) {
-        this.weights[i][j] += this.learningRate * gradOutput[j] * input[i];
-        gradInput[i] += gradOutput[j] * this.weights[i][j];
+        // 勾配をクリッピング
+        const clippedGrad = Math.max(-clipValue, Math.min(clipValue, gradOutput[j]));
+        const clippedInput = Math.max(-clipValue, Math.min(clipValue, input[i]));
+        const update = clippedGrad * clippedInput;
+        const clippedUpdate = Math.max(-clipValue, Math.min(clipValue, update));
+
+        this.weights[i][j] += this.learningRate * clippedUpdate;
+        gradInput[i] += clippedGrad * this.weights[i][j];
       }
     }
 
     for (let j = 0; j < this.vocabSize; j++) {
-      this.bias[j] += this.learningRate * gradOutput[j];
+      const clippedGrad = Math.max(-clipValue, Math.min(clipValue, gradOutput[j]));
+      this.bias[j] += this.learningRate * clippedGrad;
     }
 
     return gradInput;

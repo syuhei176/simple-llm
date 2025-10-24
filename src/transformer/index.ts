@@ -12,7 +12,7 @@ export class SimpleTransformer {
   // Layer Normalization
   layerNorm1: LayerNorm;
   layerNorm2: LayerNorm;
-  learningRate: number = 0.01;
+  learningRate: number = 0.01; // 勾配爆発防止のため学習率を下げる
   embeddingDim: number;
 
   // キャッシュ（逆伝播用）
@@ -25,7 +25,8 @@ export class SimpleTransformer {
 
   constructor(embeddingDim: number) {
     this.embeddingDim = embeddingDim;
-    const scale = Math.sqrt(2.0 / embeddingDim);
+    // Xavier初期化
+    const scale = Math.sqrt(1.0 / embeddingDim);
 
     // Query, Key, Value の重み初期化
     this.wq = this.initWeights(embeddingDim, embeddingDim, scale);
@@ -166,16 +167,23 @@ export class SimpleTransformer {
       new Array(this.embeddingDim).fill(0)
     );
 
+    // Gradient Clipping
+    const clipValue = 5.0;
+
     // 簡易的な勾配更新（実際はより複雑）
     for (let i = 0; i < seqLen; i++) {
       for (let j = 0; j < this.embeddingDim; j++) {
-        const grad = gradOutput[i][j];
+        // 勾配をクリッピング
+        const grad = Math.max(-clipValue, Math.min(clipValue, gradOutput[i][j]));
 
         // Wq, Wk, Wvの更新
         for (let k = 0; k < this.embeddingDim; k++) {
-          this.wq[k][j] += this.learningRate * grad * this.lastInput[i][k] * 0.1;
-          this.wk[k][j] += this.learningRate * grad * this.lastInput[i][k] * 0.1;
-          this.wv[k][j] += this.learningRate * grad * this.lastInput[i][k] * 0.1;
+          const inputVal = this.lastInput[i] && this.lastInput[i][k] ? this.lastInput[i][k] : 0;
+          const clippedUpdate = Math.max(-clipValue, Math.min(clipValue, grad * inputVal * 0.1));
+
+          this.wq[k][j] += this.learningRate * clippedUpdate;
+          this.wk[k][j] += this.learningRate * clippedUpdate;
+          this.wv[k][j] += this.learningRate * clippedUpdate;
 
           gradInput[i][k] += grad * (this.wq[k][j] + this.wk[k][j] + this.wv[k][j]) * 0.33;
         }

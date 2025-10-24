@@ -6,7 +6,7 @@ export class LayerNorm {
   gamma: number[]; // スケールパラメータ
   beta: number[];  // シフトパラメータ
   dim: number;
-  learningRate: number = 0.01;
+  learningRate: number = 0.01; // 勾配爆発防止のため学習率を下げる
 
   constructor(dim: number, epsilon: number = 1e-8) {
     this.dim = dim;
