@@ -32,9 +32,22 @@ export class SimpleLLM {
     this.positionalEncoding = new PositionalEncodingCache(embeddingDim);
   }
 
+  // 特殊トークンのインデックスを取得
+  private getSpecialTokenIndices(): Set<number> {
+    const special = new Set<number>();
+    const specialTokens = ['[PAD]', '[UNK]', '[EOS]'];
+    specialTokens.forEach(token => {
+      const idx = this.tokenizer.vocabMap[token];
+      if (idx !== undefined) special.add(idx);
+    });
+    return special;
+  }
+
   // 予測（自己回帰生成）
   predict(text: string, maxLen = 10): string {
     let tokens = this.tokenizer.encode(text);
+    const specialTokens = this.getSpecialTokenIndices();
+    const eosIndex = this.tokenizer.vocabMap['[EOS]'];
 
     for (let i = 0; i < maxLen; i++) {
       // Embedding + Positional Encoding
@@ -53,12 +66,21 @@ export class SimpleLLM {
       const logits = this.outputLayer.forward(lastOutput);
       const probs = this.outputLayer.softmax(logits);
 
+      // 特殊トークンの確率を0にする
+      const filteredProbs = probs.map((p, idx) =>
+        specialTokens.has(idx) ? 0 : p
+      );
+
+      // 再正規化
+      const sum = filteredProbs.reduce((a, b) => a + b, 1e-10);
+      const normalizedProbs = filteredProbs.map(p => p / sum);
+
       // 最も確率の高いトークンを選択
-      const nextToken = probs.indexOf(Math.max(...probs));
+      const nextToken = normalizedProbs.indexOf(Math.max(...normalizedProbs));
       tokens.push(nextToken);
 
-      // 終了条件（パディングやEOSトークンがあれば）
-      if (nextToken === 0) break;
+      // EOSトークンが生成されたら終了
+      if (nextToken === eosIndex) break;
     }
 
     return this.tokenizer.decode(tokens);
