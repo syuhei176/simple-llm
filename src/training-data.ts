@@ -230,6 +230,92 @@ export const trainingData = [
   { input: 'got it', target: 'wonderful' },
 ];
 
+/**
+ * スライディングウィンドウ方式で長い文章をトレーニングデータに変換
+ *
+ * @param text 変換元の長い文章
+ * @param windowSize ウィンドウサイズ（単語数）
+ * @param stride 移動幅（単語数）。デフォルトは1（1単語ずつ移動）
+ * @returns トレーニングデータの配列
+ *
+ * @example
+ * const text = "hello world this is a test sentence for training data";
+ * const data = convertTextToTrainingData(text, 5, 2);
+ * // 結果:
+ * // [
+ * //   { input: "hello world this is a", target: "world this is a test" },
+ * //   { input: "this is a test sentence", target: "is a test sentence for" },
+ * //   ...
+ * // ]
+ */
+export function convertTextToTrainingData(
+  text: string,
+  windowSize: number,
+  stride: number = 1
+): { input: string; target: string }[] {
+  // テキストを小文字に正規化し、単語に分割
+  const words = text
+    .toLowerCase()
+    .split(/\s+/)
+    .map(w => w.trim())
+    .filter(w => w.length > 0);
+
+  // ウィンドウサイズが単語数より大きい場合はエラー
+  if (windowSize >= words.length) {
+    console.warn(
+      `Window size (${windowSize}) is too large for text length (${words.length} words). No training data generated.`
+    );
+    return [];
+  }
+
+  // スライディングウィンドウでトレーニングデータを生成
+  const trainingData: { input: string; target: string }[] = [];
+
+  for (let i = 0; i <= words.length - windowSize - 1; i += stride) {
+    // inputウィンドウ: [i, i+windowSize)
+    const inputWords = words.slice(i, i + windowSize);
+    // targetウィンドウ: [i+1, i+windowSize+1)（1単語シフト）
+    const targetWords = words.slice(i + 1, i + windowSize + 1);
+
+    trainingData.push({
+      input: inputWords.join(' '),
+      target: targetWords.join(' '),
+    });
+  }
+
+  console.log(`Generated ${trainingData.length} training samples from text with ${words.length} words`);
+  console.log(`Window size: ${windowSize}, Stride: ${stride}`);
+
+  return trainingData;
+}
+
+/**
+ * 複数の文章をスライディングウィンドウ方式でトレーニングデータに変換
+ * 各文章を個別に処理し、結果を統合します
+ *
+ * @param texts 変換元の文章の配列
+ * @param windowSize ウィンドウサイズ（単語数）
+ * @param stride 移動幅（単語数）。デフォルトは1
+ * @returns トレーニングデータの配列
+ */
+export function convertMultipleTextsToTrainingData(
+  texts: string[],
+  windowSize: number,
+  stride: number = 1
+): { input: string; target: string }[] {
+  const allTrainingData: { input: string; target: string }[] = [];
+
+  texts.forEach((text, index) => {
+    const data = convertTextToTrainingData(text, windowSize, stride);
+    allTrainingData.push(...data);
+    console.log(`Text ${index + 1}/${texts.length}: Generated ${data.length} samples`);
+  });
+
+  console.log(`Total: Generated ${allTrainingData.length} training samples from ${texts.length} texts`);
+
+  return allTrainingData;
+}
+
 export function createVocab(data: { input: string, target: string }[]) {
   // 特殊トークンを最初に配置（インデックス保証）
   const vocab: string[] = ['[PAD]', '[UNK]', '[EOS]'];

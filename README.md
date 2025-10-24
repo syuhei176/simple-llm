@@ -78,6 +78,54 @@ The model is trained on 70+ diverse conversation pairs covering:
 - **Emotions**: "are you happy" → "yes I am happy to chat"
 - **And many more categories**: food, places, time, hobbies, family, etc.
 
+### Converting Long Texts to Training Data
+
+The project includes a **sliding window** utility to convert long texts into training data automatically. This is highly efficient for autoregressive language models.
+
+#### Basic Usage
+
+```typescript
+import { convertTextToTrainingData } from './src/training-data';
+
+const longText = "the cat sat on the mat and the dog sat on the rug";
+
+// Convert with window size 5 and stride 1
+const trainingData = convertTextToTrainingData(longText, 5, 1);
+// Generates:
+// { input: "the cat sat on the", target: "cat sat on the mat" }
+// { input: "cat sat on the mat", target: "sat on the mat and" }
+// ...
+```
+
+#### Parameters
+
+- **windowSize**: Number of words in each window (e.g., 3-10)
+- **stride**: How many words to move the window (default: 1)
+  - stride=1: Maximum data efficiency, high overlap
+  - stride=windowSize/2: Balanced overlap
+  - stride=windowSize: No overlap
+
+#### Multiple Texts
+
+```typescript
+import { convertMultipleTextsToTrainingData } from './src/training-data';
+
+const texts = [
+  "first document with some text",
+  "second document with more content",
+];
+
+const data = convertMultipleTextsToTrainingData(texts, 5, 2);
+```
+
+#### Recommended Settings
+
+- **Small data (100-500 words)**: windowSize=3-5, stride=1
+- **Medium data (500-2000 words)**: windowSize=5-7, stride=2
+- **Large data (2000+ words)**: windowSize=7-10, stride=3
+
+See `examples/sliding-window-example.ts` for complete examples.
+
 ## GitHub Pages Deployment
 
 This project is configured to deploy to GitHub Pages using the `docs` folder.
@@ -117,10 +165,12 @@ simple-llm/
 │   ├── output/                 # Output layer
 │   ├── positional-encoding.ts  # Positional encoding utilities
 │   ├── layer-norm.ts           # Layer normalization
-│   ├── training-data.ts        # 70+ training examples
+│   ├── training-data.ts        # Training data & sliding window utilities
 │   ├── transpose.ts            # Matrix utility
 │   ├── index.ts                # CLI entry point
 │   └── web.ts                  # Web entry point
+├── examples/
+│   └── sliding-window-example.ts  # Sliding window usage examples
 ├── docs/              # GitHub Pages directory
 │   ├── index.html     # Web interface
 │   └── bundle.js      # Compiled bundle

@@ -7,5 +7,6 @@
     "esModuleInterop": true,
     "moduleResolution": "node",
     "strict": true
-  }
+  },
+  "exclude": ["node_modules", "dist", "examples", "docs"]
 }
