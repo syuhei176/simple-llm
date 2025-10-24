@@ -2,23 +2,34 @@ import { SimpleTokenizer } from '../tokenizer';
 import { SimpleTransformer } from '../transformer';
 import { EmbeddingLayer } from '../embedding';
 import { OutputLayer } from '../output';
+import { PositionalEncodingCache } from '../positional-encoding';
 
 // 簡易LLM
 export class SimpleLLM {
   tokenizer: SimpleTokenizer;
   embedding: EmbeddingLayer;
-  transformer: SimpleTransformer;
+  transformers: SimpleTransformer[]; // 複数層に変更
   outputLayer: OutputLayer;
+  positionalEncoding: PositionalEncodingCache;
   vocabSize: number;
   embeddingDim: number;
+  numLayers: number;
 
-  constructor(vocab: string[], embeddingDim = 16) {
+  constructor(vocab: string[], embeddingDim = 16, numLayers = 2) {
     this.vocabSize = vocab.length;
     this.embeddingDim = embeddingDim;
+    this.numLayers = numLayers;
     this.tokenizer = new SimpleTokenizer(vocab);
     this.embedding = new EmbeddingLayer(vocab.length, embeddingDim);
-    this.transformer = new SimpleTransformer(embeddingDim);
+
+    // 複数のTransformerレイヤーを作成
+    this.transformers = Array.from(
+      { length: numLayers },
+      () => new SimpleTransformer(embeddingDim)
+    );
+
     this.outputLayer = new OutputLayer(embeddingDim, vocab.length);
+    this.positionalEncoding = new PositionalEncodingCache(embeddingDim);
   }
 
   // 予測（自己回帰生成）
@@ -26,11 +37,16 @@ export class SimpleLLM {
     let tokens = this.tokenizer.encode(text);
 
     for (let i = 0; i < maxLen; i++) {
-      // Embedding
+      // Embedding + Positional Encoding
       const embeddedInputs = tokens.map(token => this.embedding.forward(token));
+      let output = this.positionalEncoding.addToEmbeddings(embeddedInputs);
 
-      // Transformer
-      const transformerOutput = this.transformer.forward(embeddedInputs);
+      // 複数のTransformerレイヤーを順次適用
+      for (const transformer of this.transformers) {
+        output = transformer.forward(output);
+      }
+
+      const transformerOutput = output;
 
       // 最後のトークンの出力から次のトークンを予測
       const lastOutput = transformerOutput[transformerOutput.length - 1];
@@ -57,9 +73,16 @@ export class SimpleLLM {
         const inputTokens = this.tokenizer.encode(input);
         const targetTokens = this.tokenizer.encode(target);
 
-        // 順伝播
+        // 順伝播: Embedding + Positional Encoding
         const inputEmbeddings = inputTokens.map(token => this.embedding.forward(token));
-        const transformerOutput = this.transformer.forward(inputEmbeddings);
+        let output = this.positionalEncoding.addToEmbeddings(inputEmbeddings);
+
+        // 複数のTransformerレイヤーを順次適用
+        for (const transformer of this.transformers) {
+          output = transformer.forward(output);
+        }
+
+        const transformerOutput = output;
 
         // 各位置での損失計算と逆伝播
         const seqLen = Math.min(transformerOutput.length, targetTokens.length);
@@ -87,8 +110,12 @@ export class SimpleLLM {
           }
         }
 
-        // Transformerの逆伝播
-        const gradEmbedding = this.transformer.backward(gradTransformer);
+        // Transformerの逆伝播（逆順に適用）
+        let gradOutput = gradTransformer;
+        for (let i = this.transformers.length - 1; i >= 0; i--) {
+          gradOutput = this.transformers[i].backward(gradOutput);
+        }
+        const gradEmbedding = gradOutput;
 
         // Embeddingの更新
         for (let i = 0; i < inputTokens.length && i < gradEmbedding.length; i++) {

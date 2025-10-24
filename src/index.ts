@@ -1,33 +1,17 @@
 import { SimpleLLM } from './llm';
 import * as readline from 'readline';
 import * as fs from 'fs';
-
-// 学習データ
-const trainingData = [
-  { input: 'hello world', target: 'I am AI' },
-  { input: 'color', target: 'red blue green yellow' },
-  { input: 'how are you', target: 'thank you and you?' },
-  { input: 'hello', target: 'how are you' },
-  { input: 'animals', target: 'cat dog bird fish' },
-];
-
-function createVocab(data: { input: string, target: string }[]) {
-  const vocab = new Set<string>();
-  data.forEach(d => {
-    d.input.split(' ').forEach(w => vocab.add(w));
-    d.target.split(' ').forEach(w => vocab.add(w));
-  });
-  return Array.from(vocab);
-}
+import { trainingData, createVocab } from './training-data';
 
 const vocab = createVocab(trainingData);
 
 console.log('Vocabulary:', vocab);
 console.log('Vocabulary size:', vocab.length);
 
-// Embedding次元は適切な値に設定（vocab.lengthではなく固定値）
-const embeddingDim = 16;
-const llm = new SimpleLLM(vocab, embeddingDim);
+// Embedding次元を拡大（より豊かな表現が可能に）
+const embeddingDim = 64;
+const numLayers = 3; // 複数のTransformerレイヤーを使用
+const llm = new SimpleLLM(vocab, embeddingDim, numLayers);
 
 // 学習
 console.log('Training started...');
