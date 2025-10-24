@@ -100,6 +100,134 @@ export const trainingData = [
   { input: 'teach me', target: 'what would you like to learn' },
   { input: 'I want to learn', target: 'learning is wonderful' },
   { input: 'tell me about', target: 'what topic interests you' },
+
+  // 追加の挨拶バリエーション
+  { input: 'greetings', target: 'hello and welcome' },
+  { input: 'howdy', target: 'howdy partner' },
+  { input: 'nice to meet you', target: 'nice to meet you too' },
+  { input: 'pleased to meet you', target: 'the pleasure is mine' },
+  { input: 'good to see you', target: 'good to see you as well' },
+
+  // より詳細な感情表現
+  { input: 'I am excited', target: 'that is great to hear' },
+  { input: 'I am tired', target: 'you should get some rest' },
+  { input: 'I am confused', target: 'let me help clarify things' },
+  { input: 'I am grateful', target: 'I am glad I could help' },
+  { input: 'I feel great', target: 'wonderful keep that energy' },
+  { input: 'I feel terrible', target: 'I hope you feel better soon' },
+
+  // 天候の詳細
+  { input: 'nice weather', target: 'yes the weather is lovely' },
+  { input: 'bad weather', target: 'I hope it improves soon' },
+  { input: 'it is cold', target: 'make sure to stay warm' },
+  { input: 'it is hot', target: 'stay cool and hydrated' },
+  { input: 'weather forecast', target: 'I cannot check the weather' },
+
+  // 食べ物と飲み物の拡張
+  { input: 'drinks', target: 'water juice coffee tea soda milk' },
+  { input: 'breakfast', target: 'eggs toast cereal pancakes bacon' },
+  { input: 'lunch', target: 'sandwich soup salad burger pizza' },
+  { input: 'dinner', target: 'pasta chicken fish rice vegetables' },
+  { input: 'dessert', target: 'cake ice cream cookies pie chocolate' },
+  { input: 'I am hungry', target: 'you should eat something' },
+  { input: 'I am thirsty', target: 'have a glass of water' },
+
+  // スポーツ関連
+  { input: 'sports', target: 'soccer basketball football tennis baseball' },
+  { input: 'play soccer', target: 'soccer is a popular sport' },
+  { input: 'play basketball', target: 'basketball is exciting' },
+  { input: 'go swimming', target: 'swimming is great exercise' },
+  { input: 'favorite sport', target: 'many people like soccer' },
+
+  // 趣味とエンターテイメント
+  { input: 'movies', target: 'action comedy drama horror romance' },
+  { input: 'music genres', target: 'rock pop jazz classical hip hop' },
+  { input: 'books', target: 'fiction mystery thriller fantasy biography' },
+  { input: 'games', target: 'video games board games card games puzzles' },
+  { input: 'watch movies', target: 'movies are entertaining' },
+  { input: 'listen to music', target: 'music is wonderful' },
+  { input: 'read books', target: 'reading is enriching' },
+  { input: 'play games', target: 'games are fun' },
+
+  // 技術とデバイス
+  { input: 'computer', target: 'computers are very useful tools' },
+  { input: 'phone', target: 'phones help us stay connected' },
+  { input: 'internet', target: 'the internet connects the world' },
+  { input: 'technology', target: 'technology is advancing rapidly' },
+  { input: 'laptop', target: 'laptops are portable computers' },
+  { input: 'tablet', target: 'tablets are convenient devices' },
+
+  // 仕事と勉強
+  { input: 'work', target: 'I hope your work is going well' },
+  { input: 'job', target: 'what kind of job do you have' },
+  { input: 'study', target: 'what are you studying' },
+  { input: 'school', target: 'how is school going' },
+  { input: 'homework', target: 'I hope homework is not too difficult' },
+  { input: 'exam', target: 'good luck on your exam' },
+  { input: 'project', target: 'what project are you working on' },
+
+  // 人間関係
+  { input: 'friends', target: 'friends are important in life' },
+  { input: 'best friend', target: 'best friends are special' },
+  { input: 'meet people', target: 'meeting new people is nice' },
+  { input: 'talk to someone', target: 'communication is important' },
+
+  // 日常活動
+  { input: 'wake up', target: 'good morning rise and shine' },
+  { input: 'go to sleep', target: 'good night sleep well' },
+  { input: 'take a break', target: 'breaks are important for rest' },
+  { input: 'relax', target: 'relaxation is good for health' },
+  { input: 'exercise', target: 'exercise is good for body and mind' },
+  { input: 'cook', target: 'cooking is a useful skill' },
+  { input: 'clean', target: 'keeping things clean is important' },
+
+  // 自然と環境
+  { input: 'nature', target: 'nature is beautiful and peaceful' },
+  { input: 'trees', target: 'trees provide oxygen and shade' },
+  { input: 'flowers', target: 'flowers are colorful and pretty' },
+  { input: 'mountains', target: 'mountains are majestic' },
+  { input: 'ocean', target: 'the ocean is vast and mysterious' },
+  { input: 'river', target: 'rivers flow through the land' },
+  { input: 'forest', target: 'forests are full of life' },
+
+  // 季節と月
+  { input: 'seasons', target: 'spring summer autumn winter' },
+  { input: 'spring', target: 'spring brings new growth' },
+  { input: 'summer', target: 'summer is warm and sunny' },
+  { input: 'autumn', target: 'autumn has beautiful colors' },
+  { input: 'fall', target: 'fall is harvest time' },
+  { input: 'winter', target: 'winter is cold and snowy' },
+  { input: 'months', target: 'january february march april may june' },
+
+  // 色の拡張
+  { input: 'bright colors', target: 'yellow orange red pink' },
+  { input: 'dark colors', target: 'black brown gray navy' },
+  { input: 'rainbow', target: 'red orange yellow green blue indigo violet' },
+
+  // 質問のバリエーション
+  { input: 'can you', target: 'I will try my best' },
+  { input: 'will you', target: 'yes I will help' },
+  { input: 'would you', target: 'of course' },
+  { input: 'could you', target: 'certainly I can' },
+  { input: 'why', target: 'that is a good question' },
+  { input: 'when', target: 'timing depends on context' },
+  { input: 'where', target: 'location varies by situation' },
+  { input: 'which', target: 'there are several options' },
+
+  // ポジティブな表現
+  { input: 'amazing', target: 'yes that is truly amazing' },
+  { input: 'wonderful', target: 'absolutely wonderful' },
+  { input: 'perfect', target: 'that sounds perfect' },
+  { input: 'excellent', target: 'excellent indeed' },
+  { input: 'fantastic', target: 'that is fantastic news' },
+  { input: 'great job', target: 'thank you very much' },
+  { input: 'well done', target: 'I appreciate that' },
+
+  // 共感と理解
+  { input: 'I understand', target: 'I am glad we are on the same page' },
+  { input: 'I see', target: 'yes I hope that makes sense' },
+  { input: 'makes sense', target: 'great I am glad it is clear' },
+  { input: 'got it', target: 'wonderful' },
 ];
 
 export function createVocab(data: { input: string, target: string }[]) {

@@ -190,4 +190,67 @@ export class SimpleLLM {
       console.log(`Epoch ${epoch + 1}/${epochs} - Loss: ${avgLoss.toFixed(4)}`);
     }
   }
+
+  // モデルをシリアライズ
+  serialize(): any {
+    return {
+      version: '1.0',
+      config: {
+        vocabSize: this.vocabSize,
+        embeddingDim: this.embeddingDim,
+        numLayers: this.numLayers,
+        vocab: this.tokenizer.vocab,
+      },
+      weights: {
+        embedding: this.embedding.weights,
+        transformers: this.transformers.map(t => ({
+          wq: t.wq,
+          wk: t.wk,
+          wv: t.wv,
+          w1: t.w1,
+          w2: t.w2,
+          layerNorm1: {
+            gamma: t.layerNorm1.gamma,
+            beta: t.layerNorm1.beta,
+          },
+          layerNorm2: {
+            gamma: t.layerNorm2.gamma,
+            beta: t.layerNorm2.beta,
+          },
+        })),
+        output: {
+          weights: this.outputLayer.weights,
+          bias: this.outputLayer.bias,
+        },
+      },
+    };
+  }
+
+  // モデルをデシリアライズ
+  static deserialize(data: any): SimpleLLM {
+    const { config, weights } = data;
+    const llm = new SimpleLLM(config.vocab, config.embeddingDim, config.numLayers);
+
+    // Embeddingの重みを復元
+    llm.embedding.weights = weights.embedding;
+
+    // Transformerの重みを復元
+    weights.transformers.forEach((tData: any, i: number) => {
+      llm.transformers[i].wq = tData.wq;
+      llm.transformers[i].wk = tData.wk;
+      llm.transformers[i].wv = tData.wv;
+      llm.transformers[i].w1 = tData.w1;
+      llm.transformers[i].w2 = tData.w2;
+      llm.transformers[i].layerNorm1.gamma = tData.layerNorm1.gamma;
+      llm.transformers[i].layerNorm1.beta = tData.layerNorm1.beta;
+      llm.transformers[i].layerNorm2.gamma = tData.layerNorm2.gamma;
+      llm.transformers[i].layerNorm2.beta = tData.layerNorm2.beta;
+    });
+
+    // Outputレイヤーの重みを復元
+    llm.outputLayer.weights = weights.output.weights;
+    llm.outputLayer.bias = weights.output.bias;
+
+    return llm;
+  }
 }
