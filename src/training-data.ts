@@ -103,22 +103,32 @@ export const trainingData = [
 ];
 
 export function createVocab(data: { input: string, target: string }[]) {
-  const vocab = new Set<string>();
-
-  // 特殊トークンを最初に追加
-  vocab.add('[PAD]');  // パディング用
-  vocab.add('[UNK]');  // 未知語用
-  vocab.add('[EOS]');  // 文末用
+  // 特殊トークンを最初に配置（インデックス保証）
+  const vocab: string[] = ['[PAD]', '[UNK]', '[EOS]'];
+  const vocabSet = new Set<string>(vocab);
 
   data.forEach(d => {
     // 小文字に正規化して追加
     d.input.toLowerCase().split(' ').forEach(w => {
-      if (w.trim()) vocab.add(w.trim());
+      const word = w.trim();
+      if (word && !vocabSet.has(word)) {
+        vocab.push(word);
+        vocabSet.add(word);
+      }
     });
     d.target.toLowerCase().split(' ').forEach(w => {
-      if (w.trim()) vocab.add(w.trim());
+      const word = w.trim();
+      if (word && !vocabSet.has(word)) {
+        vocab.push(word);
+        vocabSet.add(word);
+      }
     });
   });
 
-  return Array.from(vocab);
+  console.log('Vocabulary created. First 10 words:', vocab.slice(0, 10));
+  console.log('[PAD] index:', vocab.indexOf('[PAD]'));
+  console.log('[UNK] index:', vocab.indexOf('[UNK]'));
+  console.log('[EOS] index:', vocab.indexOf('[EOS]'));
+
+  return vocab;
 }

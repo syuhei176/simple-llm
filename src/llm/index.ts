@@ -49,6 +49,11 @@ export class SimpleLLM {
     const specialTokens = this.getSpecialTokenIndices();
     const eosIndex = this.tokenizer.vocabMap['[EOS]'];
 
+    console.log('Input text:', text);
+    console.log('Encoded tokens:', tokens);
+    console.log('Special token indices:', Array.from(specialTokens));
+    console.log('Vocab size:', this.vocabSize);
+
     for (let i = 0; i < maxLen; i++) {
       // Embedding + Positional Encoding
       const embeddedInputs = tokens.map(token => this.embedding.forward(token));
@@ -66,6 +71,13 @@ export class SimpleLLM {
       const logits = this.outputLayer.forward(lastOutput);
       const probs = this.outputLayer.softmax(logits);
 
+      // デバッグ：上位5つの確率を表示
+      const topProbs = probs
+        .map((p, idx) => ({ prob: p, idx, word: this.tokenizer.vocab[idx] }))
+        .sort((a, b) => b.prob - a.prob)
+        .slice(0, 5);
+      console.log(`Step ${i} - Top 5 probs (before filter):`, topProbs);
+
       // 特殊トークンの確率を0にする
       const filteredProbs = probs.map((p, idx) =>
         specialTokens.has(idx) ? 0 : p
@@ -76,14 +88,27 @@ export class SimpleLLM {
       const normalizedProbs = filteredProbs.map(p => p / sum);
 
       // 最も確率の高いトークンを選択
-      const nextToken = normalizedProbs.indexOf(Math.max(...normalizedProbs));
+      const maxProb = Math.max(...normalizedProbs);
+      const nextToken = normalizedProbs.indexOf(maxProb);
+
+      console.log(`Step ${i}: nextToken=${nextToken}, maxProb=${maxProb.toFixed(4)}, word="${this.tokenizer.vocab[nextToken]}"`);
+
+      // デバッグ：上位5つのフィルタ後の確率を表示
+      const topFilteredProbs = normalizedProbs
+        .map((p, idx) => ({ prob: p, idx, word: this.tokenizer.vocab[idx] }))
+        .sort((a, b) => b.prob - a.prob)
+        .slice(0, 5);
+      console.log(`Step ${i} - Top 5 probs (after filter):`, topFilteredProbs);
+
       tokens.push(nextToken);
 
       // EOSトークンが生成されたら終了
       if (nextToken === eosIndex) break;
     }
 
-    return this.tokenizer.decode(tokens);
+    const result = this.tokenizer.decode(tokens);
+    console.log('Final result:', result);
+    return result;
   }
 
   // 学習
