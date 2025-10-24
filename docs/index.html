@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple LLM - Interactive Demo</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            max-width: 800px;
+            width: 100%;
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            opacity: 0.9;
+            font-size: 0.95rem;
+        }
+
+        .content {
+            padding: 30px;
+        }
+
+        .status {
+            background: #f0f4ff;
+            border-left: 4px solid #667eea;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            font-weight: 500;
+            color: #333;
+        }
+
+        .control-panel {
+            margin-bottom: 30px;
+        }
+
+        .train-section {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            font-size: 1rem;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            font-weight: 600;
+        }
+
+        button:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .chat-section {
+            border-top: 2px solid #f0f4ff;
+            padding-top: 20px;
+        }
+
+        .output {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            min-height: 300px;
+            max-height: 400px;
+            overflow-y: auto;
+            margin-bottom: 20px;
+            border: 1px solid #e0e0e0;
+        }
+
+        .message {
+            margin-bottom: 15px;
+            padding: 12px 15px;
+            border-radius: 10px;
+            line-height: 1.5;
+        }
+
+        .user-message {
+            background: #e3f2fd;
+            border-left: 4px solid #2196f3;
+            margin-left: 20px;
+        }
+
+        .ai-message {
+            background: #f3e5f5;
+            border-left: 4px solid #9c27b0;
+            margin-right: 20px;
+        }
+
+        .message.success {
+            background: #e8f5e9;
+            border-left: 4px solid #4caf50;
+            color: #2e7d32;
+        }
+
+        .message.error {
+            background: #ffebee;
+            border-left: 4px solid #f44336;
+            color: #c62828;
+        }
+
+        .input-group {
+            display: flex;
+            gap: 10px;
+        }
+
+        input[type="text"] {
+            flex: 1;
+            padding: 12px 20px;
+            border: 2px solid #e0e0e0;
+            border-radius: 25px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        input[type="text"]:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .info-section {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 2px solid #f0f4ff;
+        }
+
+        .info-section h3 {
+            color: #667eea;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+
+        .info-section ul {
+            list-style-position: inside;
+            color: #666;
+            line-height: 1.8;
+        }
+
+        .training-data {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 10px;
+        }
+
+        .training-data code {
+            display: block;
+            padding: 5px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 600px) {
+            .header h1 {
+                font-size: 1.5rem;
+            }
+
+            .content {
+                padding: 20px;
+            }
+
+            .input-group {
+                flex-direction: column;
+            }
+
+            button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🤖 Simple LLM</h1>
+            <p>A minimal Transformer-based language model built from scratch</p>
+        </div>
+
+        <div class="content">
+            <div class="status" id="status">
+                Loading...
+            </div>
+
+            <div class="train-section">
+                <button id="train-button">🎓 Train Model</button>
+            </div>
+
+            <div class="chat-section">
+                <h3 style="color: #667eea; margin-bottom: 15px;">💬 Chat with AI</h3>
+                <div class="output" id="output">
+                    <div class="message">Welcome! Click "Train Model" to start training the language model.</div>
+                </div>
+
+                <div class="input-group">
+                    <input type="text" id="user-input" placeholder="Type your message here..." disabled>
+                    <button id="predict-button" disabled>Send</button>
+                </div>
+            </div>
+
+            <div class="info-section">
+                <h3>📚 Training Data</h3>
+                <div class="training-data">
+                    <code>"hello world" → "I am AI"</code>
+                    <code>"color" → "red blue green yellow"</code>
+                    <code>"how are you" → "thank you and you?"</code>
+                    <code>"hello" → "how are you"</code>
+                    <code>"animals" → "cat dog bird fish"</code>
+                </div>
+            </div>
+
+            <div class="info-section">
+                <h3>ℹ️ About This Demo</h3>
+                <ul>
+                    <li>Built with TypeScript from scratch</li>
+                    <li>Uses self-attention mechanism (Q, K, V)</li>
+                    <li>Includes embedding layer and output layer</li>
+                    <li>Trained with backpropagation</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script src="bundle.js"></script>
+</body>
+</html>
