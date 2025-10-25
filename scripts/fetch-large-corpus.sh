@@ -9,16 +9,16 @@ mkdir -p data/corpus
 
 # Project Gutenberg books (all public domain)
 BOOKS=(
-  "https://www.gutenberg.org/files/1342/1342-0.txt:pride-and-prejudice.txt"
-  "https://www.gutenberg.org/files/11/11-0.txt:alice-in-wonderland.txt"
-  "https://www.gutenberg.org/files/1661/1661-0.txt:sherlock-holmes.txt"
-  "https://www.gutenberg.org/files/98/98-0.txt:tale-of-two-cities.txt"
-  "https://www.gutenberg.org/files/84/84-0.txt:frankenstein.txt"
+  "https://www.gutenberg.org/cache/epub/1342/pg1342.txt|pride-and-prejudice.txt"
+  "https://www.gutenberg.org/cache/epub/11/pg11.txt|alice-in-wonderland.txt"
+  "https://www.gutenberg.org/cache/epub/1661/pg1661.txt|sherlock-holmes.txt"
+  "https://www.gutenberg.org/cache/epub/98/pg98.txt|tale-of-two-cities.txt"
+  "https://www.gutenberg.org/cache/epub/84/pg84.txt|frankenstein.txt"
 )
 
 # Download each book
 for entry in "${BOOKS[@]}"; do
-  IFS=':' read -r url filename <<< "$entry"
+  IFS='|' read -r url filename <<< "$entry"
   echo "Downloading: $filename"
   npx ts-node --project tsconfig.scripts.json scripts/fetch-text.ts "$url" "data/corpus/$filename"
   echo ""

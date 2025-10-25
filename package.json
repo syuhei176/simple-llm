@@ -19,7 +19,7 @@
   "license": "ISC",
   "description": "A minimal Transformer-based language model built from scratch",
   "devDependencies": {
-    "@types/node": "^22.13.10",
+    "@types/node": "^22.18.12",
     "ts-loader": "^9.5.1",
     "ts-node": "^10.9.2",
     "typescript": "^5.8.2",
