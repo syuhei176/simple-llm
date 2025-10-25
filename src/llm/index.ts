@@ -3,6 +3,7 @@ import { SimpleTransformer, MultiHeadTransformer } from '../transformer';
 import { EmbeddingLayer } from '../embedding';
 import { OutputLayer } from '../output';
 import { PositionalEncodingCache } from '../positional-encoding';
+import { encode as msgpackEncode, decode as msgpackDecode } from '@msgpack/msgpack';
 
 // 簡易LLM
 export class SimpleLLM {
@@ -197,7 +198,7 @@ export class SimpleLLM {
     }
   }
 
-  // モデルをシリアライズ
+  // モデルをシリアライズ（JSON用 - 後方互換性のため保持）
   serialize(): any {
     return {
       version: '2.0',
@@ -258,7 +259,13 @@ export class SimpleLLM {
     };
   }
 
-  // モデルをデシリアライズ
+  // モデルをバイナリシリアライズ（MessagePack形式）
+  serializeBinary(): Uint8Array {
+    const data = this.serialize();
+    return msgpackEncode(data);
+  }
+
+  // モデルをデシリアライズ（JSON用 - 後方互換性のため保持）
   static deserialize(data: any): SimpleLLM {
     const { config, weights, version } = data;
 
@@ -304,5 +311,11 @@ export class SimpleLLM {
     llm.outputLayer.bias = weights.output.bias;
 
     return llm;
+  }
+
+  // モデルをバイナリデシリアライズ（MessagePack形式）
+  static deserializeBinary(buffer: Uint8Array): SimpleLLM {
+    const data = msgpackDecode(buffer);
+    return SimpleLLM.deserialize(data);
   }
 }

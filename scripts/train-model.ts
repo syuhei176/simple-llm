@@ -97,24 +97,31 @@ function saveModel(llm: SimpleLLM, modelName: string, metadata?: any): string {
 
   // ファイルパス
   const timestamp = new Date().toISOString().replace(/[:.]/g, '-').substring(0, 19);
-  const fileName = `${modelName}-${timestamp}.json`;
-  const filePath = path.join(modelsDir, fileName);
 
-  // 最新モデルへのシンボリックリンク用のパス
-  const latestPath = path.join(modelsDir, `${modelName}-latest.json`);
+  // バイナリフォーマット（MessagePack）で保存
+  const binaryFileName = `${modelName}-${timestamp}.msgpack`;
+  const binaryFilePath = path.join(modelsDir, binaryFileName);
+  const binaryLatestPath = path.join(modelsDir, `${modelName}-latest.msgpack`);
 
-  // モデルを保存
-  fs.writeFileSync(filePath, JSON.stringify(modelData, null, 2), 'utf-8');
-  console.log(`\n✓ Model saved to: ${filePath}`);
+  const binaryData = llm.serializeBinary();
+  fs.writeFileSync(binaryFilePath, binaryData);
+  console.log(`\n✓ Model saved to: ${binaryFilePath}`);
 
-  // 最新版を上書き保存
-  fs.writeFileSync(latestPath, JSON.stringify(modelData, null, 2), 'utf-8');
-  console.log(`✓ Latest model saved to: ${latestPath}`);
+  // 最新版を上書き保存（バイナリ）
+  fs.writeFileSync(binaryLatestPath, binaryData);
+  console.log(`✓ Latest model saved to: ${binaryLatestPath}`);
 
-  const fileSize = (fs.statSync(filePath).size / 1024).toFixed(2);
-  console.log(`✓ File size: ${fileSize} KB`);
+  const binaryFileSize = (fs.statSync(binaryFilePath).size / 1024).toFixed(2);
+  console.log(`✓ Binary file size: ${binaryFileSize} KB`);
 
-  return filePath;
+  // JSON形式でも保存（比較・デバッグ用）
+  const jsonFileName = `${modelName}-${timestamp}.json`;
+  const jsonFilePath = path.join(modelsDir, jsonFileName);
+  fs.writeFileSync(jsonFilePath, JSON.stringify(modelData, null, 2), 'utf-8');
+  const jsonFileSize = (fs.statSync(jsonFilePath).size / 1024).toFixed(2);
+  console.log(`✓ JSON file size: ${jsonFileSize} KB (${((1 - parseFloat(binaryFileSize) / parseFloat(jsonFileSize)) * 100).toFixed(1)}% reduction with binary)`);
+
+  return binaryFilePath;
 }
 
 function testModel(llm: SimpleLLM, testInputs: string[] = ['hello', 'how are you', 'what is']) {
