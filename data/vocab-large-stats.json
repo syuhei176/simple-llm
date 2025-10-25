@@ -1,52 +1,40 @@
 {
-  "totalVocabSize": 3294,
+  "totalVocabSize": 2793,
   "specialTokens": 4,
-  "regularWords": 3290,
-  "totalUniqueWords": 3290,
+  "regularWords": 2789,
+  "totalUniqueWords": 2789,
   "topWords": [
     {
       "word": ".",
-      "frequency": 899
+      "frequency": 751
     },
     {
       "word": ":",
-      "frequency": 671
-    },
-    {
-      "word": ",",
-      "frequency": 655
+      "frequency": 639
     },
     {
       "word": "-",
-      "frequency": 521
+      "frequency": 518
     },
     {
       "word": "|",
       "frequency": 512
     },
     {
-      "word": "the",
-      "frequency": 237
-    },
-    {
-      "word": "and",
-      "frequency": 201
-    },
-    {
-      "word": ";",
-      "frequency": 168
+      "word": ",",
+      "frequency": 296
     },
     {
       "word": "1",
-      "frequency": 152
+      "frequency": 146
     },
     {
-      "word": "to",
-      "frequency": 128
+      "word": ";",
+      "frequency": 132
     },
     {
       "word": "2",
-      "frequency": 119
+      "frequency": 114
     },
     {
       "word": "###",
@@ -61,28 +49,40 @@
       "frequency": 108
     },
     {
-      "word": "he",
-      "frequency": 104
-    },
-    {
-      "word": "=",
-      "frequency": 97
-    },
-    {
       "word": "3",
-      "frequency": 96
+      "frequency": 94
     },
     {
       "word": "//",
       "frequency": 91
     },
     {
+      "word": "=",
+      "frequency": 88
+    },
+    {
       "word": "#",
       "frequency": 81
     },
     {
+      "word": "0",
+      "frequency": 72
+    },
+    {
       "word": "4",
-      "frequency": 73
+      "frequency": 71
+    },
+    {
+      "word": "[",
+      "frequency": 64
+    },
+    {
+      "word": "]",
+      "frequency": 63
+    },
+    {
+      "word": "{",
+      "frequency": 60
     }
   ]
 }
