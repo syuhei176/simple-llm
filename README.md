@@ -75,7 +75,7 @@ This will:
 npm run fetch -- https://example.com/text.txt data/corpus.txt
 
 # 2. Prepare training data
-npm run prepare -- data/corpus.txt data/training-data.json --window 5 --stride 1
+npm run prepare-data -- data/corpus.txt data/training-data.json --window 5 --stride 1
 
 # 3. Train model
 npm run train -- data/training-data.json my-model --epochs 50 --embedding 32
