@@ -1,0 +1,88 @@
+{
+  "totalVocabSize": 567,
+  "specialTokens": 4,
+  "regularWords": 563,
+  "totalUniqueWords": 563,
+  "topWords": [
+    {
+      "word": ".",
+      "frequency": 86
+    },
+    {
+      "word": "the",
+      "frequency": 58
+    },
+    {
+      "word": ",",
+      "frequency": 58
+    },
+    {
+      "word": "and",
+      "frequency": 50
+    },
+    {
+      "word": "models",
+      "frequency": 30
+    },
+    {
+      "word": "of",
+      "frequency": 28
+    },
+    {
+      "word": "to",
+      "frequency": 26
+    },
+    {
+      "word": "for",
+      "frequency": 21
+    },
+    {
+      "word": "model",
+      "frequency": 20
+    },
+    {
+      "word": "language",
+      "frequency": 19
+    },
+    {
+      "word": "in",
+      "frequency": 19
+    },
+    {
+      "word": "training",
+      "frequency": 18
+    },
+    {
+      "word": "are",
+      "frequency": 17
+    },
+    {
+      "word": "on",
+      "frequency": 13
+    },
+    {
+      "word": "a",
+      "frequency": 12
+    },
+    {
+      "word": "more",
+      "frequency": 12
+    },
+    {
+      "word": "this",
+      "frequency": 11
+    },
+    {
+      "word": "is",
+      "frequency": 11
+    },
+    {
+      "word": "like",
+      "frequency": 11
+    },
+    {
+      "word": "learning",
+      "frequency": 10
+    }
+  ]
+}
