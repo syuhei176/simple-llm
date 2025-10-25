@@ -1,4 +1,5 @@
 import { LayerNorm } from '../layer-norm';
+import { MultiHeadAttention } from '../multi-head-attention';
 
 // 完全な逆伝播を実装したTransformer Layer
 export class SimpleTransformer {
@@ -395,6 +396,214 @@ export class SimpleTransformer {
         const clippedGradWv = Math.max(-clipValue, Math.min(clipValue, this.gradWv[i][j]));
         this.wv[i][j] += this.learningRate * clippedGradWv;
 
+        // W1 の更新
+        const clippedGradW1 = Math.max(-clipValue, Math.min(clipValue, this.gradW1[i][j]));
+        this.w1[i][j] += this.learningRate * clippedGradW1;
+
+        // W2 の更新
+        const clippedGradW2 = Math.max(-clipValue, Math.min(clipValue, this.gradW2[i][j]));
+        this.w2[i][j] += this.learningRate * clippedGradW2;
+      }
+    }
+  }
+}
+
+/**
+ * Multi-Head Transformer Layer
+ * Uses multi-head attention instead of single-head attention
+ */
+export class MultiHeadTransformer {
+  multiHeadAttention: MultiHeadAttention;
+  // Feed-forward層
+  w1: number[][];
+  w2: number[][];
+  // 勾配アキュムレータ
+  gradW1: number[][];
+  gradW2: number[][];
+  // Layer Normalization
+  layerNorm1: LayerNorm;
+  layerNorm2: LayerNorm;
+  learningRate: number = 0.001;
+  embeddingDim: number;
+  numHeads: number;
+
+  // キャッシュ（逆伝播用）
+  lastInput: number[][] = [];
+  lastAttnOutput: number[][] = [];
+  lastAttnResidual: number[][] = [];
+  lastAttnNorm: number[][] = [];
+  lastFF1: number[][] = [];
+  lastFFOutput: number[][] = [];
+  lastFFResidual: number[][] = [];
+
+  constructor(embeddingDim: number, numHeads: number = 4) {
+    this.embeddingDim = embeddingDim;
+    this.numHeads = numHeads;
+
+    // Multi-head attention
+    this.multiHeadAttention = new MultiHeadAttention(embeddingDim, numHeads);
+
+    // Xavier初期化
+    const scale = Math.sqrt(1.0 / embeddingDim);
+
+    // Feed-forward層の重み初期化
+    this.w1 = this.initWeights(embeddingDim, embeddingDim, scale);
+    this.w2 = this.initWeights(embeddingDim, embeddingDim, scale);
+
+    // 勾配を0で初期化
+    this.gradW1 = this.initWeights(embeddingDim, embeddingDim, 0);
+    this.gradW2 = this.initWeights(embeddingDim, embeddingDim, 0);
+
+    // Layer Normalizationの初期化
+    this.layerNorm1 = new LayerNorm(embeddingDim);
+    this.layerNorm2 = new LayerNorm(embeddingDim);
+  }
+
+  private initWeights(rows: number, cols: number, scale: number): number[][] {
+    return Array.from({ length: rows }, () =>
+      Array.from({ length: cols }, () => (Math.random() * 2 - 1) * scale)
+    );
+  }
+
+  // ベクトルと行列の積
+  private vecMatmul(vec: number[], mat: number[][]): number[] {
+    const result = new Array(mat[0].length).fill(0);
+    for (let j = 0; j < mat[0].length; j++) {
+      for (let i = 0; i < vec.length; i++) {
+        result[j] += vec[i] * mat[i][j];
+      }
+    }
+    return result;
+  }
+
+  // Feed-forward層（ReLU活性化）
+  private feedForward(input: number[][]): number[][] {
+    // 第1層
+    this.lastFF1 = input.map(vec => {
+      const h = this.vecMatmul(vec, this.w1);
+      // ReLU
+      return h.map(x => Math.max(0, x));
+    });
+
+    // 第2層
+    return this.lastFF1.map(vec => this.vecMatmul(vec, this.w2));
+  }
+
+  forward(input: number[][]): number[][] {
+    this.lastInput = input.map(row => [...row]);
+
+    // Multi-Head Self-Attention
+    this.lastAttnOutput = this.multiHeadAttention.forward(input);
+
+    // 残差接続
+    this.lastAttnResidual = this.lastAttnOutput.map((row, i) =>
+      row.map((val, j) => val + input[i][j])
+    );
+
+    // Layer Normalization
+    this.lastAttnNorm = this.layerNorm1.forwardBatch(this.lastAttnResidual);
+
+    // Feed-forward
+    this.lastFFOutput = this.feedForward(this.lastAttnNorm);
+
+    // 残差接続
+    this.lastFFResidual = this.lastFFOutput.map((row, i) =>
+      row.map((val, j) => val + this.lastAttnNorm[i][j])
+    );
+
+    // Layer Normalization
+    return this.layerNorm2.forwardBatch(this.lastFFResidual);
+  }
+
+  // 完全な逆伝播
+  backward(gradOutput: number[][]): number[][] {
+    const seqLen = gradOutput.length;
+
+    // Layer Norm 2 の逆伝播
+    let grad = this.layerNorm2.backwardBatch(this.lastFFResidual, gradOutput);
+
+    // 残差接続の逆伝播（勾配を2つに分配）
+    const gradFFOutput = grad.map(row => [...row]);
+    const gradAttnNorm1 = grad.map(row => [...row]);
+
+    // Feed-forward 第2層の逆伝播
+    const gradFF1: number[][] = Array.from({ length: seqLen }, () =>
+      new Array(this.embeddingDim).fill(0)
+    );
+
+    for (let i = 0; i < seqLen; i++) {
+      for (let j = 0; j < this.embeddingDim; j++) {
+        const g = gradFFOutput[i][j];
+
+        for (let k = 0; k < this.embeddingDim; k++) {
+          // 勾配を累積
+          this.gradW2[k][j] += g * this.lastFF1[i][k];
+          gradFF1[i][k] += g * this.w2[k][j];
+        }
+      }
+    }
+
+    // ReLUの逆伝播
+    const gradAttnNorm2: number[][] = gradFF1.map((row, i) =>
+      row.map((val, j) => this.lastFF1[i][j] > 0 ? val : 0)
+    );
+
+    // Feed-forward 第1層の逆伝播
+    for (let i = 0; i < seqLen; i++) {
+      for (let j = 0; j < this.embeddingDim; j++) {
+        const g = gradAttnNorm2[i][j];
+
+        for (let k = 0; k < this.embeddingDim; k++) {
+          // 勾配を累積
+          this.gradW1[k][j] += g * this.lastAttnNorm[i][k];
+          gradAttnNorm1[i][k] += g * this.w1[k][j];
+        }
+      }
+    }
+
+    // Layer Norm 1 の逆伝播
+    const gradAttnResidual = this.layerNorm1.backwardBatch(this.lastAttnResidual, gradAttnNorm1);
+
+    // 残差接続の逆伝播
+    const gradAttnOutput = gradAttnResidual.map(row => [...row]);
+    const gradInput1 = gradAttnResidual.map(row => [...row]);
+
+    // Multi-Head Attention の逆伝播
+    const gradInput2 = this.multiHeadAttention.backward(gradAttnOutput);
+
+    // すべての勾配を合計
+    const finalGrad = gradInput1.map((row, i) =>
+      row.map((val, j) => val + gradInput2[i][j])
+    );
+
+    return finalGrad;
+  }
+
+  /**
+   * 勾配をゼロにリセット
+   */
+  zeroGrad(): void {
+    this.multiHeadAttention.zeroGrad();
+
+    for (let i = 0; i < this.embeddingDim; i++) {
+      for (let j = 0; j < this.embeddingDim; j++) {
+        this.gradW1[i][j] = 0;
+        this.gradW2[i][j] = 0;
+      }
+    }
+  }
+
+  /**
+   * 累積した勾配でパラメータを更新
+   */
+  updateParameters(): void {
+    // Update multi-head attention parameters
+    this.multiHeadAttention.updateParameters();
+
+    // Update feed-forward parameters
+    const clipValue = 5.0;
+    for (let i = 0; i < this.embeddingDim; i++) {
+      for (let j = 0; j < this.embeddingDim; j++) {
         // W1 の更新
         const clippedGradW1 = Math.max(-clipValue, Math.min(clipValue, this.gradW1[i][j]));
         this.w1[i][j] += this.learningRate * clippedGradW1;

@@ -1,5 +1,5 @@
 import { SimpleTokenizer } from '../tokenizer';
-import { SimpleTransformer } from '../transformer';
+import { SimpleTransformer, MultiHeadTransformer } from '../transformer';
 import { EmbeddingLayer } from '../embedding';
 import { OutputLayer } from '../output';
 import { PositionalEncodingCache } from '../positional-encoding';
@@ -8,24 +8,29 @@ import { PositionalEncodingCache } from '../positional-encoding';
 export class SimpleLLM {
   tokenizer: SimpleTokenizer;
   embedding: EmbeddingLayer;
-  transformers: SimpleTransformer[]; // 複数層に変更
+  transformers: (SimpleTransformer | MultiHeadTransformer)[]; // 複数層に変更
   outputLayer: OutputLayer;
   positionalEncoding: PositionalEncodingCache;
   vocabSize: number;
   embeddingDim: number;
   numLayers: number;
+  numHeads: number;
 
-  constructor(vocab: string[], embeddingDim = 16, numLayers = 2) {
+  constructor(vocab: string[], embeddingDim = 16, numLayers = 2, numHeads = 1) {
     this.vocabSize = vocab.length;
     this.embeddingDim = embeddingDim;
     this.numLayers = numLayers;
+    this.numHeads = numHeads;
     this.tokenizer = new SimpleTokenizer(vocab);
     this.embedding = new EmbeddingLayer(vocab.length, embeddingDim);
 
     // 複数のTransformerレイヤーを作成
+    // numHeads > 1 の場合はMultiHeadTransformerを使用
     this.transformers = Array.from(
       { length: numLayers },
-      () => new SimpleTransformer(embeddingDim)
+      () => numHeads > 1
+        ? new MultiHeadTransformer(embeddingDim, numHeads)
+        : new SimpleTransformer(embeddingDim)
     );
 
     this.outputLayer = new OutputLayer(embeddingDim, vocab.length);
@@ -195,30 +200,56 @@ export class SimpleLLM {
   // モデルをシリアライズ
   serialize(): any {
     return {
-      version: '1.0',
+      version: '2.0',
       config: {
         vocabSize: this.vocabSize,
         embeddingDim: this.embeddingDim,
         numLayers: this.numLayers,
+        numHeads: this.numHeads,
         vocab: this.tokenizer.vocab,
       },
       weights: {
         embedding: this.embedding.weights,
-        transformers: this.transformers.map(t => ({
-          wq: t.wq,
-          wk: t.wk,
-          wv: t.wv,
-          w1: t.w1,
-          w2: t.w2,
-          layerNorm1: {
-            gamma: t.layerNorm1.gamma,
-            beta: t.layerNorm1.beta,
-          },
-          layerNorm2: {
-            gamma: t.layerNorm2.gamma,
-            beta: t.layerNorm2.beta,
-          },
-        })),
+        transformers: this.transformers.map(t => {
+          if (t instanceof MultiHeadTransformer) {
+            return {
+              type: 'multi-head',
+              multiHeadAttention: {
+                wq: t.multiHeadAttention.wq,
+                wk: t.multiHeadAttention.wk,
+                wv: t.multiHeadAttention.wv,
+                wo: t.multiHeadAttention.wo,
+              },
+              w1: t.w1,
+              w2: t.w2,
+              layerNorm1: {
+                gamma: t.layerNorm1.gamma,
+                beta: t.layerNorm1.beta,
+              },
+              layerNorm2: {
+                gamma: t.layerNorm2.gamma,
+                beta: t.layerNorm2.beta,
+              },
+            };
+          } else {
+            return {
+              type: 'single-head',
+              wq: t.wq,
+              wk: t.wk,
+              wv: t.wv,
+              w1: t.w1,
+              w2: t.w2,
+              layerNorm1: {
+                gamma: t.layerNorm1.gamma,
+                beta: t.layerNorm1.beta,
+              },
+              layerNorm2: {
+                gamma: t.layerNorm2.gamma,
+                beta: t.layerNorm2.beta,
+              },
+            };
+          }
+        }),
         output: {
           weights: this.outputLayer.weights,
           bias: this.outputLayer.bias,
@@ -229,23 +260,43 @@ export class SimpleLLM {
 
   // モデルをデシリアライズ
   static deserialize(data: any): SimpleLLM {
-    const { config, weights } = data;
-    const llm = new SimpleLLM(config.vocab, config.embeddingDim, config.numLayers);
+    const { config, weights, version } = data;
+
+    // 後方互換性: v1.0の場合はnumHeads = 1
+    const numHeads = config.numHeads || 1;
+    const llm = new SimpleLLM(config.vocab, config.embeddingDim, config.numLayers, numHeads);
 
     // Embeddingの重みを復元
     llm.embedding.weights = weights.embedding;
 
     // Transformerの重みを復元
     weights.transformers.forEach((tData: any, i: number) => {
-      llm.transformers[i].wq = tData.wq;
-      llm.transformers[i].wk = tData.wk;
-      llm.transformers[i].wv = tData.wv;
-      llm.transformers[i].w1 = tData.w1;
-      llm.transformers[i].w2 = tData.w2;
-      llm.transformers[i].layerNorm1.gamma = tData.layerNorm1.gamma;
-      llm.transformers[i].layerNorm1.beta = tData.layerNorm1.beta;
-      llm.transformers[i].layerNorm2.gamma = tData.layerNorm2.gamma;
-      llm.transformers[i].layerNorm2.beta = tData.layerNorm2.beta;
+      const transformer = llm.transformers[i];
+
+      if (tData.type === 'multi-head' && transformer instanceof MultiHeadTransformer) {
+        // Multi-head transformer
+        transformer.multiHeadAttention.wq = tData.multiHeadAttention.wq;
+        transformer.multiHeadAttention.wk = tData.multiHeadAttention.wk;
+        transformer.multiHeadAttention.wv = tData.multiHeadAttention.wv;
+        transformer.multiHeadAttention.wo = tData.multiHeadAttention.wo;
+        transformer.w1 = tData.w1;
+        transformer.w2 = tData.w2;
+        transformer.layerNorm1.gamma = tData.layerNorm1.gamma;
+        transformer.layerNorm1.beta = tData.layerNorm1.beta;
+        transformer.layerNorm2.gamma = tData.layerNorm2.gamma;
+        transformer.layerNorm2.beta = tData.layerNorm2.beta;
+      } else if (transformer instanceof SimpleTransformer) {
+        // Single-head transformer (backward compatibility)
+        transformer.wq = tData.wq;
+        transformer.wk = tData.wk;
+        transformer.wv = tData.wv;
+        transformer.w1 = tData.w1;
+        transformer.w2 = tData.w2;
+        transformer.layerNorm1.gamma = tData.layerNorm1.gamma;
+        transformer.layerNorm1.beta = tData.layerNorm1.beta;
+        transformer.layerNorm2.gamma = tData.layerNorm2.gamma;
+        transformer.layerNorm2.beta = tData.layerNorm2.beta;
+      }
     });
 
     // Outputレイヤーの重みを復元
