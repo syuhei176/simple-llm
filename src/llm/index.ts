@@ -3,6 +3,7 @@ import { SimpleTransformer, MultiHeadTransformer } from '../transformer';
 import { EmbeddingLayer } from '../embedding';
 import { OutputLayer } from '../output';
 import { PositionalEncodingCache } from '../positional-encoding';
+import { Optimizer, AdamOptimizer, SGDOptimizer } from '../optimizer';
 import { encode as msgpackEncode, decode as msgpackDecode } from '@msgpack/msgpack';
 
 // 簡易LLM
@@ -16,6 +17,7 @@ export class SimpleLLM {
   embeddingDim: number;
   numLayers: number;
   numHeads: number;
+  optimizer?: Optimizer;
 
   constructor(vocab: string[], embeddingDim = 16, numLayers = 2, numHeads = 1) {
     this.vocabSize = vocab.length;
@@ -117,14 +119,33 @@ export class SimpleLLM {
     return result;
   }
 
+  // Set optimizer
+  setOptimizer(optimizer: Optimizer): void {
+    this.optimizer = optimizer;
+  }
+
   // 学習
-  train(trainingData: { input: string; target: string }[], epochs: number = 10) {
+  train(
+    trainingData: { input: string; target: string }[],
+    epochs: number = 10,
+    optimizerType: 'sgd' | 'adam' = 'adam',
+    learningRate: number = 0.001
+  ) {
+    // Create optimizer if not set
+    if (!this.optimizer) {
+      if (optimizerType === 'adam') {
+        this.optimizer = new AdamOptimizer(learningRate);
+      } else {
+        this.optimizer = new SGDOptimizer(learningRate);
+      }
+    }
     for (let epoch = 0; epoch < epochs; epoch++) {
       console.log(`Epoch ${epoch + 1}/${epochs}`);
       let totalLoss = 0;
 
       trainingData.forEach(({ input, target }) => {
         // 勾配をゼロリセット
+        this.embedding.zeroGrad();
         for (const transformer of this.transformers) {
           transformer.zeroGrad();
           transformer.layerNorm1.zeroGrad();
@@ -185,11 +206,27 @@ export class SimpleLLM {
         }
 
         // パラメータ更新
-        this.outputLayer.updateParameters();
-        for (const transformer of this.transformers) {
-          transformer.updateParameters();
-          transformer.layerNorm1.updateParameters();
-          transformer.layerNorm2.updateParameters();
+        if (this.optimizer) {
+          // Use optimizer for parameter updates
+          this.embedding.updateWithOptimizer(this.optimizer);
+          this.outputLayer.updateWithOptimizer(this.optimizer);
+          for (let i = 0; i < this.transformers.length; i++) {
+            const transformer = this.transformers[i];
+            if (transformer instanceof MultiHeadTransformer) {
+              transformer.updateWithOptimizer(this.optimizer, `transformer_${i}`);
+            } else {
+              transformer.updateWithOptimizer(this.optimizer, `transformer_${i}`);
+            }
+          }
+        } else {
+          // Fallback to manual updates
+          this.embedding.updateParametersManual();
+          this.outputLayer.updateParameters();
+          for (const transformer of this.transformers) {
+            transformer.updateParameters();
+            transformer.layerNorm1.updateParameters();
+            transformer.layerNorm2.updateParameters();
+          }
         }
       });
 

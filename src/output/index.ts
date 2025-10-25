@@ -1,3 +1,5 @@
+import { Optimizer } from '../optimizer';
+
 // 出力層: Embedding次元からVocabularyサイズへの線形変換
 export class OutputLayer {
   weights: number[][];
@@ -94,5 +96,26 @@ export class OutputLayer {
       const clippedGrad = Math.max(-clipValue, Math.min(clipValue, this.gradBias[j]));
       this.bias[j] += this.learningRate * clippedGrad;
     }
+  }
+
+  /**
+   * Update parameters using optimizer
+   */
+  updateWithOptimizer(optimizer: Optimizer): void {
+    const clipValue = 5.0;
+
+    // Clip weight gradients
+    const clippedGradWeights = this.gradWeights.map(row =>
+      row.map(g => Math.max(-clipValue, Math.min(clipValue, g)))
+    );
+
+    // Clip bias gradients
+    const clippedGradBias = this.gradBias.map(g =>
+      Math.max(-clipValue, Math.min(clipValue, g))
+    );
+
+    // Update using optimizer
+    optimizer.update('output_weights', this.weights, clippedGradWeights);
+    optimizer.update1D('output_bias', this.bias, clippedGradBias);
   }
 }

@@ -1,3 +1,5 @@
+import { Optimizer } from './optimizer';
+
 // Layer Normalization with complete backpropagation
 export class LayerNorm {
   epsilon: number;
@@ -122,6 +124,21 @@ export class LayerNorm {
       this.gamma[i] += this.learningRate * clippedGradGamma;
       this.beta[i] += this.learningRate * clippedGradBeta;
     }
+  }
+
+  /**
+   * Update parameters using optimizer
+   */
+  updateWithOptimizer(optimizer: Optimizer, layerKey: string): void {
+    const clipValue = 5.0;
+
+    // Clip gradients
+    const clippedGradGamma = this.gradGamma.map(g => Math.max(-clipValue, Math.min(clipValue, g)));
+    const clippedGradBeta = this.gradBeta.map(g => Math.max(-clipValue, Math.min(clipValue, g)));
+
+    // Update gamma and beta using optimizer
+    optimizer.update1D(`${layerKey}_gamma`, this.gamma, clippedGradGamma);
+    optimizer.update1D(`${layerKey}_beta`, this.beta, clippedGradBeta);
   }
 
   /**

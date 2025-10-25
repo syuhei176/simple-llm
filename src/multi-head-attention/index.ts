@@ -1,3 +1,5 @@
+import { Optimizer } from '../optimizer';
+
 /**
  * Multi-Head Attention implementation
  *
@@ -367,5 +369,37 @@ export class MultiHeadAttention {
         this.wo[i][j] += this.learningRate * clippedGradWo;
       }
     }
+  }
+
+  /**
+   * Update parameters using optimizer
+   */
+  updateWithOptimizer(optimizer: Optimizer, layerKey: string): void {
+    const clipValue = 5.0;
+
+    // Update Q, K, V for each head
+    for (let h = 0; h < this.numHeads; h++) {
+      // Clip gradients
+      const clippedGradWq = this.gradWq[h].map(row =>
+        row.map(g => Math.max(-clipValue, Math.min(clipValue, g)))
+      );
+      const clippedGradWk = this.gradWk[h].map(row =>
+        row.map(g => Math.max(-clipValue, Math.min(clipValue, g)))
+      );
+      const clippedGradWv = this.gradWv[h].map(row =>
+        row.map(g => Math.max(-clipValue, Math.min(clipValue, g)))
+      );
+
+      // Update using optimizer
+      optimizer.update(`${layerKey}_wq_head${h}`, this.wq[h], clippedGradWq);
+      optimizer.update(`${layerKey}_wk_head${h}`, this.wk[h], clippedGradWk);
+      optimizer.update(`${layerKey}_wv_head${h}`, this.wv[h], clippedGradWv);
+    }
+
+    // Clip and update output projection
+    const clippedGradWo = this.gradWo.map(row =>
+      row.map(g => Math.max(-clipValue, Math.min(clipValue, g)))
+    );
+    optimizer.update(`${layerKey}_wo`, this.wo, clippedGradWo);
   }
 }

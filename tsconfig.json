@@ -9,5 +9,5 @@
     "strict": true,
     "types": ["node"]
   },
-  "exclude": ["node_modules", "dist", "examples", "docs", "scripts"]
+  "exclude": ["node_modules", "dist", "examples", "docs", "scripts", "tests", "vitest.config.mjs"]
 }
