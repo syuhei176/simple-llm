@@ -29,6 +29,7 @@ async function loadModel(modelName: string = 'default-latest') {
   const predictButton = document.getElementById('predict-button') as HTMLButtonElement;
   const userInput = document.getElementById('user-input') as HTMLInputElement;
 
+  console.log('loadModel called with:', modelName);
   statusDiv.textContent = `Loading model from repository: ${modelName}...`;
 
   // チャット履歴をクリア
@@ -36,6 +37,7 @@ async function loadModel(modelName: string = 'default-latest') {
 
   // リポジトリ内のモデルをロード
   const modelData = await loadModelFromRepo(modelName);
+  console.log('Model data loaded:', modelData ? 'success' : 'failed');
 
   if (modelData) {
     try {
@@ -138,6 +140,7 @@ async function init() {
   // モデル読み込みボタンのイベント
   loadModelButton.addEventListener('click', async () => {
     const selectedModel = modelSelect.value;
+    console.log('Loading model:', selectedModel);
     predictButton.disabled = true;
     userInput.disabled = true;
     loadModelButton.disabled = true;
@@ -146,6 +149,8 @@ async function init() {
 
     loadModelButton.disabled = false;
   });
+
+  console.log('Model selection initialized. Available models:', Array.from(modelSelect.options).map(o => o.value));
 }
 
 // ページ読み込み時に初期化
