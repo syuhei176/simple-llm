@@ -23,16 +23,19 @@ async function loadModelFromRepo(modelName: string = 'default-latest'): Promise<
 }
 
 // 起動時に自動でモデルをロード
-async function loadModel() {
+async function loadModel(modelName: string = 'default-latest') {
   const statusDiv = document.getElementById('status') as HTMLDivElement;
   const outputDiv = document.getElementById('output') as HTMLDivElement;
   const predictButton = document.getElementById('predict-button') as HTMLButtonElement;
   const userInput = document.getElementById('user-input') as HTMLInputElement;
 
-  statusDiv.textContent = 'Loading model from repository...';
+  statusDiv.textContent = `Loading model from repository: ${modelName}...`;
+
+  // チャット履歴をクリア
+  outputDiv.innerHTML = '';
 
   // リポジトリ内のモデルをロード
-  const modelData = await loadModelFromRepo('default-latest');
+  const modelData = await loadModelFromRepo(modelName);
 
   if (modelData) {
     try {
@@ -86,6 +89,8 @@ async function init() {
   const predictButton = document.getElementById('predict-button') as HTMLButtonElement;
   const userInput = document.getElementById('user-input') as HTMLInputElement;
   const outputDiv = document.getElementById('output') as HTMLDivElement;
+  const modelSelect = document.getElementById('model-select') as HTMLSelectElement;
+  const loadModelButton = document.getElementById('load-model-button') as HTMLButtonElement;
 
   // 予測ボタンのイベント
   predictButton.addEventListener('click', () => {
@@ -128,6 +133,18 @@ async function init() {
     if (e.key === 'Enter') {
       predictButton.click();
     }
+  });
+
+  // モデル読み込みボタンのイベント
+  loadModelButton.addEventListener('click', async () => {
+    const selectedModel = modelSelect.value;
+    predictButton.disabled = true;
+    userInput.disabled = true;
+    loadModelButton.disabled = true;
+
+    await loadModel(selectedModel);
+
+    loadModelButton.disabled = false;
   });
 }
 

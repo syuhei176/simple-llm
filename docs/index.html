@@ -149,6 +149,40 @@
             border-color: #667eea;
         }
 
+        select {
+            padding: 12px 20px;
+            border: 2px solid #e0e0e0;
+            border-radius: 25px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+            background: white;
+            cursor: pointer;
+        }
+
+        select:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .model-selector {
+            margin-bottom: 20px;
+            padding: 15px;
+            background: #f0f4ff;
+            border-radius: 10px;
+        }
+
+        .model-selector label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 600;
+            color: #667eea;
+        }
+
+        .model-selector-group {
+            display: flex;
+            gap: 10px;
+        }
+
         .info-section {
             margin-top: 30px;
             padding-top: 20px;
@@ -180,7 +214,11 @@
                 flex-direction: column;
             }
 
-            button {
+            .model-selector-group {
+                flex-direction: column;
+            }
+
+            button, select {
                 width: 100%;
             }
         }
@@ -196,6 +234,18 @@
         <div class="content">
             <div class="status" id="status">
                 Loading...
+            </div>
+
+            <div class="model-selector">
+                <label for="model-select">Select Model:</label>
+                <div class="model-selector-group">
+                    <select id="model-select">
+                        <option value="default-latest">Default Model</option>
+                        <option value="large-vocab-multi-head">Large Vocab Multi-Head</option>
+                        <option value="test-model-latest">Test Model</option>
+                    </select>
+                    <button id="load-model-button">Load Model</button>
+                </div>
             </div>
 
             <div class="chat-section">
