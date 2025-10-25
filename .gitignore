@@ -7,6 +7,9 @@ dist/
 # Ignore TypeScript declaration files
 *.d.ts
 
+# Ignore compiled JavaScript files in scripts directory
+scripts/*.js
+
 # Ignore log files
 *.log
 
