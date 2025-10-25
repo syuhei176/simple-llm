@@ -1,5 +1,6 @@
 import { LayerNorm } from '../layer-norm';
 import { MultiHeadAttention } from '../multi-head-attention';
+import { Optimizer } from '../optimizer';
 
 // 完全な逆伝播を実装したTransformer Layer
 export class SimpleTransformer {
@@ -406,6 +407,41 @@ export class SimpleTransformer {
       }
     }
   }
+
+  /**
+   * Update parameters using optimizer
+   */
+  updateWithOptimizer(optimizer: Optimizer, layerKey: string): void {
+    const clipValue = 5.0;
+
+    // Clip gradients
+    const clippedGradWq = this.gradWq.map(row =>
+      row.map(g => Math.max(-clipValue, Math.min(clipValue, g)))
+    );
+    const clippedGradWk = this.gradWk.map(row =>
+      row.map(g => Math.max(-clipValue, Math.min(clipValue, g)))
+    );
+    const clippedGradWv = this.gradWv.map(row =>
+      row.map(g => Math.max(-clipValue, Math.min(clipValue, g)))
+    );
+    const clippedGradW1 = this.gradW1.map(row =>
+      row.map(g => Math.max(-clipValue, Math.min(clipValue, g)))
+    );
+    const clippedGradW2 = this.gradW2.map(row =>
+      row.map(g => Math.max(-clipValue, Math.min(clipValue, g)))
+    );
+
+    // Update using optimizer
+    optimizer.update(`${layerKey}_wq`, this.wq, clippedGradWq);
+    optimizer.update(`${layerKey}_wk`, this.wk, clippedGradWk);
+    optimizer.update(`${layerKey}_wv`, this.wv, clippedGradWv);
+    optimizer.update(`${layerKey}_w1`, this.w1, clippedGradW1);
+    optimizer.update(`${layerKey}_w2`, this.w2, clippedGradW2);
+
+    // Update layer norms
+    this.layerNorm1.updateWithOptimizer(optimizer, `${layerKey}_ln1`);
+    this.layerNorm2.updateWithOptimizer(optimizer, `${layerKey}_ln2`);
+  }
 }
 
 /**
@@ -613,5 +649,29 @@ export class MultiHeadTransformer {
         this.w2[i][j] += this.learningRate * clippedGradW2;
       }
     }
+  }
+
+  /**
+   * Update parameters using optimizer
+   */
+  updateWithOptimizer(optimizer: Optimizer, layerKey: string): void {
+    // Update multi-head attention
+    this.multiHeadAttention.updateWithOptimizer(optimizer, `${layerKey}_mha`);
+
+    // Update feed-forward parameters
+    const clipValue = 5.0;
+    const clippedGradW1 = this.gradW1.map(row =>
+      row.map(g => Math.max(-clipValue, Math.min(clipValue, g)))
+    );
+    const clippedGradW2 = this.gradW2.map(row =>
+      row.map(g => Math.max(-clipValue, Math.min(clipValue, g)))
+    );
+
+    optimizer.update(`${layerKey}_w1`, this.w1, clippedGradW1);
+    optimizer.update(`${layerKey}_w2`, this.w2, clippedGradW2);
+
+    // Update layer norms
+    this.layerNorm1.updateWithOptimizer(optimizer, `${layerKey}_ln1`);
+    this.layerNorm2.updateWithOptimizer(optimizer, `${layerKey}_ln2`);
   }
 }
