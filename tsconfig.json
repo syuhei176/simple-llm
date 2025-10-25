@@ -6,7 +6,8 @@
     "outDir": "./dist",
     "esModuleInterop": true,
     "moduleResolution": "node",
-    "strict": true
+    "strict": true,
+    "types": ["node"]
   },
-  "exclude": ["node_modules", "dist", "examples", "docs"]
+  "exclude": ["node_modules", "dist", "examples", "docs", "scripts"]
 }
