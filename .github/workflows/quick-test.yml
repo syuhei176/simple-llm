@@ -27,6 +27,9 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
+      - name: Build TypeScript
+        run: pnpm run build
+
       - name: Create test corpus
         run: |
           cat > data/test-corpus.txt << 'EOF'

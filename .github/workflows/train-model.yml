@@ -83,6 +83,9 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
+      - name: Build TypeScript
+        run: pnpm run build
+
       - name: Set pipeline parameters
         id: params
         run: |
