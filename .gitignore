@@ -10,6 +10,10 @@ dist/
 # Ignore compiled JavaScript files in scripts directory
 scripts/*.js
 
+# Ignore compiled test files
+tests/*.js
+vitest.config.js
+
 # Ignore log files
 *.log
 
