@@ -86,6 +86,26 @@ npm run dev
 
 See [PIPELINE.md](PIPELINE.md) for detailed documentation.
 
+### GitHub Actions Automation
+
+Train models automatically using GitHub Actions:
+
+```yaml
+# Manual trigger: Go to Actions tab → Train Language Model → Run workflow
+# Scheduled: Runs every Sunday at 0:00 UTC
+# On PR: Automatically trains when data/ or scripts/ are modified
+```
+
+**Quick Start:**
+1. Go to your GitHub repository's **Actions** tab
+2. Select **Train Language Model**
+3. Click **Run workflow**
+4. Configure parameters and run
+
+The trained model will be automatically committed to the repository.
+
+See [.github/ACTIONS.md](.github/ACTIONS.md) for detailed GitHub Actions documentation.
+
 ## Usage
 
 ### Web Demo
