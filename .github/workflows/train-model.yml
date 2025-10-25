@@ -69,14 +69,19 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '20'
-          cache: 'npm'
+          cache: 'pnpm'
 
       - name: Install dependencies
-        run: npm ci
+        run: pnpm install --frozen-lockfile
 
       - name: Set pipeline parameters
         id: params
@@ -97,10 +102,10 @@ jobs:
         run: |
           if [ "${{ steps.params.outputs.data_source }}" = "sample" ]; then
             echo "Fetching sample data..."
-            npm run fetch -- --sample data/corpus.txt
+            pnpm run fetch -- --sample data/corpus.txt
           elif [ "${{ steps.params.outputs.data_source }}" = "url" ] && [ -n "${{ steps.params.outputs.data_url }}" ]; then
             echo "Fetching data from URL..."
-            npm run fetch -- ${{ steps.params.outputs.data_url }} data/corpus.txt
+            pnpm run fetch -- ${{ steps.params.outputs.data_url }} data/corpus.txt
           else
             echo "Using existing data file"
           fi
@@ -113,11 +118,11 @@ jobs:
             ARGS="$ARGS --max ${{ steps.params.outputs.max_samples }}"
           fi
 
-          npm run prepare -- $ARGS
+          pnpm run prepare -- $ARGS
 
       - name: Train model
         run: |
-          npm run train -- data/training-data.json ${{ steps.params.outputs.model_name }} \
+          pnpm run train -- data/training-data.json ${{ steps.params.outputs.model_name }} \
             --epochs ${{ steps.params.outputs.epochs }} \
             --embedding ${{ steps.params.outputs.embedding_dim }} \
             --layers ${{ steps.params.outputs.num_layers }}
@@ -129,7 +134,7 @@ jobs:
           echo "Model set as default for WebUI"
 
       - name: Build web bundle
-        run: npm run build:web
+        run: pnpm run build:web
 
       - name: Generate training report
         run: |
