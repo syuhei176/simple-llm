@@ -6,7 +6,12 @@
     "build": "tsc",
     "build:web": "webpack --mode production",
     "dev": "webpack serve --mode development",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "pipeline": "ts-node --project tsconfig.scripts.json scripts/run-pipeline.ts --sample --set-default",
+    "pipeline:custom": "ts-node --project tsconfig.scripts.json scripts/run-pipeline.ts",
+    "fetch": "ts-node --project tsconfig.scripts.json scripts/fetch-text.ts",
+    "prepare": "ts-node --project tsconfig.scripts.json scripts/prepare-training-data.ts",
+    "train": "ts-node --project tsconfig.scripts.json scripts/train-model.ts"
   },
   "keywords": [],
   "author": "",

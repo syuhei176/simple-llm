@@ -1,0 +1,82 @@
+[
+  {
+    "input": "the quick brown fox jumps",
+    "target": "quick brown fox jumps over"
+  },
+  {
+    "input": "brown fox jumps over the",
+    "target": "fox jumps over the lazy"
+  },
+  {
+    "input": "jumps over the lazy dog.",
+    "target": "over the lazy dog. this"
+  },
+  {
+    "input": "the lazy dog. this is",
+    "target": "lazy dog. this is simple"
+  },
+  {
+    "input": "dog. this is simple test",
+    "target": "this is simple test sentence"
+  },
+  {
+    "input": "is simple test sentence for",
+    "target": "simple test sentence for the"
+  },
+  {
+    "input": "test sentence for the training",
+    "target": "sentence for the training pipeline."
+  },
+  {
+    "input": "for the training pipeline. machine",
+    "target": "the training pipeline. machine learning"
+  },
+  {
+    "input": "training pipeline. machine learning is",
+    "target": "pipeline. machine learning is fascinating"
+  },
+  {
+    "input": "machine learning is fascinating and",
+    "target": "learning is fascinating and powerful."
+  },
+  {
+    "input": "is fascinating and powerful. neural",
+    "target": "fascinating and powerful. neural networks"
+  },
+  {
+    "input": "and powerful. neural networks can",
+    "target": "powerful. neural networks can learn"
+  },
+  {
+    "input": "neural networks can learn complex",
+    "target": "networks can learn complex patterns"
+  },
+  {
+    "input": "can learn complex patterns from",
+    "target": "learn complex patterns from data."
+  },
+  {
+    "input": "complex patterns from data. natural",
+    "target": "patterns from data. natural language"
+  },
+  {
+    "input": "from data. natural language processing",
+    "target": "data. natural language processing enables"
+  },
+  {
+    "input": "natural language processing enables computers",
+    "target": "language processing enables computers to"
+  },
+  {
+    "input": "processing enables computers to understand",
+    "target": "enables computers to understand human"
+  },
+  {
+    "input": "computers to understand human language.",
+    "target": "to understand human language. deep"
+  },
+  {
+    "input": "understand human language. deep learning",
+    "target": "human language. deep learning models"
+  }
+]

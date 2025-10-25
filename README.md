@@ -51,6 +51,41 @@ npm run build:web
 npm run dev
 ```
 
+## Training Pipeline
+
+This project includes a complete machine learning pipeline:
+
+### Quick Start
+
+```bash
+# Run the complete pipeline (fetch → prepare → train → deploy)
+npm run pipeline
+```
+
+This will:
+1. Download sample text from Project Gutenberg
+2. Convert it to training data using sliding windows
+3. Train a language model
+4. Save the model for use in WebUI
+
+### Step-by-Step Pipeline
+
+```bash
+# 1. Fetch text from web
+npm run fetch -- https://example.com/text.txt data/corpus.txt
+
+# 2. Prepare training data
+npm run prepare -- data/corpus.txt data/training-data.json --window 5 --stride 1
+
+# 3. Train model
+npm run train -- data/training-data.json my-model --epochs 50 --embedding 32
+
+# 4. The trained model is automatically available in WebUI
+npm run dev
+```
+
+See [PIPELINE.md](PIPELINE.md) for detailed documentation.
+
 ## Usage
 
 ### Web Demo
