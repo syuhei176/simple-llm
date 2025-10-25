@@ -1,0 +1,245 @@
+name: Train Language Model
+
+on:
+  # 手動実行トリガー
+  workflow_dispatch:
+    inputs:
+      data_source:
+        description: 'Data source (sample/url/file)'
+        required: true
+        default: 'sample'
+        type: choice
+        options:
+          - sample
+          - url
+          - file
+      data_url:
+        description: 'URL for text data (if source is url)'
+        required: false
+        type: string
+      model_name:
+        description: 'Model name'
+        required: true
+        default: 'default'
+        type: string
+      window_size:
+        description: 'Window size for sliding window'
+        required: true
+        default: '5'
+        type: string
+      stride:
+        description: 'Stride for sliding window'
+        required: true
+        default: '1'
+        type: string
+      epochs:
+        description: 'Training epochs'
+        required: true
+        default: '50'
+        type: string
+      embedding_dim:
+        description: 'Embedding dimension'
+        required: true
+        default: '32'
+        type: string
+      num_layers:
+        description: 'Number of transformer layers'
+        required: true
+        default: '2'
+        type: string
+      max_samples:
+        description: 'Maximum training samples (optional)'
+        required: false
+        type: string
+      set_as_default:
+        description: 'Set as default model for WebUI'
+        required: true
+        default: true
+        type: boolean
+
+  # スケジュール実行（毎週日曜日 0:00 UTC）
+  schedule:
+    - cron: '0 0 * * 0'
+
+  # プルリクエスト時（data/ディレクトリに変更があった場合）
+  pull_request:
+    paths:
+      - 'data/**'
+      - 'scripts/**'
+
+jobs:
+  train:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Set pipeline parameters
+        id: params
+        run: |
+          # デフォルト値を設定
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "data_source=${{ github.event.inputs.data_source }}" >> $GITHUB_OUTPUT
+            echo "data_url=${{ github.event.inputs.data_url }}" >> $GITHUB_OUTPUT
+            echo "model_name=${{ github.event.inputs.model_name }}" >> $GITHUB_OUTPUT
+            echo "window_size=${{ github.event.inputs.window_size }}" >> $GITHUB_OUTPUT
+            echo "stride=${{ github.event.inputs.stride }}" >> $GITHUB_OUTPUT
+            echo "epochs=${{ github.event.inputs.epochs }}" >> $GITHUB_OUTPUT
+            echo "embedding_dim=${{ github.event.inputs.embedding_dim }}" >> $GITHUB_OUTPUT
+            echo "num_layers=${{ github.event.inputs.num_layers }}" >> $GITHUB_OUTPUT
+            echo "max_samples=${{ github.event.inputs.max_samples }}" >> $GITHUB_OUTPUT
+            echo "set_as_default=${{ github.event.inputs.set_as_default }}" >> $GITHUB_OUTPUT
+          else
+            # スケジュール実行またはPR時のデフォルト
+            echo "data_source=sample" >> $GITHUB_OUTPUT
+            echo "data_url=" >> $GITHUB_OUTPUT
+            echo "model_name=default" >> $GITHUB_OUTPUT
+            echo "window_size=5" >> $GITHUB_OUTPUT
+            echo "stride=1" >> $GITHUB_OUTPUT
+            echo "epochs=50" >> $GITHUB_OUTPUT
+            echo "embedding_dim=32" >> $GITHUB_OUTPUT
+            echo "num_layers=2" >> $GITHUB_OUTPUT
+            echo "max_samples=1000" >> $GITHUB_OUTPUT
+            echo "set_as_default=true" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Fetch training data
+        run: |
+          if [ "${{ steps.params.outputs.data_source }}" = "sample" ]; then
+            echo "Fetching sample data..."
+            npm run fetch -- --sample data/corpus.txt
+          elif [ "${{ steps.params.outputs.data_source }}" = "url" ] && [ -n "${{ steps.params.outputs.data_url }}" ]; then
+            echo "Fetching data from URL..."
+            npm run fetch -- ${{ steps.params.outputs.data_url }} data/corpus.txt
+          else
+            echo "Using existing data file"
+          fi
+
+      - name: Prepare training data
+        run: |
+          ARGS="data/corpus.txt data/training-data.json --window ${{ steps.params.outputs.window_size }} --stride ${{ steps.params.outputs.stride }}"
+
+          if [ -n "${{ steps.params.outputs.max_samples }}" ]; then
+            ARGS="$ARGS --max ${{ steps.params.outputs.max_samples }}"
+          fi
+
+          npm run prepare -- $ARGS
+
+      - name: Train model
+        run: |
+          npm run train -- data/training-data.json ${{ steps.params.outputs.model_name }} \
+            --epochs ${{ steps.params.outputs.epochs }} \
+            --embedding ${{ steps.params.outputs.embedding_dim }} \
+            --layers ${{ steps.params.outputs.num_layers }}
+
+      - name: Set as default model
+        if: steps.params.outputs.set_as_default == 'true'
+        run: |
+          cp models/${{ steps.params.outputs.model_name }}-latest.json models/default-latest.json
+          echo "Model set as default for WebUI"
+
+      - name: Build web bundle
+        run: npm run build:web
+
+      - name: Generate training report
+        run: |
+          cat > training-report.md << EOF
+          # Training Report
+
+          **Date**: $(date -u +"%Y-%m-%d %H:%M:%S UTC")
+          **Model**: ${{ steps.params.outputs.model_name }}
+          **Trigger**: ${{ github.event_name }}
+
+          ## Parameters
+          - Window Size: ${{ steps.params.outputs.window_size }}
+          - Stride: ${{ steps.params.outputs.stride }}
+          - Epochs: ${{ steps.params.outputs.epochs }}
+          - Embedding Dimension: ${{ steps.params.outputs.embedding_dim }}
+          - Transformer Layers: ${{ steps.params.outputs.num_layers }}
+          - Max Samples: ${{ steps.params.outputs.max_samples }}
+
+          ## Files
+          - Model: \`models/${{ steps.params.outputs.model_name }}-latest.json\`
+          - Training Data: \`data/training-data.json\`
+
+          ## Model Info
+          \`\`\`json
+          $(head -20 models/${{ steps.params.outputs.model_name }}-latest.json)
+          \`\`\`
+          EOF
+
+          cat training-report.md
+
+      - name: Commit and push model
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+
+          git add models/
+          git add docs/bundle.js
+          git add training-report.md
+
+          if git diff --staged --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "🤖 Auto-train model: ${{ steps.params.outputs.model_name }}
+
+            Training completed via GitHub Actions
+
+            Parameters:
+            - Window: ${{ steps.params.outputs.window_size }}
+            - Stride: ${{ steps.params.outputs.stride }}
+            - Epochs: ${{ steps.params.outputs.epochs }}
+            - Embedding: ${{ steps.params.outputs.embedding_dim }}
+            - Layers: ${{ steps.params.outputs.num_layers }}
+
+            Triggered by: ${{ github.event_name }}
+            Run: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+
+            git push
+          fi
+
+      - name: Upload model as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: trained-model-${{ steps.params.outputs.model_name }}
+          path: |
+            models/${{ steps.params.outputs.model_name }}-*.json
+            training-report.md
+          retention-days: 30
+
+      - name: Upload training data as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: training-data
+          path: data/training-data.json
+          retention-days: 7
+
+      - name: Comment on PR
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const report = fs.readFileSync('training-report.md', 'utf8');
+
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: `## 🤖 Model Training Completed\n\n${report}\n\nThe model has been trained and is ready for review.`
+            });

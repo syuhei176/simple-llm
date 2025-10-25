@@ -1,0 +1,110 @@
+name: Quick Pipeline Test
+
+on:
+  # プルリクエスト時
+  pull_request:
+    paths:
+      - 'scripts/**'
+      - 'src/**'
+      - '.github/workflows/**'
+
+  # 手動実行
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Create test corpus
+        run: |
+          cat > data/test-corpus.txt << 'EOF'
+          The quick brown fox jumps over the lazy dog.
+          Machine learning is a fascinating field of study.
+          Neural networks can learn complex patterns from data.
+          Natural language processing enables computers to understand human language.
+          Deep learning models have revolutionized artificial intelligence.
+          Transformers use attention mechanisms to process sequences.
+          Language models can generate coherent text.
+          Training requires large amounts of data and compute.
+          EOF
+
+      - name: Test data preparation
+        run: |
+          npm run prepare -- data/test-corpus.txt data/test-training-data.json \
+            --window 5 --stride 2 --max 20
+
+      - name: Test model training
+        run: |
+          npm run train -- data/test-training-data.json test-model \
+            --epochs 5 --embedding 16 --layers 2
+
+      - name: Verify model file
+        run: |
+          if [ ! -f "models/test-model-latest.json" ]; then
+            echo "Error: Model file not created"
+            exit 1
+          fi
+
+          echo "✓ Model file created successfully"
+          ls -lh models/test-model-*.json
+
+      - name: Test model loading
+        run: |
+          node -e "
+            const fs = require('fs');
+            const { SimpleLLM } = require('./dist/llm');
+
+            const modelData = JSON.parse(fs.readFileSync('models/test-model-latest.json', 'utf-8'));
+            console.log('Model metadata:', modelData.metadata);
+
+            if (!modelData.metadata || !modelData.config || !modelData.weights) {
+              console.error('Error: Invalid model structure');
+              process.exit(1);
+            }
+
+            console.log('✓ Model structure is valid');
+            console.log('  Vocab size:', modelData.config.vocabSize);
+            console.log('  Embedding dim:', modelData.config.embeddingDim);
+            console.log('  Layers:', modelData.config.numLayers);
+          "
+
+      - name: Upload test artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results
+          path: |
+            models/test-model-*.json
+            data/test-training-data.json
+          retention-days: 3
+
+      - name: Summary
+        run: |
+          echo "## ✅ Pipeline Test Completed" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "All pipeline components are working correctly:" >> $GITHUB_STEP_SUMMARY
+          echo "- ✓ Data preparation" >> $GITHUB_STEP_SUMMARY
+          echo "- ✓ Model training" >> $GITHUB_STEP_SUMMARY
+          echo "- ✓ Model serialization" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+
+          if [ -f "models/test-model-latest.json" ]; then
+            echo "### Model Info" >> $GITHUB_STEP_SUMMARY
+            echo "\`\`\`json" >> $GITHUB_STEP_SUMMARY
+            head -30 models/test-model-latest.json >> $GITHUB_STEP_SUMMARY
+            echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
+          fi

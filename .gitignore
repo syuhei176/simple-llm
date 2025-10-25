@@ -35,3 +35,11 @@ yarn.lock
 
 # Ignore coverage directory
 coverage/
+
+# Data directory - ignore raw text files but keep training data
+data/*.txt
+data/corpus/
+
+# Models directory - keep models but ignore very large files (>10MB)
+# Comment out the line below if you want to track all models
+# models/*.json
