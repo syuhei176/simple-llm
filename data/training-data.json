@@ -1,0 +1,3646 @@
+[
+  {
+    "input": "there was once little boy",
+    "target": "was once little boy called"
+  },
+  {
+    "input": "was once little boy called",
+    "target": "once little boy called willie."
+  },
+  {
+    "input": "once little boy called willie.",
+    "target": "little boy called willie. never"
+  },
+  {
+    "input": "little boy called willie. never",
+    "target": "boy called willie. never knew"
+  },
+  {
+    "input": "boy called willie. never knew",
+    "target": "called willie. never knew his"
+  },
+  {
+    "input": "called willie. never knew his",
+    "target": "willie. never knew his other"
+  },
+  {
+    "input": "willie. never knew his other",
+    "target": "never knew his other name,"
+  },
+  {
+    "input": "never knew his other name,",
+    "target": "knew his other name, and"
+  },
+  {
+    "input": "knew his other name, and",
+    "target": "his other name, and as"
+  },
+  {
+    "input": "his other name, and as",
+    "target": "other name, and as he"
+  },
+  {
+    "input": "other name, and as he",
+    "target": "name, and as he lived"
+  },
+  {
+    "input": "name, and as he lived",
+    "target": "and as he lived far"
+  },
+  {
+    "input": "and as he lived far",
+    "target": "as he lived far off"
+  },
+  {
+    "input": "as he lived far off",
+    "target": "he lived far off behind"
+  },
+  {
+    "input": "he lived far off behind",
+    "target": "lived far off behind the"
+  },
+  {
+    "input": "lived far off behind the",
+    "target": "far off behind the mountain,"
+  },
+  {
+    "input": "far off behind the mountain,",
+    "target": "off behind the mountain, we"
+  },
+  {
+    "input": "off behind the mountain, we",
+    "target": "behind the mountain, we cannot"
+  },
+  {
+    "input": "behind the mountain, we cannot",
+    "target": "the mountain, we cannot go"
+  },
+  {
+    "input": "the mountain, we cannot go",
+    "target": "mountain, we cannot go to"
+  },
+  {
+    "input": "mountain, we cannot go to",
+    "target": "we cannot go to inquire."
+  },
+  {
+    "input": "we cannot go to inquire.",
+    "target": "cannot go to inquire. he"
+  },
+  {
+    "input": "cannot go to inquire. he",
+    "target": "go to inquire. he had"
+  },
+  {
+    "input": "go to inquire. he had",
+    "target": "to inquire. he had fair"
+  },
+  {
+    "input": "to inquire. he had fair",
+    "target": "inquire. he had fair hair"
+  },
+  {
+    "input": "inquire. he had fair hair",
+    "target": "he had fair hair and"
+  },
+  {
+    "input": "he had fair hair and",
+    "target": "had fair hair and blue"
+  },
+  {
+    "input": "had fair hair and blue",
+    "target": "fair hair and blue eyes,"
+  },
+  {
+    "input": "fair hair and blue eyes,",
+    "target": "hair and blue eyes, and"
+  },
+  {
+    "input": "hair and blue eyes, and",
+    "target": "and blue eyes, and there"
+  },
+  {
+    "input": "and blue eyes, and there",
+    "target": "blue eyes, and there was"
+  },
+  {
+    "input": "blue eyes, and there was",
+    "target": "eyes, and there was something"
+  },
+  {
+    "input": "eyes, and there was something",
+    "target": "and there was something in"
+  },
+  {
+    "input": "and there was something in",
+    "target": "there was something in his"
+  },
+  {
+    "input": "there was something in his",
+    "target": "was something in his face"
+  },
+  {
+    "input": "was something in his face",
+    "target": "something in his face that,"
+  },
+  {
+    "input": "something in his face that,",
+    "target": "in his face that, when"
+  },
+  {
+    "input": "in his face that, when",
+    "target": "his face that, when you"
+  },
+  {
+    "input": "his face that, when you",
+    "target": "face that, when you had"
+  },
+  {
+    "input": "face that, when you had",
+    "target": "that, when you had looked"
+  },
+  {
+    "input": "that, when you had looked",
+    "target": "when you had looked at"
+  },
+  {
+    "input": "when you had looked at",
+    "target": "you had looked at him,"
+  },
+  {
+    "input": "you had looked at him,",
+    "target": "had looked at him, made"
+  },
+  {
+    "input": "had looked at him, made",
+    "target": "looked at him, made you"
+  },
+  {
+    "input": "looked at him, made you",
+    "target": "at him, made you feel"
+  },
+  {
+    "input": "at him, made you feel",
+    "target": "him, made you feel quite"
+  },
+  {
+    "input": "him, made you feel quite",
+    "target": "made you feel quite happy"
+  },
+  {
+    "input": "made you feel quite happy",
+    "target": "you feel quite happy and"
+  },
+  {
+    "input": "you feel quite happy and",
+    "target": "feel quite happy and rested,"
+  },
+  {
+    "input": "feel quite happy and rested,",
+    "target": "quite happy and rested, and"
+  },
+  {
+    "input": "quite happy and rested, and",
+    "target": "happy and rested, and think"
+  },
+  {
+    "input": "happy and rested, and think",
+    "target": "and rested, and think of"
+  },
+  {
+    "input": "and rested, and think of",
+    "target": "rested, and think of all"
+  },
+  {
+    "input": "rested, and think of all",
+    "target": "and think of all the"
+  },
+  {
+    "input": "and think of all the",
+    "target": "think of all the things"
+  },
+  {
+    "input": "think of all the things",
+    "target": "of all the things you"
+  },
+  {
+    "input": "of all the things you",
+    "target": "all the things you meant"
+  },
+  {
+    "input": "all the things you meant",
+    "target": "the things you meant to"
+  },
+  {
+    "input": "the things you meant to",
+    "target": "things you meant to do"
+  },
+  {
+    "input": "things you meant to do",
+    "target": "you meant to do by-and-by"
+  },
+  {
+    "input": "you meant to do by-and-by",
+    "target": "meant to do by-and-by when"
+  },
+  {
+    "input": "meant to do by-and-by when",
+    "target": "to do by-and-by when you"
+  },
+  {
+    "input": "to do by-and-by when you",
+    "target": "do by-and-by when you were"
+  },
+  {
+    "input": "do by-and-by when you were",
+    "target": "by-and-by when you were wiser"
+  },
+  {
+    "input": "by-and-by when you were wiser",
+    "target": "when you were wiser and"
+  },
+  {
+    "input": "when you were wiser and",
+    "target": "you were wiser and stronger."
+  },
+  {
+    "input": "you were wiser and stronger.",
+    "target": "were wiser and stronger. he"
+  },
+  {
+    "input": "were wiser and stronger. he",
+    "target": "wiser and stronger. he lived"
+  },
+  {
+    "input": "wiser and stronger. he lived",
+    "target": "and stronger. he lived all"
+  },
+  {
+    "input": "and stronger. he lived all",
+    "target": "stronger. he lived all alone"
+  },
+  {
+    "input": "stronger. he lived all alone",
+    "target": "he lived all alone with"
+  },
+  {
+    "input": "he lived all alone with",
+    "target": "lived all alone with the"
+  },
+  {
+    "input": "lived all alone with the",
+    "target": "all alone with the tall"
+  },
+  {
+    "input": "all alone with the tall",
+    "target": "alone with the tall aunt,"
+  },
+  {
+    "input": "alone with the tall aunt,",
+    "target": "with the tall aunt, who"
+  },
+  {
+    "input": "with the tall aunt, who",
+    "target": "the tall aunt, who was"
+  },
+  {
+    "input": "the tall aunt, who was",
+    "target": "tall aunt, who was very"
+  },
+  {
+    "input": "tall aunt, who was very",
+    "target": "aunt, who was very rich,"
+  },
+  {
+    "input": "aunt, who was very rich,",
+    "target": "who was very rich, in"
+  },
+  {
+    "input": "who was very rich, in",
+    "target": "was very rich, in the"
+  },
+  {
+    "input": "was very rich, in the",
+    "target": "very rich, in the big"
+  },
+  {
+    "input": "very rich, in the big",
+    "target": "rich, in the big house"
+  },
+  {
+    "input": "rich, in the big house",
+    "target": "in the big house at"
+  },
+  {
+    "input": "in the big house at",
+    "target": "the big house at the"
+  },
+  {
+    "input": "the big house at the",
+    "target": "big house at the end"
+  },
+  {
+    "input": "big house at the end",
+    "target": "house at the end of"
+  },
+  {
+    "input": "house at the end of",
+    "target": "at the end of the"
+  },
+  {
+    "input": "at the end of the",
+    "target": "the end of the village."
+  },
+  {
+    "input": "the end of the village.",
+    "target": "end of the village. every"
+  },
+  {
+    "input": "end of the village. every",
+    "target": "of the village. every morning"
+  },
+  {
+    "input": "of the village. every morning",
+    "target": "the village. every morning he"
+  },
+  {
+    "input": "the village. every morning he",
+    "target": "village. every morning he went"
+  },
+  {
+    "input": "village. every morning he went",
+    "target": "every morning he went down"
+  },
+  {
+    "input": "every morning he went down",
+    "target": "morning he went down the"
+  },
+  {
+    "input": "morning he went down the",
+    "target": "he went down the street"
+  },
+  {
+    "input": "he went down the street",
+    "target": "went down the street with"
+  },
+  {
+    "input": "went down the street with",
+    "target": "down the street with his"
+  },
+  {
+    "input": "down the street with his",
+    "target": "the street with his little"
+  },
+  {
+    "input": "the street with his little",
+    "target": "street with his little goat"
+  },
+  {
+    "input": "street with his little goat",
+    "target": "with his little goat under"
+  },
+  {
+    "input": "with his little goat under",
+    "target": "his little goat under his"
+  },
+  {
+    "input": "his little goat under his",
+    "target": "little goat under his arm,"
+  },
+  {
+    "input": "little goat under his arm,",
+    "target": "goat under his arm, and"
+  },
+  {
+    "input": "goat under his arm, and",
+    "target": "under his arm, and the"
+  },
+  {
+    "input": "under his arm, and the",
+    "target": "his arm, and the village"
+  },
+  {
+    "input": "his arm, and the village",
+    "target": "arm, and the village folk"
+  },
+  {
+    "input": "arm, and the village folk",
+    "target": "and the village folk looked"
+  },
+  {
+    "input": "and the village folk looked",
+    "target": "the village folk looked after"
+  },
+  {
+    "input": "the village folk looked after",
+    "target": "village folk looked after him"
+  },
+  {
+    "input": "village folk looked after him",
+    "target": "folk looked after him and"
+  },
+  {
+    "input": "folk looked after him and",
+    "target": "looked after him and said,"
+  },
+  {
+    "input": "looked after him and said,",
+    "target": "after him and said, there"
+  },
+  {
+    "input": "after him and said, there",
+    "target": "him and said, there goes"
+  },
+  {
+    "input": "him and said, there goes",
+    "target": "and said, there goes master"
+  },
+  {
+    "input": "and said, there goes master",
+    "target": "said, there goes master willie."
+  },
+  {
+    "input": "said, there goes master willie.",
+    "target": "there goes master willie. the"
+  },
+  {
+    "input": "there goes master willie. the",
+    "target": "goes master willie. the tall"
+  },
+  {
+    "input": "goes master willie. the tall",
+    "target": "master willie. the tall aunt"
+  },
+  {
+    "input": "master willie. the tall aunt",
+    "target": "willie. the tall aunt had"
+  },
+  {
+    "input": "willie. the tall aunt had",
+    "target": "the tall aunt had very"
+  },
+  {
+    "input": "the tall aunt had very",
+    "target": "tall aunt had very long"
+  },
+  {
+    "input": "tall aunt had very long",
+    "target": "aunt had very long neck;"
+  },
+  {
+    "input": "aunt had very long neck;",
+    "target": "had very long neck; on"
+  },
+  {
+    "input": "had very long neck; on",
+    "target": "very long neck; on the"
+  },
+  {
+    "input": "very long neck; on the",
+    "target": "long neck; on the top"
+  },
+  {
+    "input": "long neck; on the top",
+    "target": "neck; on the top of"
+  },
+  {
+    "input": "neck; on the top of",
+    "target": "on the top of it"
+  },
+  {
+    "input": "on the top of it",
+    "target": "the top of it was"
+  },
+  {
+    "input": "the top of it was",
+    "target": "top of it was her"
+  },
+  {
+    "input": "top of it was her",
+    "target": "of it was her head,"
+  },
+  {
+    "input": "of it was her head,",
+    "target": "it was her head, on"
+  },
+  {
+    "input": "it was her head, on",
+    "target": "was her head, on the"
+  },
+  {
+    "input": "was her head, on the",
+    "target": "her head, on the top"
+  },
+  {
+    "input": "her head, on the top",
+    "target": "head, on the top of"
+  },
+  {
+    "input": "head, on the top of",
+    "target": "on the top of her"
+  },
+  {
+    "input": "on the top of her",
+    "target": "the top of her head"
+  },
+  {
+    "input": "the top of her head",
+    "target": "top of her head she"
+  },
+  {
+    "input": "top of her head she",
+    "target": "of her head she wore"
+  },
+  {
+    "input": "of her head she wore",
+    "target": "her head she wore white"
+  },
+  {
+    "input": "her head she wore white",
+    "target": "head she wore white cap."
+  },
+  {
+    "input": "head she wore white cap.",
+    "target": "she wore white cap. willie"
+  },
+  {
+    "input": "she wore white cap. willie",
+    "target": "wore white cap. willie used"
+  },
+  {
+    "input": "wore white cap. willie used",
+    "target": "white cap. willie used often"
+  },
+  {
+    "input": "white cap. willie used often",
+    "target": "cap. willie used often to"
+  },
+  {
+    "input": "cap. willie used often to",
+    "target": "willie used often to look"
+  },
+  {
+    "input": "willie used often to look",
+    "target": "used often to look up"
+  },
+  {
+    "input": "used often to look up",
+    "target": "often to look up at"
+  },
+  {
+    "input": "often to look up at",
+    "target": "to look up at her"
+  },
+  {
+    "input": "to look up at her",
+    "target": "look up at her and"
+  },
+  {
+    "input": "look up at her and",
+    "target": "up at her and think"
+  },
+  {
+    "input": "up at her and think",
+    "target": "at her and think that"
+  },
+  {
+    "input": "at her and think that",
+    "target": "her and think that the"
+  },
+  {
+    "input": "her and think that the",
+    "target": "and think that the cap"
+  },
+  {
+    "input": "and think that the cap",
+    "target": "think that the cap was"
+  },
+  {
+    "input": "think that the cap was",
+    "target": "that the cap was like"
+  },
+  {
+    "input": "that the cap was like",
+    "target": "the cap was like snow"
+  },
+  {
+    "input": "the cap was like snow",
+    "target": "cap was like snow upon"
+  },
+  {
+    "input": "cap was like snow upon",
+    "target": "was like snow upon the"
+  },
+  {
+    "input": "was like snow upon the",
+    "target": "like snow upon the mountain."
+  },
+  {
+    "input": "like snow upon the mountain.",
+    "target": "snow upon the mountain. she"
+  },
+  {
+    "input": "snow upon the mountain. she",
+    "target": "upon the mountain. she was"
+  },
+  {
+    "input": "upon the mountain. she was",
+    "target": "the mountain. she was very"
+  },
+  {
+    "input": "the mountain. she was very",
+    "target": "mountain. she was very fond"
+  },
+  {
+    "input": "mountain. she was very fond",
+    "target": "she was very fond of"
+  },
+  {
+    "input": "she was very fond of",
+    "target": "was very fond of willie,"
+  },
+  {
+    "input": "was very fond of willie,",
+    "target": "very fond of willie, but"
+  },
+  {
+    "input": "very fond of willie, but",
+    "target": "fond of willie, but she"
+  },
+  {
+    "input": "fond of willie, but she",
+    "target": "of willie, but she had"
+  },
+  {
+    "input": "of willie, but she had",
+    "target": "willie, but she had lived"
+  },
+  {
+    "input": "willie, but she had lived",
+    "target": "but she had lived great"
+  },
+  {
+    "input": "but she had lived great",
+    "target": "she had lived great many"
+  },
+  {
+    "input": "she had lived great many",
+    "target": "had lived great many years"
+  },
+  {
+    "input": "had lived great many years",
+    "target": "lived great many years and"
+  },
+  {
+    "input": "lived great many years and",
+    "target": "great many years and was"
+  },
+  {
+    "input": "great many years and was",
+    "target": "many years and was always"
+  },
+  {
+    "input": "many years and was always",
+    "target": "years and was always sitting"
+  },
+  {
+    "input": "years and was always sitting",
+    "target": "and was always sitting still"
+  },
+  {
+    "input": "and was always sitting still",
+    "target": "was always sitting still to"
+  },
+  {
+    "input": "was always sitting still to",
+    "target": "always sitting still to think"
+  },
+  {
+    "input": "always sitting still to think",
+    "target": "sitting still to think them"
+  },
+  {
+    "input": "sitting still to think them",
+    "target": "still to think them over,"
+  },
+  {
+    "input": "still to think them over,",
+    "target": "to think them over, and"
+  },
+  {
+    "input": "to think them over, and",
+    "target": "think them over, and she"
+  },
+  {
+    "input": "think them over, and she",
+    "target": "them over, and she had"
+  },
+  {
+    "input": "them over, and she had",
+    "target": "over, and she had forgotten"
+  },
+  {
+    "input": "over, and she had forgotten",
+    "target": "and she had forgotten all"
+  },
+  {
+    "input": "and she had forgotten all",
+    "target": "she had forgotten all the"
+  },
+  {
+    "input": "she had forgotten all the",
+    "target": "had forgotten all the games"
+  },
+  {
+    "input": "had forgotten all the games",
+    "target": "forgotten all the games she"
+  },
+  {
+    "input": "forgotten all the games she",
+    "target": "all the games she used"
+  },
+  {
+    "input": "all the games she used",
+    "target": "the games she used to"
+  },
+  {
+    "input": "the games she used to",
+    "target": "games she used to know,"
+  },
+  {
+    "input": "games she used to know,",
+    "target": "she used to know, all"
+  },
+  {
+    "input": "she used to know, all",
+    "target": "used to know, all the"
+  },
+  {
+    "input": "used to know, all the",
+    "target": "to know, all the stories"
+  },
+  {
+    "input": "to know, all the stories",
+    "target": "know, all the stories she"
+  },
+  {
+    "input": "know, all the stories she",
+    "target": "all the stories she had"
+  },
+  {
+    "input": "all the stories she had",
+    "target": "the stories she had read"
+  },
+  {
+    "input": "the stories she had read",
+    "target": "stories she had read when"
+  },
+  {
+    "input": "stories she had read when",
+    "target": "she had read when she"
+  },
+  {
+    "input": "she had read when she",
+    "target": "had read when she was"
+  },
+  {
+    "input": "had read when she was",
+    "target": "read when she was little,"
+  },
+  {
+    "input": "read when she was little,",
+    "target": "when she was little, and"
+  },
+  {
+    "input": "when she was little, and",
+    "target": "she was little, and when"
+  },
+  {
+    "input": "she was little, and when",
+    "target": "was little, and when willie"
+  },
+  {
+    "input": "was little, and when willie",
+    "target": "little, and when willie asked"
+  },
+  {
+    "input": "little, and when willie asked",
+    "target": "and when willie asked her"
+  },
+  {
+    "input": "and when willie asked her",
+    "target": "when willie asked her about"
+  },
+  {
+    "input": "when willie asked her about",
+    "target": "willie asked her about them,"
+  },
+  {
+    "input": "willie asked her about them,",
+    "target": "asked her about them, would"
+  },
+  {
+    "input": "asked her about them, would",
+    "target": "her about them, would say,"
+  },
+  {
+    "input": "her about them, would say,",
+    "target": "about them, would say, no,"
+  },
+  {
+    "input": "about them, would say, no,",
+    "target": "them, would say, no, dear,"
+  },
+  {
+    "input": "them, would say, no, dear,",
+    "target": "would say, no, dear, no,"
+  },
+  {
+    "input": "would say, no, dear, no,",
+    "target": "say, no, dear, no, can't"
+  },
+  {
+    "input": "say, no, dear, no, can't",
+    "target": "no, dear, no, can't remember;"
+  },
+  {
+    "input": "no, dear, no, can't remember;",
+    "target": "dear, no, can't remember; go"
+  },
+  {
+    "input": "dear, no, can't remember; go",
+    "target": "no, can't remember; go to"
+  },
+  {
+    "input": "no, can't remember; go to",
+    "target": "can't remember; go to the"
+  },
+  {
+    "input": "can't remember; go to the",
+    "target": "remember; go to the woods"
+  },
+  {
+    "input": "remember; go to the woods",
+    "target": "go to the woods and"
+  },
+  {
+    "input": "go to the woods and",
+    "target": "to the woods and play."
+  },
+  {
+    "input": "to the woods and play.",
+    "target": "the woods and play. sometimes"
+  },
+  {
+    "input": "the woods and play. sometimes",
+    "target": "woods and play. sometimes she"
+  },
+  {
+    "input": "woods and play. sometimes she",
+    "target": "and play. sometimes she would"
+  },
+  {
+    "input": "and play. sometimes she would",
+    "target": "play. sometimes she would take"
+  },
+  {
+    "input": "play. sometimes she would take",
+    "target": "sometimes she would take his"
+  },
+  {
+    "input": "sometimes she would take his",
+    "target": "she would take his face"
+  },
+  {
+    "input": "she would take his face",
+    "target": "would take his face between"
+  },
+  {
+    "input": "would take his face between",
+    "target": "take his face between her"
+  },
+  {
+    "input": "take his face between her",
+    "target": "his face between her two"
+  },
+  {
+    "input": "his face between her two",
+    "target": "face between her two hands"
+  },
+  {
+    "input": "face between her two hands",
+    "target": "between her two hands and"
+  },
+  {
+    "input": "between her two hands and",
+    "target": "her two hands and look"
+  },
+  {
+    "input": "her two hands and look",
+    "target": "two hands and look at"
+  },
+  {
+    "input": "two hands and look at",
+    "target": "hands and look at him"
+  },
+  {
+    "input": "hands and look at him",
+    "target": "and look at him well"
+  },
+  {
+    "input": "and look at him well",
+    "target": "look at him well while"
+  },
+  {
+    "input": "look at him well while",
+    "target": "at him well while willie"
+  },
+  {
+    "input": "at him well while willie",
+    "target": "him well while willie felt"
+  },
+  {
+    "input": "him well while willie felt",
+    "target": "well while willie felt quite"
+  },
+  {
+    "input": "well while willie felt quite",
+    "target": "while willie felt quite sure"
+  },
+  {
+    "input": "while willie felt quite sure",
+    "target": "willie felt quite sure that"
+  },
+  {
+    "input": "willie felt quite sure that",
+    "target": "felt quite sure that she"
+  },
+  {
+    "input": "felt quite sure that she",
+    "target": "quite sure that she was"
+  },
+  {
+    "input": "quite sure that she was",
+    "target": "sure that she was not"
+  },
+  {
+    "input": "sure that she was not",
+    "target": "that she was not thinking"
+  },
+  {
+    "input": "that she was not thinking",
+    "target": "she was not thinking of"
+  },
+  {
+    "input": "she was not thinking of",
+    "target": "was not thinking of him,"
+  },
+  {
+    "input": "was not thinking of him,",
+    "target": "not thinking of him, but"
+  },
+  {
+    "input": "not thinking of him, but",
+    "target": "thinking of him, but of"
+  },
+  {
+    "input": "thinking of him, but of",
+    "target": "of him, but of someone"
+  },
+  {
+    "input": "of him, but of someone",
+    "target": "him, but of someone else"
+  },
+  {
+    "input": "him, but of someone else",
+    "target": "but of someone else he"
+  },
+  {
+    "input": "but of someone else he",
+    "target": "of someone else he did"
+  },
+  {
+    "input": "of someone else he did",
+    "target": "someone else he did not"
+  },
+  {
+    "input": "someone else he did not",
+    "target": "else he did not know,"
+  },
+  {
+    "input": "else he did not know,",
+    "target": "he did not know, and"
+  },
+  {
+    "input": "he did not know, and",
+    "target": "did not know, and then"
+  },
+  {
+    "input": "did not know, and then",
+    "target": "not know, and then she"
+  },
+  {
+    "input": "not know, and then she",
+    "target": "know, and then she would"
+  },
+  {
+    "input": "know, and then she would",
+    "target": "and then she would kiss"
+  },
+  {
+    "input": "and then she would kiss",
+    "target": "then she would kiss him,"
+  },
+  {
+    "input": "then she would kiss him,",
+    "target": "she would kiss him, and"
+  },
+  {
+    "input": "she would kiss him, and",
+    "target": "would kiss him, and turn"
+  },
+  {
+    "input": "would kiss him, and turn",
+    "target": "kiss him, and turn away"
+  },
+  {
+    "input": "kiss him, and turn away",
+    "target": "him, and turn away quickly,"
+  },
+  {
+    "input": "him, and turn away quickly,",
+    "target": "and turn away quickly, saying,"
+  },
+  {
+    "input": "and turn away quickly, saying,",
+    "target": "turn away quickly, saying, go"
+  },
+  {
+    "input": "turn away quickly, saying, go",
+    "target": "away quickly, saying, go to"
+  },
+  {
+    "input": "away quickly, saying, go to",
+    "target": "quickly, saying, go to the"
+  },
+  {
+    "input": "quickly, saying, go to the",
+    "target": "saying, go to the woods,"
+  },
+  {
+    "input": "saying, go to the woods,",
+    "target": "go to the woods, dear;"
+  },
+  {
+    "input": "go to the woods, dear;",
+    "target": "to the woods, dear; it"
+  },
+  {
+    "input": "to the woods, dear; it",
+    "target": "the woods, dear; it is"
+  },
+  {
+    "input": "the woods, dear; it is",
+    "target": "woods, dear; it is no"
+  },
+  {
+    "input": "woods, dear; it is no",
+    "target": "dear; it is no good"
+  },
+  {
+    "input": "dear; it is no good",
+    "target": "it is no good staying"
+  },
+  {
+    "input": "it is no good staying",
+    "target": "is no good staying with"
+  },
+  {
+    "input": "is no good staying with",
+    "target": "no good staying with an"
+  },
+  {
+    "input": "no good staying with an",
+    "target": "good staying with an old"
+  },
+  {
+    "input": "good staying with an old",
+    "target": "staying with an old woman."
+  },
+  {
+    "input": "staying with an old woman.",
+    "target": "with an old woman. then"
+  },
+  {
+    "input": "with an old woman. then",
+    "target": "an old woman. then he,"
+  },
+  {
+    "input": "an old woman. then he,",
+    "target": "old woman. then he, knowing"
+  },
+  {
+    "input": "old woman. then he, knowing",
+    "target": "woman. then he, knowing that"
+  },
+  {
+    "input": "woman. then he, knowing that",
+    "target": "then he, knowing that she"
+  },
+  {
+    "input": "then he, knowing that she",
+    "target": "he, knowing that she wanted"
+  },
+  {
+    "input": "he, knowing that she wanted",
+    "target": "knowing that she wanted to"
+  },
+  {
+    "input": "knowing that she wanted to",
+    "target": "that she wanted to be"
+  },
+  {
+    "input": "that she wanted to be",
+    "target": "she wanted to be alone,"
+  },
+  {
+    "input": "she wanted to be alone,",
+    "target": "wanted to be alone, would"
+  },
+  {
+    "input": "wanted to be alone, would",
+    "target": "to be alone, would pick"
+  },
+  {
+    "input": "to be alone, would pick",
+    "target": "be alone, would pick up"
+  },
+  {
+    "input": "be alone, would pick up",
+    "target": "alone, would pick up his"
+  },
+  {
+    "input": "alone, would pick up his",
+    "target": "would pick up his goat"
+  },
+  {
+    "input": "would pick up his goat",
+    "target": "pick up his goat and"
+  },
+  {
+    "input": "pick up his goat and",
+    "target": "up his goat and hurry"
+  },
+  {
+    "input": "up his goat and hurry",
+    "target": "his goat and hurry away."
+  },
+  {
+    "input": "his goat and hurry away.",
+    "target": "goat and hurry away. he"
+  },
+  {
+    "input": "goat and hurry away. he",
+    "target": "and hurry away. he had"
+  },
+  {
+    "input": "and hurry away. he had",
+    "target": "hurry away. he had had"
+  },
+  {
+    "input": "hurry away. he had had",
+    "target": "away. he had had dear"
+  },
+  {
+    "input": "away. he had had dear",
+    "target": "he had had dear little"
+  },
+  {
+    "input": "he had had dear little",
+    "target": "had had dear little sister,"
+  },
+  {
+    "input": "had had dear little sister,",
+    "target": "had dear little sister, called"
+  },
+  {
+    "input": "had dear little sister, called",
+    "target": "dear little sister, called apple-blossom,"
+  },
+  {
+    "input": "dear little sister, called apple-blossom,",
+    "target": "little sister, called apple-blossom, but"
+  },
+  {
+    "input": "little sister, called apple-blossom, but",
+    "target": "sister, called apple-blossom, but strange"
+  },
+  {
+    "input": "sister, called apple-blossom, but strange",
+    "target": "called apple-blossom, but strange thing"
+  },
+  {
+    "input": "called apple-blossom, but strange thing",
+    "target": "apple-blossom, but strange thing had"
+  },
+  {
+    "input": "apple-blossom, but strange thing had",
+    "target": "but strange thing had happened"
+  },
+  {
+    "input": "but strange thing had happened",
+    "target": "strange thing had happened to"
+  },
+  {
+    "input": "strange thing had happened to",
+    "target": "thing had happened to her."
+  },
+  {
+    "input": "thing had happened to her.",
+    "target": "had happened to her. one"
+  },
+  {
+    "input": "had happened to her. one",
+    "target": "happened to her. one day"
+  },
+  {
+    "input": "happened to her. one day",
+    "target": "to her. one day she"
+  },
+  {
+    "input": "to her. one day she",
+    "target": "her. one day she over-wound"
+  },
+  {
+    "input": "her. one day she over-wound",
+    "target": "one day she over-wound her"
+  },
+  {
+    "input": "one day she over-wound her",
+    "target": "day she over-wound her very"
+  },
+  {
+    "input": "day she over-wound her very",
+    "target": "she over-wound her very big"
+  },
+  {
+    "input": "she over-wound her very big",
+    "target": "over-wound her very big doll"
+  },
+  {
+    "input": "over-wound her very big doll",
+    "target": "her very big doll that"
+  },
+  {
+    "input": "her very big doll that",
+    "target": "very big doll that talked"
+  },
+  {
+    "input": "very big doll that talked",
+    "target": "big doll that talked and"
+  },
+  {
+    "input": "big doll that talked and",
+    "target": "doll that talked and walked,"
+  },
+  {
+    "input": "doll that talked and walked,",
+    "target": "that talked and walked, and"
+  },
+  {
+    "input": "that talked and walked, and",
+    "target": "talked and walked, and the"
+  },
+  {
+    "input": "talked and walked, and the",
+    "target": "and walked, and the consequence"
+  },
+  {
+    "input": "and walked, and the consequence",
+    "target": "walked, and the consequence was"
+  },
+  {
+    "input": "walked, and the consequence was",
+    "target": "and the consequence was quite"
+  },
+  {
+    "input": "and the consequence was quite",
+    "target": "the consequence was quite terrible."
+  },
+  {
+    "input": "the consequence was quite terrible.",
+    "target": "consequence was quite terrible. no"
+  },
+  {
+    "input": "consequence was quite terrible. no",
+    "target": "was quite terrible. no sooner"
+  },
+  {
+    "input": "was quite terrible. no sooner",
+    "target": "quite terrible. no sooner was"
+  },
+  {
+    "input": "quite terrible. no sooner was",
+    "target": "terrible. no sooner was the"
+  },
+  {
+    "input": "terrible. no sooner was the",
+    "target": "no sooner was the winding-up"
+  },
+  {
+    "input": "no sooner was the winding-up",
+    "target": "sooner was the winding-up key"
+  },
+  {
+    "input": "sooner was the winding-up key",
+    "target": "was the winding-up key out"
+  },
+  {
+    "input": "was the winding-up key out",
+    "target": "the winding-up key out of"
+  },
+  {
+    "input": "the winding-up key out of",
+    "target": "winding-up key out of the"
+  },
+  {
+    "input": "winding-up key out of the",
+    "target": "key out of the doll's"
+  },
+  {
+    "input": "key out of the doll's",
+    "target": "out of the doll's side"
+  },
+  {
+    "input": "out of the doll's side",
+    "target": "of the doll's side than"
+  },
+  {
+    "input": "of the doll's side than",
+    "target": "the doll's side than it"
+  },
+  {
+    "input": "the doll's side than it",
+    "target": "doll's side than it blinked"
+  },
+  {
+    "input": "doll's side than it blinked",
+    "target": "side than it blinked its"
+  },
+  {
+    "input": "side than it blinked its",
+    "target": "than it blinked its eyes,"
+  },
+  {
+    "input": "than it blinked its eyes,",
+    "target": "it blinked its eyes, talked"
+  },
+  {
+    "input": "it blinked its eyes, talked",
+    "target": "blinked its eyes, talked very"
+  },
+  {
+    "input": "blinked its eyes, talked very",
+    "target": "its eyes, talked very fast,"
+  },
+  {
+    "input": "its eyes, talked very fast,",
+    "target": "eyes, talked very fast, made"
+  },
+  {
+    "input": "eyes, talked very fast, made",
+    "target": "talked very fast, made faces,"
+  },
+  {
+    "input": "talked very fast, made faces,",
+    "target": "very fast, made faces, took"
+  },
+  {
+    "input": "very fast, made faces, took",
+    "target": "fast, made faces, took apple-blossom"
+  },
+  {
+    "input": "fast, made faces, took apple-blossom",
+    "target": "made faces, took apple-blossom by"
+  },
+  {
+    "input": "made faces, took apple-blossom by",
+    "target": "faces, took apple-blossom by the"
+  },
+  {
+    "input": "faces, took apple-blossom by the",
+    "target": "took apple-blossom by the hand,"
+  },
+  {
+    "input": "took apple-blossom by the hand,",
+    "target": "apple-blossom by the hand, saying,"
+  },
+  {
+    "input": "apple-blossom by the hand, saying,",
+    "target": "by the hand, saying, am"
+  },
+  {
+    "input": "by the hand, saying, am",
+    "target": "the hand, saying, am not"
+  },
+  {
+    "input": "the hand, saying, am not",
+    "target": "hand, saying, am not your"
+  },
+  {
+    "input": "hand, saying, am not your",
+    "target": "saying, am not your doll"
+  },
+  {
+    "input": "saying, am not your doll",
+    "target": "am not your doll any"
+  },
+  {
+    "input": "am not your doll any",
+    "target": "not your doll any longer,"
+  },
+  {
+    "input": "not your doll any longer,",
+    "target": "your doll any longer, but"
+  },
+  {
+    "input": "your doll any longer, but",
+    "target": "doll any longer, but you"
+  },
+  {
+    "input": "doll any longer, but you",
+    "target": "any longer, but you are"
+  },
+  {
+    "input": "any longer, but you are",
+    "target": "longer, but you are my"
+  },
+  {
+    "input": "longer, but you are my",
+    "target": "but you are my little"
+  },
+  {
+    "input": "but you are my little",
+    "target": "you are my little girl,"
+  },
+  {
+    "input": "you are my little girl,",
+    "target": "are my little girl, and"
+  },
+  {
+    "input": "are my little girl, and",
+    "target": "my little girl, and led"
+  },
+  {
+    "input": "my little girl, and led",
+    "target": "little girl, and led her"
+  },
+  {
+    "input": "little girl, and led her",
+    "target": "girl, and led her right"
+  },
+  {
+    "input": "girl, and led her right",
+    "target": "and led her right away"
+  },
+  {
+    "input": "and led her right away",
+    "target": "led her right away no"
+  },
+  {
+    "input": "led her right away no",
+    "target": "her right away no one"
+  },
+  {
+    "input": "her right away no one",
+    "target": "right away no one could"
+  },
+  {
+    "input": "right away no one could",
+    "target": "away no one could tell"
+  },
+  {
+    "input": "away no one could tell",
+    "target": "no one could tell whither,"
+  },
+  {
+    "input": "no one could tell whither,",
+    "target": "one could tell whither, and"
+  },
+  {
+    "input": "one could tell whither, and",
+    "target": "could tell whither, and no"
+  },
+  {
+    "input": "could tell whither, and no",
+    "target": "tell whither, and no one"
+  },
+  {
+    "input": "tell whither, and no one",
+    "target": "whither, and no one was"
+  },
+  {
+    "input": "whither, and no one was",
+    "target": "and no one was able"
+  },
+  {
+    "input": "and no one was able",
+    "target": "no one was able to"
+  },
+  {
+    "input": "no one was able to",
+    "target": "one was able to follow."
+  },
+  {
+    "input": "one was able to follow.",
+    "target": "was able to follow. the"
+  },
+  {
+    "input": "was able to follow. the",
+    "target": "able to follow. the tall"
+  },
+  {
+    "input": "able to follow. the tall",
+    "target": "to follow. the tall aunt"
+  },
+  {
+    "input": "to follow. the tall aunt",
+    "target": "follow. the tall aunt and"
+  },
+  {
+    "input": "follow. the tall aunt and",
+    "target": "the tall aunt and willie"
+  },
+  {
+    "input": "the tall aunt and willie",
+    "target": "tall aunt and willie only"
+  },
+  {
+    "input": "tall aunt and willie only",
+    "target": "aunt and willie only knew"
+  },
+  {
+    "input": "aunt and willie only knew",
+    "target": "and willie only knew that"
+  },
+  {
+    "input": "and willie only knew that",
+    "target": "willie only knew that she"
+  },
+  {
+    "input": "willie only knew that she",
+    "target": "only knew that she had"
+  },
+  {
+    "input": "only knew that she had",
+    "target": "knew that she had gone"
+  },
+  {
+    "input": "knew that she had gone",
+    "target": "that she had gone to"
+  },
+  {
+    "input": "that she had gone to",
+    "target": "she had gone to be"
+  },
+  {
+    "input": "she had gone to be",
+    "target": "had gone to be the"
+  },
+  {
+    "input": "had gone to be the",
+    "target": "gone to be the doll's"
+  },
+  {
+    "input": "gone to be the doll's",
+    "target": "to be the doll's little"
+  },
+  {
+    "input": "to be the doll's little",
+    "target": "be the doll's little girl"
+  },
+  {
+    "input": "be the doll's little girl",
+    "target": "the doll's little girl in"
+  },
+  {
+    "input": "the doll's little girl in",
+    "target": "doll's little girl in some"
+  },
+  {
+    "input": "doll's little girl in some",
+    "target": "little girl in some strange"
+  },
+  {
+    "input": "little girl in some strange",
+    "target": "girl in some strange place,"
+  },
+  {
+    "input": "girl in some strange place,",
+    "target": "in some strange place, where"
+  },
+  {
+    "input": "in some strange place, where",
+    "target": "some strange place, where dolls"
+  },
+  {
+    "input": "some strange place, where dolls",
+    "target": "strange place, where dolls were"
+  },
+  {
+    "input": "strange place, where dolls were",
+    "target": "place, where dolls were stronger"
+  },
+  {
+    "input": "place, where dolls were stronger",
+    "target": "where dolls were stronger and"
+  },
+  {
+    "input": "where dolls were stronger and",
+    "target": "dolls were stronger and more"
+  },
+  {
+    "input": "dolls were stronger and more",
+    "target": "were stronger and more important"
+  },
+  {
+    "input": "were stronger and more important",
+    "target": "stronger and more important than"
+  },
+  {
+    "input": "stronger and more important than",
+    "target": "and more important than human"
+  },
+  {
+    "input": "and more important than human",
+    "target": "more important than human beings."
+  },
+  {
+    "input": "more important than human beings.",
+    "target": "important than human beings. after"
+  },
+  {
+    "input": "important than human beings. after",
+    "target": "than human beings. after apple-blossom"
+  },
+  {
+    "input": "than human beings. after apple-blossom",
+    "target": "human beings. after apple-blossom left"
+  },
+  {
+    "input": "human beings. after apple-blossom left",
+    "target": "beings. after apple-blossom left him,"
+  },
+  {
+    "input": "beings. after apple-blossom left him,",
+    "target": "after apple-blossom left him, willie"
+  },
+  {
+    "input": "after apple-blossom left him, willie",
+    "target": "apple-blossom left him, willie had"
+  },
+  {
+    "input": "apple-blossom left him, willie had",
+    "target": "left him, willie had only"
+  },
+  {
+    "input": "left him, willie had only",
+    "target": "him, willie had only his"
+  },
+  {
+    "input": "him, willie had only his",
+    "target": "willie had only his goat"
+  },
+  {
+    "input": "willie had only his goat",
+    "target": "had only his goat to"
+  },
+  {
+    "input": "had only his goat to",
+    "target": "only his goat to play"
+  },
+  {
+    "input": "only his goat to play",
+    "target": "his goat to play with;"
+  },
+  {
+    "input": "his goat to play with;",
+    "target": "goat to play with; it"
+  },
+  {
+    "input": "goat to play with; it",
+    "target": "to play with; it was"
+  },
+  {
+    "input": "to play with; it was",
+    "target": "play with; it was poor"
+  },
+  {
+    "input": "play with; it was poor",
+    "target": "with; it was poor little"
+  },
+  {
+    "input": "with; it was poor little",
+    "target": "it was poor little thing"
+  },
+  {
+    "input": "it was poor little thing",
+    "target": "was poor little thing with"
+  },
+  {
+    "input": "was poor little thing with",
+    "target": "poor little thing with no"
+  },
+  {
+    "input": "poor little thing with no",
+    "target": "little thing with no horns,"
+  },
+  {
+    "input": "little thing with no horns,",
+    "target": "thing with no horns, no"
+  },
+  {
+    "input": "thing with no horns, no",
+    "target": "with no horns, no tail"
+  },
+  {
+    "input": "with no horns, no tail",
+    "target": "no horns, no tail and"
+  },
+  {
+    "input": "no horns, no tail and",
+    "target": "horns, no tail and hardly"
+  },
+  {
+    "input": "horns, no tail and hardly",
+    "target": "no tail and hardly any"
+  },
+  {
+    "input": "no tail and hardly any",
+    "target": "tail and hardly any hair,"
+  },
+  {
+    "input": "tail and hardly any hair,",
+    "target": "and hardly any hair, but"
+  },
+  {
+    "input": "and hardly any hair, but",
+    "target": "hardly any hair, but still"
+  },
+  {
+    "input": "hardly any hair, but still",
+    "target": "any hair, but still he"
+  },
+  {
+    "input": "any hair, but still he",
+    "target": "hair, but still he loved"
+  },
+  {
+    "input": "hair, but still he loved",
+    "target": "but still he loved it"
+  },
+  {
+    "input": "but still he loved it",
+    "target": "still he loved it dearly,"
+  },
+  {
+    "input": "still he loved it dearly,",
+    "target": "he loved it dearly, and"
+  },
+  {
+    "input": "he loved it dearly, and",
+    "target": "loved it dearly, and put"
+  },
+  {
+    "input": "loved it dearly, and put",
+    "target": "it dearly, and put it"
+  },
+  {
+    "input": "it dearly, and put it",
+    "target": "dearly, and put it under"
+  },
+  {
+    "input": "dearly, and put it under",
+    "target": "and put it under his"
+  },
+  {
+    "input": "and put it under his",
+    "target": "put it under his arm"
+  },
+  {
+    "input": "put it under his arm",
+    "target": "it under his arm every"
+  },
+  {
+    "input": "it under his arm every",
+    "target": "under his arm every morning"
+  },
+  {
+    "input": "under his arm every morning",
+    "target": "his arm every morning while"
+  },
+  {
+    "input": "his arm every morning while",
+    "target": "arm every morning while he"
+  },
+  {
+    "input": "arm every morning while he",
+    "target": "every morning while he went"
+  },
+  {
+    "input": "every morning while he went",
+    "target": "morning while he went along"
+  },
+  {
+    "input": "morning while he went along",
+    "target": "while he went along the"
+  },
+  {
+    "input": "while he went along the",
+    "target": "he went along the street."
+  },
+  {
+    "input": "he went along the street.",
+    "target": "went along the street. it"
+  },
+  {
+    "input": "went along the street. it",
+    "target": "along the street. it is"
+  },
+  {
+    "input": "along the street. it is",
+    "target": "the street. it is only"
+  },
+  {
+    "input": "the street. it is only",
+    "target": "street. it is only made"
+  },
+  {
+    "input": "street. it is only made",
+    "target": "it is only made of"
+  },
+  {
+    "input": "it is only made of",
+    "target": "is only made of painted"
+  },
+  {
+    "input": "is only made of painted",
+    "target": "only made of painted wood"
+  },
+  {
+    "input": "only made of painted wood",
+    "target": "made of painted wood and"
+  },
+  {
+    "input": "made of painted wood and",
+    "target": "of painted wood and little"
+  },
+  {
+    "input": "of painted wood and little",
+    "target": "painted wood and little hair,"
+  },
+  {
+    "input": "painted wood and little hair,",
+    "target": "wood and little hair, master"
+  },
+  {
+    "input": "wood and little hair, master",
+    "target": "and little hair, master willie,"
+  },
+  {
+    "input": "and little hair, master willie,",
+    "target": "little hair, master willie, said"
+  },
+  {
+    "input": "little hair, master willie, said",
+    "target": "hair, master willie, said the"
+  },
+  {
+    "input": "hair, master willie, said the",
+    "target": "master willie, said the blacksmith's"
+  },
+  {
+    "input": "master willie, said the blacksmith's",
+    "target": "willie, said the blacksmith's wife"
+  },
+  {
+    "input": "willie, said the blacksmith's wife",
+    "target": "said the blacksmith's wife one"
+  },
+  {
+    "input": "said the blacksmith's wife one",
+    "target": "the blacksmith's wife one day."
+  },
+  {
+    "input": "the blacksmith's wife one day.",
+    "target": "blacksmith's wife one day. why"
+  },
+  {
+    "input": "blacksmith's wife one day. why",
+    "target": "wife one day. why should"
+  },
+  {
+    "input": "wife one day. why should",
+    "target": "one day. why should you"
+  },
+  {
+    "input": "one day. why should you",
+    "target": "day. why should you care"
+  },
+  {
+    "input": "day. why should you care",
+    "target": "why should you care for"
+  },
+  {
+    "input": "why should you care for",
+    "target": "should you care for it;"
+  },
+  {
+    "input": "should you care for it;",
+    "target": "you care for it; it"
+  },
+  {
+    "input": "you care for it; it",
+    "target": "care for it; it is"
+  },
+  {
+    "input": "care for it; it is",
+    "target": "for it; it is not"
+  },
+  {
+    "input": "for it; it is not",
+    "target": "it; it is not even"
+  },
+  {
+    "input": "it; it is not even",
+    "target": "it is not even alive."
+  },
+  {
+    "input": "it is not even alive.",
+    "target": "is not even alive. but"
+  },
+  {
+    "input": "is not even alive. but",
+    "target": "not even alive. but if"
+  },
+  {
+    "input": "not even alive. but if",
+    "target": "even alive. but if it"
+  },
+  {
+    "input": "even alive. but if it",
+    "target": "alive. but if it were"
+  },
+  {
+    "input": "alive. but if it were",
+    "target": "but if it were alive,"
+  },
+  {
+    "input": "but if it were alive,",
+    "target": "if it were alive, anyone"
+  },
+  {
+    "input": "if it were alive, anyone",
+    "target": "it were alive, anyone could"
+  },
+  {
+    "input": "it were alive, anyone could",
+    "target": "were alive, anyone could love"
+  },
+  {
+    "input": "were alive, anyone could love",
+    "target": "alive, anyone could love it."
+  },
+  {
+    "input": "alive, anyone could love it.",
+    "target": "anyone could love it. and"
+  },
+  {
+    "input": "anyone could love it. and",
+    "target": "could love it. and living"
+  },
+  {
+    "input": "could love it. and living",
+    "target": "love it. and living hands"
+  },
+  {
+    "input": "love it. and living hands",
+    "target": "it. and living hands made"
+  },
+  {
+    "input": "it. and living hands made",
+    "target": "and living hands made it,"
+  },
+  {
+    "input": "and living hands made it,",
+    "target": "living hands made it, the"
+  },
+  {
+    "input": "living hands made it, the",
+    "target": "hands made it, the miller's"
+  },
+  {
+    "input": "hands made it, the miller's",
+    "target": "made it, the miller's wife"
+  },
+  {
+    "input": "made it, the miller's wife",
+    "target": "it, the miller's wife said."
+  },
+  {
+    "input": "it, the miller's wife said.",
+    "target": "the miller's wife said. wonder"
+  },
+  {
+    "input": "the miller's wife said. wonder",
+    "target": "miller's wife said. wonder what"
+  },
+  {
+    "input": "miller's wife said. wonder what",
+    "target": "wife said. wonder what strange"
+  },
+  {
+    "input": "wife said. wonder what strange",
+    "target": "said. wonder what strange hands"
+  },
+  {
+    "input": "said. wonder what strange hands",
+    "target": "wonder what strange hands they"
+  },
+  {
+    "input": "wonder what strange hands they",
+    "target": "what strange hands they were;--take"
+  },
+  {
+    "input": "what strange hands they were;--take",
+    "target": "strange hands they were;--take care"
+  },
+  {
+    "input": "strange hands they were;--take care",
+    "target": "hands they were;--take care of"
+  },
+  {
+    "input": "hands they were;--take care of",
+    "target": "they were;--take care of it"
+  },
+  {
+    "input": "they were;--take care of it",
+    "target": "were;--take care of it for"
+  },
+  {
+    "input": "were;--take care of it for",
+    "target": "care of it for the"
+  },
+  {
+    "input": "care of it for the",
+    "target": "of it for the sake"
+  },
+  {
+    "input": "of it for the sake",
+    "target": "it for the sake of"
+  },
+  {
+    "input": "it for the sake of",
+    "target": "for the sake of them,"
+  },
+  {
+    "input": "for the sake of them,",
+    "target": "the sake of them, little"
+  },
+  {
+    "input": "the sake of them, little",
+    "target": "sake of them, little master."
+  },
+  {
+    "input": "sake of them, little master.",
+    "target": "of them, little master. yes,"
+  },
+  {
+    "input": "of them, little master. yes,",
+    "target": "them, little master. yes, dame,"
+  },
+  {
+    "input": "them, little master. yes, dame,",
+    "target": "little master. yes, dame, will,"
+  },
+  {
+    "input": "little master. yes, dame, will,",
+    "target": "master. yes, dame, will, he"
+  },
+  {
+    "input": "master. yes, dame, will, he",
+    "target": "yes, dame, will, he answered"
+  },
+  {
+    "input": "yes, dame, will, he answered",
+    "target": "dame, will, he answered gratefully,"
+  },
+  {
+    "input": "dame, will, he answered gratefully,",
+    "target": "will, he answered gratefully, and"
+  },
+  {
+    "input": "will, he answered gratefully, and",
+    "target": "he answered gratefully, and he"
+  },
+  {
+    "input": "he answered gratefully, and he",
+    "target": "answered gratefully, and he went"
+  },
+  {
+    "input": "answered gratefully, and he went",
+    "target": "gratefully, and he went on"
+  },
+  {
+    "input": "gratefully, and he went on",
+    "target": "and he went on his"
+  },
+  {
+    "input": "and he went on his",
+    "target": "he went on his way"
+  },
+  {
+    "input": "he went on his way",
+    "target": "went on his way thinking"
+  },
+  {
+    "input": "went on his way thinking",
+    "target": "on his way thinking of"
+  },
+  {
+    "input": "on his way thinking of",
+    "target": "his way thinking of the"
+  },
+  {
+    "input": "his way thinking of the",
+    "target": "way thinking of the hands,"
+  },
+  {
+    "input": "way thinking of the hands,",
+    "target": "thinking of the hands, wondering"
+  },
+  {
+    "input": "thinking of the hands, wondering",
+    "target": "of the hands, wondering what"
+  },
+  {
+    "input": "of the hands, wondering what",
+    "target": "the hands, wondering what tasks"
+  },
+  {
+    "input": "the hands, wondering what tasks",
+    "target": "hands, wondering what tasks had"
+  },
+  {
+    "input": "hands, wondering what tasks had",
+    "target": "wondering what tasks had been"
+  },
+  {
+    "input": "wondering what tasks had been",
+    "target": "what tasks had been set"
+  },
+  {
+    "input": "what tasks had been set",
+    "target": "tasks had been set them"
+  },
+  {
+    "input": "tasks had been set them",
+    "target": "had been set them to"
+  },
+  {
+    "input": "had been set them to",
+    "target": "been set them to do"
+  },
+  {
+    "input": "been set them to do",
+    "target": "set them to do since"
+  },
+  {
+    "input": "set them to do since",
+    "target": "them to do since they"
+  },
+  {
+    "input": "them to do since they",
+    "target": "to do since they fashioned"
+  },
+  {
+    "input": "to do since they fashioned",
+    "target": "do since they fashioned the"
+  },
+  {
+    "input": "do since they fashioned the",
+    "target": "since they fashioned the little"
+  },
+  {
+    "input": "since they fashioned the little",
+    "target": "they fashioned the little goat."
+  },
+  {
+    "input": "they fashioned the little goat.",
+    "target": "fashioned the little goat. he"
+  },
+  {
+    "input": "fashioned the little goat. he",
+    "target": "the little goat. he stayed"
+  },
+  {
+    "input": "the little goat. he stayed",
+    "target": "little goat. he stayed all"
+  },
+  {
+    "input": "little goat. he stayed all",
+    "target": "goat. he stayed all day"
+  },
+  {
+    "input": "goat. he stayed all day",
+    "target": "he stayed all day in"
+  },
+  {
+    "input": "he stayed all day in",
+    "target": "stayed all day in the"
+  },
+  {
+    "input": "stayed all day in the",
+    "target": "all day in the woods"
+  },
+  {
+    "input": "all day in the woods",
+    "target": "day in the woods helping"
+  },
+  {
+    "input": "day in the woods helping",
+    "target": "in the woods helping the"
+  },
+  {
+    "input": "in the woods helping the",
+    "target": "the woods helping the children"
+  },
+  {
+    "input": "the woods helping the children",
+    "target": "woods helping the children to"
+  },
+  {
+    "input": "woods helping the children to",
+    "target": "helping the children to gather"
+  },
+  {
+    "input": "helping the children to gather",
+    "target": "the children to gather nuts"
+  },
+  {
+    "input": "the children to gather nuts",
+    "target": "children to gather nuts and"
+  },
+  {
+    "input": "children to gather nuts and",
+    "target": "to gather nuts and blackberries."
+  },
+  {
+    "input": "to gather nuts and blackberries.",
+    "target": "gather nuts and blackberries. in"
+  },
+  {
+    "input": "gather nuts and blackberries. in",
+    "target": "nuts and blackberries. in the"
+  },
+  {
+    "input": "nuts and blackberries. in the",
+    "target": "and blackberries. in the afternoon"
+  },
+  {
+    "input": "and blackberries. in the afternoon",
+    "target": "blackberries. in the afternoon he"
+  },
+  {
+    "input": "blackberries. in the afternoon he",
+    "target": "in the afternoon he watched"
+  },
+  {
+    "input": "in the afternoon he watched",
+    "target": "the afternoon he watched them"
+  },
+  {
+    "input": "the afternoon he watched them",
+    "target": "afternoon he watched them go"
+  },
+  {
+    "input": "afternoon he watched them go",
+    "target": "he watched them go home"
+  },
+  {
+    "input": "he watched them go home",
+    "target": "watched them go home with"
+  },
+  {
+    "input": "watched them go home with",
+    "target": "them go home with their"
+  },
+  {
+    "input": "them go home with their",
+    "target": "go home with their aprons"
+  },
+  {
+    "input": "go home with their aprons",
+    "target": "home with their aprons full;"
+  },
+  {
+    "input": "home with their aprons full;",
+    "target": "with their aprons full; he"
+  },
+  {
+    "input": "with their aprons full; he",
+    "target": "their aprons full; he looked"
+  },
+  {
+    "input": "their aprons full; he looked",
+    "target": "aprons full; he looked after"
+  },
+  {
+    "input": "aprons full; he looked after",
+    "target": "full; he looked after them"
+  },
+  {
+    "input": "full; he looked after them",
+    "target": "he looked after them longingly"
+  },
+  {
+    "input": "he looked after them longingly",
+    "target": "looked after them longingly as"
+  },
+  {
+    "input": "looked after them longingly as",
+    "target": "after them longingly as they"
+  },
+  {
+    "input": "after them longingly as they",
+    "target": "them longingly as they went"
+  },
+  {
+    "input": "them longingly as they went",
+    "target": "longingly as they went on"
+  },
+  {
+    "input": "longingly as they went on",
+    "target": "as they went on their"
+  },
+  {
+    "input": "as they went on their",
+    "target": "they went on their way"
+  },
+  {
+    "input": "they went on their way",
+    "target": "went on their way singing."
+  },
+  {
+    "input": "went on their way singing.",
+    "target": "on their way singing. if"
+  },
+  {
+    "input": "on their way singing. if",
+    "target": "their way singing. if he"
+  },
+  {
+    "input": "their way singing. if he",
+    "target": "way singing. if he had"
+  },
+  {
+    "input": "way singing. if he had",
+    "target": "singing. if he had had"
+  },
+  {
+    "input": "singing. if he had had",
+    "target": "if he had had father"
+  },
+  {
+    "input": "if he had had father",
+    "target": "he had had father and"
+  },
+  {
+    "input": "he had had father and",
+    "target": "had had father and mother,"
+  },
+  {
+    "input": "had had father and mother,",
+    "target": "had father and mother, or"
+  },
+  {
+    "input": "had father and mother, or",
+    "target": "father and mother, or brothers"
+  },
+  {
+    "input": "father and mother, or brothers",
+    "target": "and mother, or brothers and"
+  },
+  {
+    "input": "and mother, or brothers and",
+    "target": "mother, or brothers and sisters,"
+  },
+  {
+    "input": "mother, or brothers and sisters,",
+    "target": "or brothers and sisters, to"
+  },
+  {
+    "input": "or brothers and sisters, to",
+    "target": "brothers and sisters, to whom"
+  },
+  {
+    "input": "brothers and sisters, to whom",
+    "target": "and sisters, to whom he"
+  },
+  {
+    "input": "and sisters, to whom he",
+    "target": "sisters, to whom he could"
+  },
+  {
+    "input": "sisters, to whom he could",
+    "target": "to whom he could have"
+  },
+  {
+    "input": "to whom he could have",
+    "target": "whom he could have carried"
+  },
+  {
+    "input": "whom he could have carried",
+    "target": "he could have carried home"
+  },
+  {
+    "input": "he could have carried home",
+    "target": "could have carried home nuts"
+  },
+  {
+    "input": "could have carried home nuts",
+    "target": "have carried home nuts and"
+  },
+  {
+    "input": "have carried home nuts and",
+    "target": "carried home nuts and blackberries,"
+  },
+  {
+    "input": "carried home nuts and blackberries,",
+    "target": "home nuts and blackberries, how"
+  },
+  {
+    "input": "home nuts and blackberries, how",
+    "target": "nuts and blackberries, how merry"
+  },
+  {
+    "input": "nuts and blackberries, how merry",
+    "target": "and blackberries, how merry he"
+  },
+  {
+    "input": "and blackberries, how merry he",
+    "target": "blackberries, how merry he would"
+  },
+  {
+    "input": "blackberries, how merry he would",
+    "target": "how merry he would have"
+  },
+  {
+    "input": "how merry he would have",
+    "target": "merry he would have been."
+  },
+  {
+    "input": "merry he would have been.",
+    "target": "he would have been. sometimes"
+  },
+  {
+    "input": "he would have been. sometimes",
+    "target": "would have been. sometimes he"
+  },
+  {
+    "input": "would have been. sometimes he",
+    "target": "have been. sometimes he told"
+  },
+  {
+    "input": "have been. sometimes he told",
+    "target": "been. sometimes he told the"
+  },
+  {
+    "input": "been. sometimes he told the",
+    "target": "sometimes he told the children"
+  },
+  {
+    "input": "sometimes he told the children",
+    "target": "he told the children how"
+  },
+  {
+    "input": "he told the children how",
+    "target": "told the children how happy"
+  },
+  {
+    "input": "told the children how happy",
+    "target": "the children how happy they"
+  },
+  {
+    "input": "the children how happy they",
+    "target": "children how happy they were"
+  },
+  {
+    "input": "children how happy they were",
+    "target": "how happy they were to"
+  },
+  {
+    "input": "how happy they were to",
+    "target": "happy they were to live"
+  },
+  {
+    "input": "happy they were to live",
+    "target": "they were to live in"
+  },
+  {
+    "input": "they were to live in",
+    "target": "were to live in cottage"
+  },
+  {
+    "input": "were to live in cottage",
+    "target": "to live in cottage with"
+  },
+  {
+    "input": "to live in cottage with",
+    "target": "live in cottage with the"
+  },
+  {
+    "input": "live in cottage with the",
+    "target": "in cottage with the door"
+  },
+  {
+    "input": "in cottage with the door",
+    "target": "cottage with the door open"
+  },
+  {
+    "input": "cottage with the door open",
+    "target": "with the door open all"
+  },
+  {
+    "input": "with the door open all",
+    "target": "the door open all day,"
+  },
+  {
+    "input": "the door open all day,",
+    "target": "door open all day, and"
+  },
+  {
+    "input": "door open all day, and",
+    "target": "open all day, and the"
+  },
+  {
+    "input": "open all day, and the",
+    "target": "all day, and the sweet"
+  },
+  {
+    "input": "all day, and the sweet",
+    "target": "day, and the sweet breeze"
+  },
+  {
+    "input": "day, and the sweet breeze",
+    "target": "and the sweet breeze blowing"
+  },
+  {
+    "input": "and the sweet breeze blowing",
+    "target": "the sweet breeze blowing in,"
+  },
+  {
+    "input": "the sweet breeze blowing in,",
+    "target": "sweet breeze blowing in, and"
+  },
+  {
+    "input": "sweet breeze blowing in, and",
+    "target": "breeze blowing in, and the"
+  },
+  {
+    "input": "breeze blowing in, and the",
+    "target": "blowing in, and the cocks"
+  },
+  {
+    "input": "blowing in, and the cocks",
+    "target": "in, and the cocks and"
+  },
+  {
+    "input": "in, and the cocks and",
+    "target": "and the cocks and hens"
+  },
+  {
+    "input": "and the cocks and hens",
+    "target": "the cocks and hens strutting"
+  },
+  {
+    "input": "the cocks and hens strutting",
+    "target": "cocks and hens strutting about"
+  },
+  {
+    "input": "cocks and hens strutting about",
+    "target": "and hens strutting about outside,"
+  },
+  {
+    "input": "and hens strutting about outside,",
+    "target": "hens strutting about outside, and"
+  },
+  {
+    "input": "hens strutting about outside, and",
+    "target": "strutting about outside, and the"
+  },
+  {
+    "input": "strutting about outside, and the",
+    "target": "about outside, and the pigs"
+  },
+  {
+    "input": "about outside, and the pigs",
+    "target": "outside, and the pigs grunting"
+  },
+  {
+    "input": "outside, and the pigs grunting",
+    "target": "and the pigs grunting in"
+  },
+  {
+    "input": "and the pigs grunting in",
+    "target": "the pigs grunting in the"
+  },
+  {
+    "input": "the pigs grunting in the",
+    "target": "pigs grunting in the styes"
+  },
+  {
+    "input": "pigs grunting in the styes",
+    "target": "grunting in the styes at"
+  },
+  {
+    "input": "grunting in the styes at",
+    "target": "in the styes at the"
+  },
+  {
+    "input": "in the styes at the",
+    "target": "the styes at the end"
+  },
+  {
+    "input": "the styes at the end",
+    "target": "styes at the end of"
+  },
+  {
+    "input": "styes at the end of",
+    "target": "at the end of the"
+  },
+  {
+    "input": "at the end of the",
+    "target": "the end of the garden;"
+  },
+  {
+    "input": "the end of the garden;",
+    "target": "end of the garden; to"
+  },
+  {
+    "input": "end of the garden; to",
+    "target": "of the garden; to see"
+  },
+  {
+    "input": "of the garden; to see",
+    "target": "the garden; to see the"
+  },
+  {
+    "input": "the garden; to see the",
+    "target": "garden; to see the mother"
+  },
+  {
+    "input": "garden; to see the mother",
+    "target": "to see the mother scrubbing"
+  },
+  {
+    "input": "to see the mother scrubbing",
+    "target": "see the mother scrubbing and"
+  },
+  {
+    "input": "see the mother scrubbing and",
+    "target": "the mother scrubbing and washing,"
+  },
+  {
+    "input": "the mother scrubbing and washing,",
+    "target": "mother scrubbing and washing, to"
+  },
+  {
+    "input": "mother scrubbing and washing, to",
+    "target": "scrubbing and washing, to know"
+  },
+  {
+    "input": "scrubbing and washing, to know",
+    "target": "and washing, to know that"
+  },
+  {
+    "input": "and washing, to know that",
+    "target": "washing, to know that the"
+  },
+  {
+    "input": "washing, to know that the",
+    "target": "to know that the father"
+  },
+  {
+    "input": "to know that the father",
+    "target": "know that the father was"
+  },
+  {
+    "input": "know that the father was",
+    "target": "that the father was working"
+  },
+  {
+    "input": "that the father was working",
+    "target": "the father was working in"
+  },
+  {
+    "input": "the father was working in",
+    "target": "father was working in the"
+  },
+  {
+    "input": "father was working in the",
+    "target": "was working in the fields,"
+  },
+  {
+    "input": "was working in the fields,",
+    "target": "working in the fields, and"
+  },
+  {
+    "input": "working in the fields, and",
+    "target": "in the fields, and to"
+  },
+  {
+    "input": "in the fields, and to",
+    "target": "the fields, and to run"
+  },
+  {
+    "input": "the fields, and to run",
+    "target": "fields, and to run about"
+  },
+  {
+    "input": "fields, and to run about",
+    "target": "and to run about and"
+  },
+  {
+    "input": "and to run about and",
+    "target": "to run about and help"
+  },
+  {
+    "input": "to run about and help",
+    "target": "run about and help and"
+  },
+  {
+    "input": "run about and help and",
+    "target": "about and help and play,"
+  },
+  {
+    "input": "about and help and play,",
+    "target": "and help and play, and"
+  },
+  {
+    "input": "and help and play, and",
+    "target": "help and play, and be"
+  },
+  {
+    "input": "help and play, and be",
+    "target": "and play, and be cuffed"
+  },
+  {
+    "input": "and play, and be cuffed",
+    "target": "play, and be cuffed and"
+  },
+  {
+    "input": "play, and be cuffed and",
+    "target": "and be cuffed and kissed,"
+  },
+  {
+    "input": "and be cuffed and kissed,",
+    "target": "be cuffed and kissed, just"
+  },
+  {
+    "input": "be cuffed and kissed, just",
+    "target": "cuffed and kissed, just as"
+  },
+  {
+    "input": "cuffed and kissed, just as",
+    "target": "and kissed, just as it"
+  },
+  {
+    "input": "and kissed, just as it",
+    "target": "kissed, just as it happened."
+  },
+  {
+    "input": "kissed, just as it happened.",
+    "target": "just as it happened. then"
+  },
+  {
+    "input": "just as it happened. then",
+    "target": "as it happened. then they"
+  },
+  {
+    "input": "as it happened. then they",
+    "target": "it happened. then they would"
+  },
+  {
+    "input": "it happened. then they would",
+    "target": "happened. then they would answer,"
+  },
+  {
+    "input": "happened. then they would answer,",
+    "target": "then they would answer, but"
+  },
+  {
+    "input": "then they would answer, but",
+    "target": "they would answer, but you"
+  },
+  {
+    "input": "they would answer, but you",
+    "target": "would answer, but you have"
+  },
+  {
+    "input": "would answer, but you have",
+    "target": "answer, but you have the"
+  },
+  {
+    "input": "answer, but you have the",
+    "target": "but you have the tall"
+  },
+  {
+    "input": "but you have the tall",
+    "target": "you have the tall lady"
+  },
+  {
+    "input": "you have the tall lady",
+    "target": "have the tall lady for"
+  },
+  {
+    "input": "have the tall lady for",
+    "target": "the tall lady for your"
+  },
+  {
+    "input": "the tall lady for your",
+    "target": "tall lady for your aunt,"
+  },
+  {
+    "input": "tall lady for your aunt,",
+    "target": "lady for your aunt, and"
+  },
+  {
+    "input": "lady for your aunt, and",
+    "target": "for your aunt, and the"
+  },
+  {
+    "input": "for your aunt, and the",
+    "target": "your aunt, and the big"
+  },
+  {
+    "input": "your aunt, and the big",
+    "target": "aunt, and the big house"
+  },
+  {
+    "input": "aunt, and the big house",
+    "target": "and the big house to"
+  },
+  {
+    "input": "and the big house to",
+    "target": "the big house to live"
+  },
+  {
+    "input": "the big house to live",
+    "target": "big house to live in,"
+  },
+  {
+    "input": "big house to live in,",
+    "target": "house to live in, and"
+  },
+  {
+    "input": "house to live in, and",
+    "target": "to live in, and the"
+  },
+  {
+    "input": "to live in, and the",
+    "target": "live in, and the grand"
+  },
+  {
+    "input": "live in, and the grand",
+    "target": "in, and the grand carriage"
+  },
+  {
+    "input": "in, and the grand carriage",
+    "target": "and the grand carriage to"
+  },
+  {
+    "input": "and the grand carriage to",
+    "target": "the grand carriage to drive"
+  },
+  {
+    "input": "the grand carriage to drive",
+    "target": "grand carriage to drive in,"
+  },
+  {
+    "input": "grand carriage to drive in,",
+    "target": "carriage to drive in, while"
+  },
+  {
+    "input": "carriage to drive in, while",
+    "target": "to drive in, while we"
+  },
+  {
+    "input": "to drive in, while we",
+    "target": "drive in, while we are"
+  },
+  {
+    "input": "drive in, while we are",
+    "target": "in, while we are poor,"
+  },
+  {
+    "input": "in, while we are poor,",
+    "target": "while we are poor, and"
+  },
+  {
+    "input": "while we are poor, and",
+    "target": "we are poor, and sometimes"
+  },
+  {
+    "input": "we are poor, and sometimes",
+    "target": "are poor, and sometimes have"
+  },
+  {
+    "input": "are poor, and sometimes have",
+    "target": "poor, and sometimes have little"
+  },
+  {
+    "input": "poor, and sometimes have little",
+    "target": "and sometimes have little to"
+  },
+  {
+    "input": "and sometimes have little to",
+    "target": "sometimes have little to eat"
+  },
+  {
+    "input": "sometimes have little to eat",
+    "target": "have little to eat and"
+  },
+  {
+    "input": "have little to eat and",
+    "target": "little to eat and drink;"
+  },
+  {
+    "input": "little to eat and drink;",
+    "target": "to eat and drink; mother"
+  },
+  {
+    "input": "to eat and drink; mother",
+    "target": "eat and drink; mother often"
+  },
+  {
+    "input": "eat and drink; mother often",
+    "target": "and drink; mother often tells"
+  },
+  {
+    "input": "and drink; mother often tells",
+    "target": "drink; mother often tells us"
+  },
+  {
+    "input": "drink; mother often tells us",
+    "target": "mother often tells us how"
+  },
+  {
+    "input": "mother often tells us how",
+    "target": "often tells us how fine"
+  },
+  {
+    "input": "often tells us how fine",
+    "target": "tells us how fine it"
+  },
+  {
+    "input": "tells us how fine it",
+    "target": "us how fine it must"
+  },
+  {
+    "input": "us how fine it must",
+    "target": "how fine it must be"
+  },
+  {
+    "input": "how fine it must be",
+    "target": "fine it must be to"
+  },
+  {
+    "input": "fine it must be to",
+    "target": "it must be to be"
+  },
+  {
+    "input": "it must be to be",
+    "target": "must be to be you."
+  },
+  {
+    "input": "must be to be you.",
+    "target": "be to be you. but"
+  },
+  {
+    "input": "be to be you. but",
+    "target": "to be you. but the"
+  },
+  {
+    "input": "to be you. but the",
+    "target": "be you. but the food"
+  },
+  {
+    "input": "be you. but the food",
+    "target": "you. but the food that"
+  },
+  {
+    "input": "you. but the food that",
+    "target": "but the food that you"
+  },
+  {
+    "input": "but the food that you",
+    "target": "the food that you eat"
+  },
+  {
+    "input": "the food that you eat",
+    "target": "food that you eat is"
+  },
+  {
+    "input": "food that you eat is",
+    "target": "that you eat is sweet"
+  },
+  {
+    "input": "that you eat is sweet",
+    "target": "you eat is sweet because"
+  },
+  {
+    "input": "you eat is sweet because",
+    "target": "eat is sweet because you"
+  },
+  {
+    "input": "eat is sweet because you",
+    "target": "is sweet because you are"
+  },
+  {
+    "input": "is sweet because you are",
+    "target": "sweet because you are very"
+  },
+  {
+    "input": "sweet because you are very",
+    "target": "because you are very hungry,"
+  },
+  {
+    "input": "because you are very hungry,",
+    "target": "you are very hungry, he"
+  },
+  {
+    "input": "you are very hungry, he",
+    "target": "are very hungry, he answered"
+  },
+  {
+    "input": "are very hungry, he answered",
+    "target": "very hungry, he answered them,"
+  },
+  {
+    "input": "very hungry, he answered them,",
+    "target": "hungry, he answered them, and"
+  },
+  {
+    "input": "hungry, he answered them, and",
+    "target": "he answered them, and no"
+  },
+  {
+    "input": "he answered them, and no",
+    "target": "answered them, and no one"
+  },
+  {
+    "input": "answered them, and no one",
+    "target": "them, and no one sorrows"
+  },
+  {
+    "input": "them, and no one sorrows",
+    "target": "and no one sorrows in"
+  },
+  {
+    "input": "and no one sorrows in",
+    "target": "no one sorrows in your"
+  },
+  {
+    "input": "no one sorrows in your",
+    "target": "one sorrows in your house."
+  },
+  {
+    "input": "one sorrows in your house.",
+    "target": "sorrows in your house. as"
+  },
+  {
+    "input": "sorrows in your house. as",
+    "target": "in your house. as for"
+  },
+  {
+    "input": "in your house. as for",
+    "target": "your house. as for the"
+  },
+  {
+    "input": "your house. as for the",
+    "target": "house. as for the grand"
+  },
+  {
+    "input": "house. as for the grand",
+    "target": "as for the grand carriage,"
+  },
+  {
+    "input": "as for the grand carriage,",
+    "target": "for the grand carriage, it"
+  },
+  {
+    "input": "for the grand carriage, it",
+    "target": "the grand carriage, it is"
+  },
+  {
+    "input": "the grand carriage, it is",
+    "target": "grand carriage, it is better"
+  },
+  {
+    "input": "grand carriage, it is better",
+    "target": "carriage, it is better to"
+  },
+  {
+    "input": "carriage, it is better to",
+    "target": "it is better to have"
+  },
+  {
+    "input": "it is better to have",
+    "target": "is better to have carriage"
+  },
+  {
+    "input": "is better to have carriage",
+    "target": "better to have carriage if"
+  },
+  {
+    "input": "better to have carriage if",
+    "target": "to have carriage if your"
+  },
+  {
+    "input": "to have carriage if your",
+    "target": "have carriage if your heart"
+  },
+  {
+    "input": "have carriage if your heart",
+    "target": "carriage if your heart is"
+  },
+  {
+    "input": "carriage if your heart is",
+    "target": "if your heart is heavy,"
+  },
+  {
+    "input": "if your heart is heavy,",
+    "target": "your heart is heavy, but"
+  },
+  {
+    "input": "your heart is heavy, but",
+    "target": "heart is heavy, but when"
+  },
+  {
+    "input": "heart is heavy, but when",
+    "target": "is heavy, but when it"
+  },
+  {
+    "input": "is heavy, but when it",
+    "target": "heavy, but when it is"
+  },
+  {
+    "input": "heavy, but when it is",
+    "target": "but when it is light,"
+  },
+  {
+    "input": "but when it is light,",
+    "target": "when it is light, then"
+  },
+  {
+    "input": "when it is light, then",
+    "target": "it is light, then you"
+  },
+  {
+    "input": "it is light, then you",
+    "target": "is light, then you can"
+  },
+  {
+    "input": "is light, then you can",
+    "target": "light, then you can run"
+  },
+  {
+    "input": "light, then you can run",
+    "target": "then you can run swiftly"
+  },
+  {
+    "input": "then you can run swiftly",
+    "target": "you can run swiftly on"
+  },
+  {
+    "input": "you can run swiftly on",
+    "target": "can run swiftly on your"
+  },
+  {
+    "input": "can run swiftly on your",
+    "target": "run swiftly on your own"
+  },
+  {
+    "input": "run swiftly on your own",
+    "target": "swiftly on your own two"
+  },
+  {
+    "input": "swiftly on your own two",
+    "target": "on your own two legs."
+  },
+  {
+    "input": "on your own two legs.",
+    "target": "your own two legs. ah,"
+  },
+  {
+    "input": "your own two legs. ah,",
+    "target": "own two legs. ah, poor"
+  },
+  {
+    "input": "own two legs. ah, poor",
+    "target": "two legs. ah, poor willie,"
+  },
+  {
+    "input": "two legs. ah, poor willie,",
+    "target": "legs. ah, poor willie, how"
+  },
+  {
+    "input": "legs. ah, poor willie, how",
+    "target": "ah, poor willie, how lonely"
+  },
+  {
+    "input": "ah, poor willie, how lonely",
+    "target": "poor willie, how lonely he"
+  },
+  {
+    "input": "poor willie, how lonely he",
+    "target": "willie, how lonely he was,"
+  },
+  {
+    "input": "willie, how lonely he was,",
+    "target": "how lonely he was, and"
+  },
+  {
+    "input": "how lonely he was, and",
+    "target": "lonely he was, and yet"
+  },
+  {
+    "input": "lonely he was, and yet",
+    "target": "he was, and yet the"
+  },
+  {
+    "input": "he was, and yet the",
+    "target": "was, and yet the tall"
+  },
+  {
+    "input": "was, and yet the tall",
+    "target": "and yet the tall aunt"
+  },
+  {
+    "input": "and yet the tall aunt",
+    "target": "yet the tall aunt loved"
+  },
+  {
+    "input": "yet the tall aunt loved",
+    "target": "the tall aunt loved him"
+  },
+  {
+    "input": "the tall aunt loved him",
+    "target": "tall aunt loved him dearly."
+  },
+  {
+    "input": "tall aunt loved him dearly.",
+    "target": "aunt loved him dearly. on"
+  },
+  {
+    "input": "aunt loved him dearly. on",
+    "target": "loved him dearly. on hot"
+  },
+  {
+    "input": "loved him dearly. on hot",
+    "target": "him dearly. on hot drowsy"
+  },
+  {
+    "input": "him dearly. on hot drowsy",
+    "target": "dearly. on hot drowsy days"
+  },
+  {
+    "input": "dearly. on hot drowsy days",
+    "target": "on hot drowsy days he"
+  },
+  {
+    "input": "on hot drowsy days he",
+    "target": "hot drowsy days he had"
+  },
+  {
+    "input": "hot drowsy days he had",
+    "target": "drowsy days he had many"
+  },
+  {
+    "input": "drowsy days he had many",
+    "target": "days he had many good"
+  },
+  {
+    "input": "days he had many good",
+    "target": "he had many good sleep"
+  },
+  {
+    "input": "he had many good sleep",
+    "target": "had many good sleep with"
+  },
+  {
+    "input": "had many good sleep with",
+    "target": "many good sleep with his"
+  },
+  {
+    "input": "many good sleep with his",
+    "target": "good sleep with his head"
+  },
+  {
+    "input": "good sleep with his head",
+    "target": "sleep with his head resting"
+  },
+  {
+    "input": "sleep with his head resting",
+    "target": "with his head resting against"
+  },
+  {
+    "input": "with his head resting against",
+    "target": "his head resting against her"
+  },
+  {
+    "input": "his head resting against her",
+    "target": "head resting against her high"
+  },
+  {
+    "input": "head resting against her high",
+    "target": "resting against her high thin"
+  },
+  {
+    "input": "resting against her high thin",
+    "target": "against her high thin shoulders,"
+  },
+  {
+    "input": "against her high thin shoulders,",
+    "target": "her high thin shoulders, and"
+  },
+  {
+    "input": "her high thin shoulders, and",
+    "target": "high thin shoulders, and her"
+  },
+  {
+    "input": "high thin shoulders, and her",
+    "target": "thin shoulders, and her arms"
+  },
+  {
+    "input": "thin shoulders, and her arms",
+    "target": "shoulders, and her arms about"
+  },
+  {
+    "input": "shoulders, and her arms about",
+    "target": "and her arms about him."
+  },
+  {
+    "input": "and her arms about him.",
+    "target": "her arms about him. one"
+  },
+  {
+    "input": "her arms about him. one",
+    "target": "arms about him. one afternoon,"
+  },
+  {
+    "input": "arms about him. one afternoon,",
+    "target": "about him. one afternoon, clasping"
+  },
+  {
+    "input": "about him. one afternoon, clasping",
+    "target": "him. one afternoon, clasping his"
+  },
+  {
+    "input": "him. one afternoon, clasping his",
+    "target": "one afternoon, clasping his goat"
+  },
+  {
+    "input": "one afternoon, clasping his goat",
+    "target": "afternoon, clasping his goat as"
+  },
+  {
+    "input": "afternoon, clasping his goat as",
+    "target": "clasping his goat as usual,"
+  },
+  {
+    "input": "clasping his goat as usual,",
+    "target": "his goat as usual, he"
+  },
+  {
+    "input": "his goat as usual, he",
+    "target": "goat as usual, he sat"
+  },
+  {
+    "input": "goat as usual, he sat",
+    "target": "as usual, he sat down"
+  },
+  {
+    "input": "as usual, he sat down",
+    "target": "usual, he sat down by"
+  },
+  {
+    "input": "usual, he sat down by",
+    "target": "he sat down by the"
+  },
+  {
+    "input": "he sat down by the",
+    "target": "sat down by the pond."
+  },
+  {
+    "input": "sat down by the pond.",
+    "target": "down by the pond. all"
+  },
+  {
+    "input": "down by the pond. all",
+    "target": "by the pond. all the"
+  },
+  {
+    "input": "by the pond. all the",
+    "target": "the pond. all the children"
+  },
+  {
+    "input": "the pond. all the children",
+    "target": "pond. all the children had"
+  },
+  {
+    "input": "pond. all the children had",
+    "target": "all the children had gone"
+  },
+  {
+    "input": "all the children had gone",
+    "target": "the children had gone home,"
+  },
+  {
+    "input": "the children had gone home,",
+    "target": "children had gone home, so"
+  },
+  {
+    "input": "children had gone home, so",
+    "target": "had gone home, so he"
+  },
+  {
+    "input": "had gone home, so he",
+    "target": "gone home, so he was"
+  },
+  {
+    "input": "gone home, so he was",
+    "target": "home, so he was quite"
+  },
+  {
+    "input": "home, so he was quite",
+    "target": "so he was quite alone,"
+  },
+  {
+    "input": "so he was quite alone,",
+    "target": "he was quite alone, but"
+  },
+  {
+    "input": "he was quite alone, but",
+    "target": "was quite alone, but he"
+  },
+  {
+    "input": "was quite alone, but he",
+    "target": "quite alone, but he was"
+  },
+  {
+    "input": "quite alone, but he was",
+    "target": "alone, but he was glad"
+  },
+  {
+    "input": "alone, but he was glad",
+    "target": "but he was glad to"
+  },
+  {
+    "input": "but he was glad to",
+    "target": "he was glad to look"
+  },
+  {
+    "input": "he was glad to look",
+    "target": "was glad to look at"
+  },
+  {
+    "input": "was glad to look at",
+    "target": "glad to look at the"
+  },
+  {
+    "input": "glad to look at the",
+    "target": "to look at the pond"
+  },
+  {
+    "input": "to look at the pond",
+    "target": "look at the pond and"
+  },
+  {
+    "input": "look at the pond and",
+    "target": "at the pond and think."
+  },
+  {
+    "input": "at the pond and think.",
+    "target": "the pond and think. there"
+  },
+  {
+    "input": "the pond and think. there",
+    "target": "pond and think. there were"
+  },
+  {
+    "input": "pond and think. there were",
+    "target": "and think. there were so"
+  },
+  {
+    "input": "and think. there were so",
+    "target": "think. there were so many"
+  },
+  {
+    "input": "think. there were so many",
+    "target": "there were so many strange"
+  },
+  {
+    "input": "there were so many strange",
+    "target": "were so many strange things"
+  },
+  {
+    "input": "were so many strange things",
+    "target": "so many strange things in"
+  },
+  {
+    "input": "so many strange things in",
+    "target": "many strange things in the"
+  },
+  {
+    "input": "many strange things in the",
+    "target": "strange things in the world,"
+  },
+  {
+    "input": "strange things in the world,",
+    "target": "things in the world, it"
+  },
+  {
+    "input": "things in the world, it",
+    "target": "in the world, it seemed"
+  },
+  {
+    "input": "in the world, it seemed",
+    "target": "the world, it seemed as"
+  },
+  {
+    "input": "the world, it seemed as",
+    "target": "world, it seemed as if"
+  },
+  {
+    "input": "world, it seemed as if",
+    "target": "it seemed as if he"
+  },
+  {
+    "input": "it seemed as if he",
+    "target": "seemed as if he would"
+  },
+  {
+    "input": "seemed as if he would",
+    "target": "as if he would never"
+  },
+  {
+    "input": "as if he would never",
+    "target": "if he would never have"
+  },
+  {
+    "input": "if he would never have",
+    "target": "he would never have done"
+  },
+  {
+    "input": "he would never have done",
+    "target": "would never have done thinking"
+  },
+  {
+    "input": "would never have done thinking",
+    "target": "never have done thinking about"
+  },
+  {
+    "input": "never have done thinking about",
+    "target": "have done thinking about them,"
+  },
+  {
+    "input": "have done thinking about them,",
+    "target": "done thinking about them, not"
+  },
+  {
+    "input": "done thinking about them, not",
+    "target": "thinking about them, not if"
+  },
+  {
+    "input": "thinking about them, not if",
+    "target": "about them, not if he"
+  },
+  {
+    "input": "about them, not if he",
+    "target": "them, not if he lived"
+  },
+  {
+    "input": "them, not if he lived",
+    "target": "not if he lived to"
+  },
+  {
+    "input": "not if he lived to",
+    "target": "if he lived to be"
+  },
+  {
+    "input": "if he lived to be",
+    "target": "he lived to be hundred."
+  }
+]

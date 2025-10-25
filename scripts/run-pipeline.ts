@@ -58,7 +58,7 @@ async function runPipeline(options: PipelineOptions) {
       text = fs.readFileSync(options.corpusFile, 'utf-8');
     } else if (options.useSample) {
       console.log('Fetching sample text from Project Gutenberg...');
-      const sampleUrl = 'https://www.gutenberg.org/files/1342/1342-0.txt';
+      const sampleUrl = 'https://mirror.csclub.uwaterloo.ca/gutenberg/3/0/2/7/30272/30272-0.txt';
       text = await fetchTextFromUrl(sampleUrl);
       saveText(text, options.corpusFile);
     } else if (options.url) {

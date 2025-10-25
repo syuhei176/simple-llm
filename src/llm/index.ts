@@ -114,6 +114,7 @@ export class SimpleLLM {
   // 学習
   train(trainingData: { input: string; target: string }[], epochs: number = 10) {
     for (let epoch = 0; epoch < epochs; epoch++) {
+      console.log(`Epoch ${epoch + 1}/${epochs}`);
       let totalLoss = 0;
 
       trainingData.forEach(({ input, target }) => {
