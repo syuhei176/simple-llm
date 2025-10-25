@@ -7,26 +7,15 @@ let isModelReady = false;
 // リポジトリ内のモデルをロード
 async function loadModelFromRepo(modelName: string = 'default-latest'): Promise<SimpleLLM | null> {
   try {
-    // まずバイナリフォーマット(.msgpack)を試す
-    let response = await fetch(`./models/${modelName}.msgpack`);
-    if (response.ok) {
-      const arrayBuffer = await response.arrayBuffer();
-      const uint8Array = new Uint8Array(arrayBuffer);
-      const model = SimpleLLM.deserializeBinary(uint8Array);
-      console.log('Model loaded from repository (binary format):', modelName);
-      return model;
-    }
-
-    // バイナリがなければJSON形式を試す（後方互換性）
-    console.log('Binary format not found, trying JSON...');
-    response = await fetch(`./models/${modelName}.json`);
+    const response = await fetch(`./models/${modelName}.msgpack`);
     if (!response.ok) {
-      console.warn(`Model file not found: models/${modelName}.json or .msgpack`);
+      console.warn(`Model file not found: models/${modelName}.msgpack`);
       return null;
     }
-    const modelData = await response.json();
-    console.log('Model loaded from repository (JSON format):', modelName);
-    const model = SimpleLLM.deserialize(modelData);
+    const arrayBuffer = await response.arrayBuffer();
+    const uint8Array = new Uint8Array(arrayBuffer);
+    const model = SimpleLLM.deserialize(uint8Array);
+    console.log('Model loaded from repository:', modelName);
     return model;
   } catch (error) {
     console.error('Error loading model from repo:', error);
@@ -85,7 +74,7 @@ async function loadModel(modelName: string = 'default-latest') {
   } else {
     const errorMessage = document.createElement('div');
     errorMessage.className = 'message error';
-    errorMessage.textContent = '✗ Model file not found. Please ensure default-latest.msgpack or .json exists in the models directory.';
+    errorMessage.textContent = '✗ Model file not found. Please ensure default-latest.msgpack exists in the models directory.';
     outputDiv.appendChild(errorMessage);
     statusDiv.textContent = 'Model not found';
   }

@@ -198,9 +198,9 @@ export class SimpleLLM {
     }
   }
 
-  // モデルをシリアライズ（JSON用 - 後方互換性のため保持）
-  serialize(): any {
-    return {
+  // モデルをシリアライズ（MessagePack形式）
+  serialize(): Uint8Array {
+    const data = {
       version: '2.0',
       config: {
         vocabSize: this.vocabSize,
@@ -257,21 +257,20 @@ export class SimpleLLM {
         },
       },
     };
-  }
-
-  // モデルをバイナリシリアライズ（MessagePack形式）
-  serializeBinary(): Uint8Array {
-    const data = this.serialize();
     return msgpackEncode(data);
   }
 
-  // モデルをデシリアライズ（JSON用 - 後方互換性のため保持）
-  static deserialize(data: any): SimpleLLM {
-    const { config, weights, version } = data;
+  // モデルをデシリアライズ（MessagePack形式）
+  static deserialize(buffer: Uint8Array): SimpleLLM {
+    const data = msgpackDecode(buffer) as any;
+    const { config, weights } = data;
 
-    // 後方互換性: v1.0の場合はnumHeads = 1
-    const numHeads = config.numHeads || 1;
-    const llm = new SimpleLLM(config.vocab, config.embeddingDim, config.numLayers, numHeads);
+    const llm = new SimpleLLM(
+      config.vocab,
+      config.embeddingDim,
+      config.numLayers,
+      config.numHeads
+    );
 
     // Embeddingの重みを復元
     llm.embedding.weights = weights.embedding;
@@ -281,7 +280,6 @@ export class SimpleLLM {
       const transformer = llm.transformers[i];
 
       if (tData.type === 'multi-head' && transformer instanceof MultiHeadTransformer) {
-        // Multi-head transformer
         transformer.multiHeadAttention.wq = tData.multiHeadAttention.wq;
         transformer.multiHeadAttention.wk = tData.multiHeadAttention.wk;
         transformer.multiHeadAttention.wv = tData.multiHeadAttention.wv;
@@ -293,7 +291,6 @@ export class SimpleLLM {
         transformer.layerNorm2.gamma = tData.layerNorm2.gamma;
         transformer.layerNorm2.beta = tData.layerNorm2.beta;
       } else if (transformer instanceof SimpleTransformer) {
-        // Single-head transformer (backward compatibility)
         transformer.wq = tData.wq;
         transformer.wk = tData.wk;
         transformer.wv = tData.wv;
@@ -311,11 +308,5 @@ export class SimpleLLM {
     llm.outputLayer.bias = weights.output.bias;
 
     return llm;
-  }
-
-  // モデルをバイナリデシリアライズ（MessagePack形式）
-  static deserializeBinary(buffer: Uint8Array): SimpleLLM {
-    const data = msgpackDecode(buffer);
-    return SimpleLLM.deserialize(data);
   }
 }

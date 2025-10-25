@@ -1,8 +1,8 @@
-// IndexedDBを使用したモデルストレージ
+// IndexedDBを使用したモデルストレージ（バイナリ形式のみ）
 export class ModelStorage {
   private dbName = 'SimpleLLMDB';
   private storeName = 'models';
-  private version = 2; // バイナリサポートのためバージョンアップ
+  private version = 2;
 
   // IndexedDBを開く
   private async openDB(): Promise<IDBDatabase> {
@@ -22,7 +22,7 @@ export class ModelStorage {
   }
 
   // モデルを保存（バイナリ形式）
-  async saveModel(modelData: Uint8Array | any, modelId: string = 'default', isBinary: boolean = true): Promise<void> {
+  async saveModel(modelData: Uint8Array, modelId: string = 'default'): Promise<void> {
     const db = await this.openDB();
     return new Promise((resolve, reject) => {
       const transaction = db.transaction([this.storeName], 'readwrite');
@@ -32,13 +32,12 @@ export class ModelStorage {
         id: modelId,
         modelData,
         timestamp: Date.now(),
-        isBinary, // フォーマットを識別
       };
 
       const request = store.put(data);
 
       request.onsuccess = () => {
-        console.log(`Model saved successfully to IndexedDB (${isBinary ? 'binary' : 'JSON'} format)`);
+        console.log('Model saved successfully to IndexedDB');
         resolve();
       };
       request.onerror = () => reject(request.error);
@@ -48,7 +47,7 @@ export class ModelStorage {
   }
 
   // モデルを読み込み
-  async loadModel(modelId: string = 'default'): Promise<{ data: any; isBinary: boolean } | null> {
+  async loadModel(modelId: string = 'default'): Promise<Uint8Array | null> {
     const db = await this.openDB();
     return new Promise((resolve, reject) => {
       const transaction = db.transaction([this.storeName], 'readonly');
@@ -58,8 +57,8 @@ export class ModelStorage {
       request.onsuccess = () => {
         const result = request.result;
         if (result) {
-          console.log(`Model loaded successfully from IndexedDB (${result.isBinary ? 'binary' : 'JSON'} format)`);
-          resolve({ data: result.modelData, isBinary: result.isBinary || false });
+          console.log('Model loaded successfully from IndexedDB');
+          resolve(result.modelData);
         } else {
           console.log('No saved model found');
           resolve(null);

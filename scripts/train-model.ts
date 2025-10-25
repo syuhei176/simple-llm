@@ -80,48 +80,26 @@ function saveModel(llm: SimpleLLM, modelName: string, metadata?: any): string {
     console.log(`Created models directory: ${modelsDir}`);
   }
 
-  // モデルをシリアライズ
-  const serialized = llm.serialize();
-
-  // メタデータを追加
-  const modelData = {
-    ...serialized,
-    metadata: {
-      name: modelName,
-      createdAt: new Date().toISOString(),
-      trainingTime: metadata?.trainingTime || 0,
-      trainingSamples: metadata?.trainingSamples || 0,
-      ...metadata,
-    },
-  };
-
-  // ファイルパス
   const timestamp = new Date().toISOString().replace(/[:.]/g, '-').substring(0, 19);
+  const fileName = `${modelName}-${timestamp}.msgpack`;
+  const filePath = path.join(modelsDir, fileName);
+  const latestPath = path.join(modelsDir, `${modelName}-latest.msgpack`);
 
-  // バイナリフォーマット（MessagePack）で保存
-  const binaryFileName = `${modelName}-${timestamp}.msgpack`;
-  const binaryFilePath = path.join(modelsDir, binaryFileName);
-  const binaryLatestPath = path.join(modelsDir, `${modelName}-latest.msgpack`);
+  // モデルをバイナリ形式でシリアライズ
+  const binaryData = llm.serialize();
 
-  const binaryData = llm.serializeBinary();
-  fs.writeFileSync(binaryFilePath, binaryData);
-  console.log(`\n✓ Model saved to: ${binaryFilePath}`);
+  // タイムスタンプ付きファイルを保存
+  fs.writeFileSync(filePath, binaryData);
+  console.log(`\n✓ Model saved to: ${filePath}`);
 
-  // 最新版を上書き保存（バイナリ）
-  fs.writeFileSync(binaryLatestPath, binaryData);
-  console.log(`✓ Latest model saved to: ${binaryLatestPath}`);
+  // 最新版を上書き保存
+  fs.writeFileSync(latestPath, binaryData);
+  console.log(`✓ Latest model saved to: ${latestPath}`);
 
-  const binaryFileSize = (fs.statSync(binaryFilePath).size / 1024).toFixed(2);
-  console.log(`✓ Binary file size: ${binaryFileSize} KB`);
+  const fileSize = (fs.statSync(filePath).size / 1024).toFixed(2);
+  console.log(`✓ File size: ${fileSize} KB`);
 
-  // JSON形式でも保存（比較・デバッグ用）
-  const jsonFileName = `${modelName}-${timestamp}.json`;
-  const jsonFilePath = path.join(modelsDir, jsonFileName);
-  fs.writeFileSync(jsonFilePath, JSON.stringify(modelData, null, 2), 'utf-8');
-  const jsonFileSize = (fs.statSync(jsonFilePath).size / 1024).toFixed(2);
-  console.log(`✓ JSON file size: ${jsonFileSize} KB (${((1 - parseFloat(binaryFileSize) / parseFloat(jsonFileSize)) * 100).toFixed(1)}% reduction with binary)`);
-
-  return binaryFilePath;
+  return filePath;
 }
 
 function testModel(llm: SimpleLLM, testInputs: string[] = ['hello', 'how are you', 'what is']) {

@@ -44,8 +44,8 @@ try {
 console.log('Test 4: Testing serialization...');
 try {
   const serialized = llm.serialize();
-  console.log(`  Version: ${serialized.version}`);
-  console.log(`  Config: ${JSON.stringify(serialized.config)}`);
+  console.log(`  Serialized size: ${serialized.length} bytes`);
+  console.log(`  Vocab size: ${llm.vocabSize}`);
   console.log('  ✓ Serialization successful\n');
 } catch (error) {
   console.error('  ✗ Serialization failed:', error);
