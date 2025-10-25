@@ -74,14 +74,13 @@ for (const sentence of testSentences) {
 // Test 4: Serialization test
 console.log('Test 4: Testing serialization with large vocabulary...');
 const serialized = llm.serialize();
-console.log(`  Serialized size: ${JSON.stringify(serialized).length.toLocaleString()} characters`);
-console.log(`  Version: ${serialized.version}`);
-console.log(`  Vocab size in config: ${serialized.config.vocabSize}`);
+console.log(`  Serialized size: ${serialized.length.toLocaleString()} bytes`);
+console.log(`  Vocab size: ${llm.vocabSize}`);
 console.log('  ✓ Serialization successful\n');
 
 // Save model
-const modelPath = path.join(__dirname, '../models/large-vocab-multi-head.json');
-fs.writeFileSync(modelPath, JSON.stringify(serialized, null, 2));
+const modelPath = path.join(__dirname, '../models/large-vocab-multi-head.msgpack');
+fs.writeFileSync(modelPath, serialized);
 console.log(`Model saved to: ${modelPath}\n`);
 
 console.log('=== All tests passed! ===');

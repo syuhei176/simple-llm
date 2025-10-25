@@ -80,35 +80,20 @@ function saveModel(llm: SimpleLLM, modelName: string, metadata?: any): string {
     console.log(`Created models directory: ${modelsDir}`);
   }
 
-  // モデルをシリアライズ
-  const serialized = llm.serialize();
-
-  // メタデータを追加
-  const modelData = {
-    ...serialized,
-    metadata: {
-      name: modelName,
-      createdAt: new Date().toISOString(),
-      trainingTime: metadata?.trainingTime || 0,
-      trainingSamples: metadata?.trainingSamples || 0,
-      ...metadata,
-    },
-  };
-
-  // ファイルパス
   const timestamp = new Date().toISOString().replace(/[:.]/g, '-').substring(0, 19);
-  const fileName = `${modelName}-${timestamp}.json`;
+  const fileName = `${modelName}-${timestamp}.msgpack`;
   const filePath = path.join(modelsDir, fileName);
+  const latestPath = path.join(modelsDir, `${modelName}-latest.msgpack`);
 
-  // 最新モデルへのシンボリックリンク用のパス
-  const latestPath = path.join(modelsDir, `${modelName}-latest.json`);
+  // モデルをバイナリ形式でシリアライズ
+  const binaryData = llm.serialize();
 
-  // モデルを保存
-  fs.writeFileSync(filePath, JSON.stringify(modelData, null, 2), 'utf-8');
+  // タイムスタンプ付きファイルを保存
+  fs.writeFileSync(filePath, binaryData);
   console.log(`\n✓ Model saved to: ${filePath}`);
 
   // 最新版を上書き保存
-  fs.writeFileSync(latestPath, JSON.stringify(modelData, null, 2), 'utf-8');
+  fs.writeFileSync(latestPath, binaryData);
   console.log(`✓ Latest model saved to: ${latestPath}`);
 
   const fileSize = (fs.statSync(filePath).size / 1024).toFixed(2);

@@ -1,8 +1,8 @@
-// IndexedDBを使用したモデルストレージ
+// IndexedDBを使用したモデルストレージ（バイナリ形式のみ）
 export class ModelStorage {
   private dbName = 'SimpleLLMDB';
   private storeName = 'models';
-  private version = 1;
+  private version = 2;
 
   // IndexedDBを開く
   private async openDB(): Promise<IDBDatabase> {
@@ -21,8 +21,8 @@ export class ModelStorage {
     });
   }
 
-  // モデルを保存
-  async saveModel(modelData: any, modelId: string = 'default'): Promise<void> {
+  // モデルを保存（バイナリ形式）
+  async saveModel(modelData: Uint8Array, modelId: string = 'default'): Promise<void> {
     const db = await this.openDB();
     return new Promise((resolve, reject) => {
       const transaction = db.transaction([this.storeName], 'readwrite');
@@ -47,7 +47,7 @@ export class ModelStorage {
   }
 
   // モデルを読み込み
-  async loadModel(modelId: string = 'default'): Promise<any | null> {
+  async loadModel(modelId: string = 'default'): Promise<Uint8Array | null> {
     const db = await this.openDB();
     return new Promise((resolve, reject) => {
       const transaction = db.transaction([this.storeName], 'readonly');

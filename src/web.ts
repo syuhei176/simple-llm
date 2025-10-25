@@ -5,17 +5,18 @@ let llm: SimpleLLM;
 let isModelReady = false;
 
 // リポジトリ内のモデルをロード
-async function loadModelFromRepo(modelName: string = 'default-latest'): Promise<any | null> {
+async function loadModelFromRepo(modelName: string = 'default-latest'): Promise<SimpleLLM | null> {
   try {
-    // models/ディレクトリからモデルをフェッチ (GitHub Pages対応)
-    const response = await fetch(`./models/${modelName}.json`);
+    const response = await fetch(`./models/${modelName}.msgpack`);
     if (!response.ok) {
-      console.warn(`Model file not found: models/${modelName}.json`);
+      console.warn(`Model file not found: models/${modelName}.msgpack`);
       return null;
     }
-    const modelData = await response.json();
+    const arrayBuffer = await response.arrayBuffer();
+    const uint8Array = new Uint8Array(arrayBuffer);
+    const model = SimpleLLM.deserialize(uint8Array);
     console.log('Model loaded from repository:', modelName);
-    return modelData;
+    return model;
   } catch (error) {
     console.error('Error loading model from repo:', error);
     return null;
@@ -35,11 +36,11 @@ async function loadModel(modelName: string = 'default-latest') {
   outputDiv.innerHTML = '';
 
   // リポジトリ内のモデルをロード
-  const modelData = await loadModelFromRepo(modelName);
+  const model = await loadModelFromRepo(modelName);
 
-  if (modelData) {
+  if (model) {
     try {
-      llm = SimpleLLM.deserialize(modelData);
+      llm = model;
       isModelReady = true;
       predictButton.disabled = false;
       userInput.disabled = false;
@@ -49,22 +50,21 @@ async function loadModel(modelName: string = 'default-latest') {
       message.textContent = '✓ Model loaded successfully! You can start chatting now.';
       outputDiv.appendChild(message);
 
-      if (modelData.metadata) {
-        const metaMessage = document.createElement('div');
-        metaMessage.className = 'message';
-        metaMessage.innerHTML = `
-          <strong>Model Info:</strong><br>
-          - Name: ${modelData.metadata.name || 'N/A'}<br>
-          - Training samples: ${modelData.metadata.trainingSamples || 'N/A'}<br>
-          - Vocab size: ${modelData.config.vocabSize || 'N/A'}<br>
-          - Created: ${modelData.metadata.createdAt ? new Date(modelData.metadata.createdAt).toLocaleString() : 'N/A'}
-        `;
-        outputDiv.appendChild(metaMessage);
-      }
+      // モデル情報を表示
+      const metaMessage = document.createElement('div');
+      metaMessage.className = 'message';
+      metaMessage.innerHTML = `
+        <strong>Model Info:</strong><br>
+        - Vocab size: ${llm.vocabSize}<br>
+        - Embedding dimension: ${llm.embeddingDim}<br>
+        - Number of layers: ${llm.numLayers}<br>
+        - Number of heads: ${llm.numHeads}
+      `;
+      outputDiv.appendChild(metaMessage);
 
       statusDiv.textContent = 'Model ready! Start chatting below.';
     } catch (error) {
-      console.error('Error deserializing model:', error);
+      console.error('Error loading model:', error);
       const errorMessage = document.createElement('div');
       errorMessage.className = 'message error';
       errorMessage.textContent = '✗ Failed to load model. Please check the console for details.';
@@ -74,7 +74,7 @@ async function loadModel(modelName: string = 'default-latest') {
   } else {
     const errorMessage = document.createElement('div');
     errorMessage.className = 'message error';
-    errorMessage.textContent = '✗ Model file not found. Please ensure default-latest.json exists in the models directory.';
+    errorMessage.textContent = '✗ Model file not found. Please ensure default-latest.msgpack exists in the models directory.';
     outputDiv.appendChild(errorMessage);
     statusDiv.textContent = 'Model not found';
   }
