@@ -121,7 +121,7 @@ jobs:
             ARGS="$ARGS --max ${{ steps.params.outputs.max_samples }}"
           fi
 
-          pnpm run prepare -- $ARGS
+          pnpm run prepare-data -- $ARGS
 
       - name: Train model
         run: |
