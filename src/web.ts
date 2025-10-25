@@ -1,18 +1,14 @@
 import { SimpleLLM } from './llm';
-import { trainingData, createVocab } from './training-data';
-import { ModelStorage } from './storage';
 
 // グローバル変数
 let llm: SimpleLLM;
-let isTraining = false;
-let isTrainingComplete = false;
-const storage = new ModelStorage();
+let isModelReady = false;
 
 // リポジトリ内のモデルをロード
 async function loadModelFromRepo(modelName: string = 'default-latest'): Promise<any | null> {
   try {
-    // models/ディレクトリからモデルをフェッチ
-    const response = await fetch(`../models/${modelName}.json`);
+    // models/ディレクトリからモデルをフェッチ (GitHub Pages対応)
+    const response = await fetch(`./models/${modelName}.json`);
     if (!response.ok) {
       console.warn(`Model file not found: models/${modelName}.json`);
       return null;
@@ -27,13 +23,13 @@ async function loadModelFromRepo(modelName: string = 'default-latest'): Promise<
 }
 
 // 起動時に自動でモデルをロード
-async function tryAutoLoadModel() {
+async function loadModel() {
   const statusDiv = document.getElementById('status') as HTMLDivElement;
   const outputDiv = document.getElementById('output') as HTMLDivElement;
   const predictButton = document.getElementById('predict-button') as HTMLButtonElement;
   const userInput = document.getElementById('user-input') as HTMLInputElement;
 
-  statusDiv.textContent = 'Checking for saved models...';
+  statusDiv.textContent = 'Loading model from repository...';
 
   // リポジトリ内のモデルをロード
   const modelData = await loadModelFromRepo('default-latest');
@@ -41,13 +37,13 @@ async function tryAutoLoadModel() {
   if (modelData) {
     try {
       llm = SimpleLLM.deserialize(modelData);
-      isTrainingComplete = true;
+      isModelReady = true;
       predictButton.disabled = false;
       userInput.disabled = false;
 
       const message = document.createElement('div');
       message.className = 'message success';
-      message.textContent = '✓ Pre-trained model loaded! You can start chatting immediately.';
+      message.textContent = '✓ Model loaded successfully! You can start chatting now.';
       outputDiv.appendChild(message);
 
       if (modelData.metadata) {
@@ -63,72 +59,33 @@ async function tryAutoLoadModel() {
         outputDiv.appendChild(metaMessage);
       }
 
-      statusDiv.textContent = 'Pre-trained model ready!';
+      statusDiv.textContent = 'Model ready! Start chatting below.';
     } catch (error) {
       console.error('Error deserializing model:', error);
-      statusDiv.textContent = 'Failed to load pre-trained model';
+      const errorMessage = document.createElement('div');
+      errorMessage.className = 'message error';
+      errorMessage.textContent = '✗ Failed to load model. Please check the console for details.';
+      outputDiv.appendChild(errorMessage);
+      statusDiv.textContent = 'Failed to load model';
     }
   } else {
-    statusDiv.textContent = 'Ready. Click "Train Model" to start or "Load Model" to load a saved model.';
+    const errorMessage = document.createElement('div');
+    errorMessage.className = 'message error';
+    errorMessage.textContent = '✗ Model file not found. Please ensure default-latest.json exists in the models directory.';
+    outputDiv.appendChild(errorMessage);
+    statusDiv.textContent = 'Model not found';
   }
 }
 
 // 初期化
 async function init() {
-  const vocab = createVocab(trainingData);
-  const embeddingDim = 64; // より豊かな表現が可能に
-  const numLayers = 3; // 複数のTransformerレイヤーを使用
-  llm = new SimpleLLM(vocab, embeddingDim, numLayers);
-
-  console.log('Vocabulary:', vocab);
-  console.log('Vocabulary size:', vocab.length);
-  console.log('First 20 vocab words:', vocab.slice(0, 20));
-  console.log('Training data count:', trainingData.length);
-
   // 起動時にリポジトリ内のモデルを自動ロード
-  await tryAutoLoadModel();
+  await loadModel();
 
   // UI要素の取得
-  const trainButton = document.getElementById('train-button') as HTMLButtonElement;
   const predictButton = document.getElementById('predict-button') as HTMLButtonElement;
-  const saveButton = document.getElementById('save-button') as HTMLButtonElement;
-  const loadButton = document.getElementById('load-button') as HTMLButtonElement;
   const userInput = document.getElementById('user-input') as HTMLInputElement;
   const outputDiv = document.getElementById('output') as HTMLDivElement;
-  const statusDiv = document.getElementById('status') as HTMLDivElement;
-
-  // トレーニングボタンのイベント
-  trainButton.addEventListener('click', async () => {
-    if (isTraining) return;
-
-    isTraining = true;
-    isTrainingComplete = false;
-    trainButton.disabled = true;
-    predictButton.disabled = true;
-    userInput.disabled = true;
-    statusDiv.textContent = 'Training...';
-    outputDiv.innerHTML = '<div class="message">Training started...</div>';
-
-    // 非同期でトレーニングを実行（UIをブロックしないように）
-    setTimeout(() => {
-      try {
-        const epochs = 100;
-        llm.train(trainingData, epochs);
-        statusDiv.textContent = 'Training completed!';
-        outputDiv.innerHTML += '<div class="message success">Training completed! You can now chat with the AI.</div>';
-        isTrainingComplete = true;
-        predictButton.disabled = false;
-        userInput.disabled = false;
-      } catch (error) {
-        statusDiv.textContent = 'Training failed';
-        outputDiv.innerHTML += `<div class="message error">Error: ${error}</div>`;
-        console.error(error);
-      } finally {
-        isTraining = false;
-        trainButton.disabled = false;
-      }
-    }, 100);
-  });
 
   // 予測ボタンのイベント
   predictButton.addEventListener('click', () => {
@@ -138,8 +95,8 @@ async function init() {
       return;
     }
 
-    if (!isTrainingComplete) {
-      alert('Please train the model first');
+    if (!isModelReady) {
+      alert('Model is not ready yet. Please wait for it to load.');
       return;
     }
 
@@ -170,79 +127,6 @@ async function init() {
   userInput.addEventListener('keypress', (e) => {
     if (e.key === 'Enter') {
       predictButton.click();
-    }
-  });
-
-  // 保存ボタンのイベント
-  saveButton.addEventListener('click', async () => {
-    if (!isTrainingComplete) {
-      alert('Please train the model first before saving');
-      return;
-    }
-
-    try {
-      saveButton.disabled = true;
-      statusDiv.textContent = 'Saving model...';
-
-      const modelData = llm.serialize();
-      await storage.saveModel(modelData);
-
-      const message = document.createElement('div');
-      message.className = 'message success';
-      message.textContent = 'Model saved successfully to IndexedDB!';
-      outputDiv.appendChild(message);
-      outputDiv.scrollTop = outputDiv.scrollHeight;
-
-      statusDiv.textContent = 'Model saved!';
-    } catch (error) {
-      const errorMessage = document.createElement('div');
-      errorMessage.className = 'message error';
-      errorMessage.textContent = `Failed to save model: ${error}`;
-      outputDiv.appendChild(errorMessage);
-      console.error(error);
-      statusDiv.textContent = 'Save failed';
-    } finally {
-      saveButton.disabled = false;
-    }
-  });
-
-  // 読み込みボタンのイベント
-  loadButton.addEventListener('click', async () => {
-    try {
-      loadButton.disabled = true;
-      statusDiv.textContent = 'Loading model...';
-
-      const modelData = await storage.loadModel();
-
-      if (modelData) {
-        llm = SimpleLLM.deserialize(modelData);
-        isTrainingComplete = true;
-        predictButton.disabled = false;
-        userInput.disabled = false;
-
-        const message = document.createElement('div');
-        message.className = 'message success';
-        message.textContent = 'Model loaded successfully from IndexedDB! You can now chat with the AI.';
-        outputDiv.appendChild(message);
-        outputDiv.scrollTop = outputDiv.scrollHeight;
-
-        statusDiv.textContent = 'Model loaded!';
-      } else {
-        const message = document.createElement('div');
-        message.className = 'message error';
-        message.textContent = 'No saved model found. Please train a model first.';
-        outputDiv.appendChild(message);
-        statusDiv.textContent = 'No saved model found';
-      }
-    } catch (error) {
-      const errorMessage = document.createElement('div');
-      errorMessage.className = 'message error';
-      errorMessage.textContent = `Failed to load model: ${error}`;
-      outputDiv.appendChild(errorMessage);
-      console.error(error);
-      statusDiv.textContent = 'Load failed';
-    } finally {
-      loadButton.disabled = false;
     }
   });
 }

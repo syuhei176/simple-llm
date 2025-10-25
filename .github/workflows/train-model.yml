@@ -1,7 +1,7 @@
 name: Train Language Model
 
 on:
-  # 手動実行トリガー
+  # 手動実行トリガーのみ
   workflow_dispatch:
     inputs:
       data_source:
@@ -57,16 +57,6 @@ on:
         default: true
         type: boolean
 
-  # スケジュール実行（毎週日曜日 0:00 UTC）
-  schedule:
-    - cron: '0 0 * * 0'
-
-  # プルリクエスト時（data/ディレクトリに変更があった場合）
-  pull_request:
-    paths:
-      - 'data/**'
-      - 'scripts/**'
-
 jobs:
   train:
     runs-on: ubuntu-latest
@@ -91,31 +81,17 @@ jobs:
       - name: Set pipeline parameters
         id: params
         run: |
-          # デフォルト値を設定
-          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
-            echo "data_source=${{ github.event.inputs.data_source }}" >> $GITHUB_OUTPUT
-            echo "data_url=${{ github.event.inputs.data_url }}" >> $GITHUB_OUTPUT
-            echo "model_name=${{ github.event.inputs.model_name }}" >> $GITHUB_OUTPUT
-            echo "window_size=${{ github.event.inputs.window_size }}" >> $GITHUB_OUTPUT
-            echo "stride=${{ github.event.inputs.stride }}" >> $GITHUB_OUTPUT
-            echo "epochs=${{ github.event.inputs.epochs }}" >> $GITHUB_OUTPUT
-            echo "embedding_dim=${{ github.event.inputs.embedding_dim }}" >> $GITHUB_OUTPUT
-            echo "num_layers=${{ github.event.inputs.num_layers }}" >> $GITHUB_OUTPUT
-            echo "max_samples=${{ github.event.inputs.max_samples }}" >> $GITHUB_OUTPUT
-            echo "set_as_default=${{ github.event.inputs.set_as_default }}" >> $GITHUB_OUTPUT
-          else
-            # スケジュール実行またはPR時のデフォルト
-            echo "data_source=sample" >> $GITHUB_OUTPUT
-            echo "data_url=" >> $GITHUB_OUTPUT
-            echo "model_name=default" >> $GITHUB_OUTPUT
-            echo "window_size=5" >> $GITHUB_OUTPUT
-            echo "stride=1" >> $GITHUB_OUTPUT
-            echo "epochs=50" >> $GITHUB_OUTPUT
-            echo "embedding_dim=32" >> $GITHUB_OUTPUT
-            echo "num_layers=2" >> $GITHUB_OUTPUT
-            echo "max_samples=1000" >> $GITHUB_OUTPUT
-            echo "set_as_default=true" >> $GITHUB_OUTPUT
-          fi
+          # 手動実行時のパラメータを設定
+          echo "data_source=${{ github.event.inputs.data_source }}" >> $GITHUB_OUTPUT
+          echo "data_url=${{ github.event.inputs.data_url }}" >> $GITHUB_OUTPUT
+          echo "model_name=${{ github.event.inputs.model_name }}" >> $GITHUB_OUTPUT
+          echo "window_size=${{ github.event.inputs.window_size }}" >> $GITHUB_OUTPUT
+          echo "stride=${{ github.event.inputs.stride }}" >> $GITHUB_OUTPUT
+          echo "epochs=${{ github.event.inputs.epochs }}" >> $GITHUB_OUTPUT
+          echo "embedding_dim=${{ github.event.inputs.embedding_dim }}" >> $GITHUB_OUTPUT
+          echo "num_layers=${{ github.event.inputs.num_layers }}" >> $GITHUB_OUTPUT
+          echo "max_samples=${{ github.event.inputs.max_samples }}" >> $GITHUB_OUTPUT
+          echo "set_as_default=${{ github.event.inputs.set_as_default }}" >> $GITHUB_OUTPUT
 
       - name: Fetch training data
         run: |
@@ -228,18 +204,3 @@ jobs:
           name: training-data
           path: data/training-data.json
           retention-days: 7
-
-      - name: Comment on PR
-        if: github.event_name == 'pull_request'
-        uses: actions/github-script@v7
-        with:
-          script: |
-            const fs = require('fs');
-            const report = fs.readFileSync('training-report.md', 'utf8');
-
-            github.rest.issues.createComment({
-              issue_number: context.issue.number,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              body: `## 🤖 Model Training Completed\n\n${report}\n\nThe model has been trained and is ready for review.`
-            });

@@ -1,14 +1,7 @@
 name: Quick Pipeline Test
 
 on:
-  # プルリクエスト時
-  pull_request:
-    paths:
-      - 'scripts/**'
-      - 'src/**'
-      - '.github/workflows/**'
-
-  # 手動実行
+  # 手動実行のみ
   workflow_dispatch:
 
 jobs:
