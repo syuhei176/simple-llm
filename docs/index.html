@@ -61,19 +61,6 @@
             color: #333;
         }
 
-        .control-panel {
-            margin-bottom: 30px;
-        }
-
-        .train-section {
-            text-align: center;
-            margin-bottom: 30px;
-            display: flex;
-            gap: 10px;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-
         button {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
@@ -180,20 +167,6 @@
             line-height: 1.8;
         }
 
-        .training-data {
-            background: #f8f9fa;
-            border-radius: 10px;
-            padding: 15px;
-            margin-top: 10px;
-        }
-
-        .training-data code {
-            display: block;
-            padding: 5px 0;
-            font-family: 'Courier New', monospace;
-            font-size: 0.9rem;
-        }
-
         @media (max-width: 600px) {
             .header h1 {
                 font-size: 1.5rem;
@@ -225,16 +198,10 @@
                 Loading...
             </div>
 
-            <div class="train-section">
-                <button id="train-button">🎓 Train Model</button>
-                <button id="save-button">💾 Save Model</button>
-                <button id="load-button">📂 Load Model</button>
-            </div>
-
             <div class="chat-section">
                 <h3 style="color: #667eea; margin-bottom: 15px;">💬 Chat with AI</h3>
                 <div class="output" id="output">
-                    <div class="message">Welcome! Click "Train Model" to start training the language model.</div>
+                    <div class="message">Welcome! The model is loading from the repository...</div>
                 </div>
 
                 <div class="input-group">
@@ -244,26 +211,12 @@
             </div>
 
             <div class="info-section">
-                <h3>📚 Training Data (70+ conversation pairs)</h3>
-                <div class="training-data">
-                    <code>"hello" → "hi there"</code>
-                    <code>"how are you" → "I am doing well thank you"</code>
-                    <code>"what is your name" → "I am a simple AI assistant"</code>
-                    <code>"colors" → "red blue green yellow orange purple pink"</code>
-                    <code>"animals" → "cat dog bird fish elephant tiger bear"</code>
-                    <code>"thank you" → "you are welcome"</code>
-                    <code>"what do you like" → "I like learning and chatting"</code>
-                    <code>...and 60+ more diverse examples!</code>
-                </div>
-            </div>
-
-            <div class="info-section">
                 <h3>ℹ️ About This Demo</h3>
                 <ul>
                     <li>Built with TypeScript from scratch</li>
                     <li>Uses self-attention mechanism (Q, K, V)</li>
-                    <li>Includes embedding layer and output layer</li>
-                    <li>Trained with backpropagation</li>
+                    <li>Pre-trained model loaded from GitHub repository</li>
+                    <li>Transformer architecture with multiple layers</li>
                 </ul>
             </div>
         </div>
