@@ -6,7 +6,7 @@ export class OutputLayer {
   bias: number[];
   gradWeights: number[][];
   gradBias: number[];
-  learningRate: number = 0.001; // 勾配爆発防止のため学習率を下げる
+  learningRate: number = 0.01;
   vocabSize: number;
   embeddingDim: number;
 
@@ -16,12 +16,12 @@ export class OutputLayer {
     // Xavier初期化
     const scale = Math.sqrt(1.0 / (embeddingDim + vocabSize));
     this.weights = Array.from({ length: embeddingDim }, () =>
-      Array.from({ length: vocabSize }, () => (Math.random() * 2 - 1) * scale)
+      Array.from({ length: vocabSize }, () => (Math.random() * 2 - 1) * scale),
     );
     this.bias = Array.from({ length: vocabSize }, () => 0);
     // 勾配を0で初期化
     this.gradWeights = Array.from({ length: embeddingDim }, () =>
-      Array.from({ length: vocabSize }, () => 0)
+      Array.from({ length: vocabSize }, () => 0),
     );
     this.gradBias = Array.from({ length: vocabSize }, () => 0);
   }
@@ -42,9 +42,9 @@ export class OutputLayer {
   // Softmax関数
   softmax(logits: number[]): number[] {
     const maxLogit = Math.max(...logits);
-    const expScores = logits.map(x => Math.exp(x - maxLogit));
+    const expScores = logits.map((x) => Math.exp(x - maxLogit));
     const sumExp = expScores.reduce((a, b) => a + b, 1e-8);
-    return expScores.map(x => x / sumExp);
+    return expScores.map((x) => x / sumExp);
   }
 
   // 逆伝播
@@ -84,17 +84,23 @@ export class OutputLayer {
    * 累積した勾配でパラメータを更新
    */
   updateParameters(): void {
-    const clipValue = 5.0;
+    const clipValue = 1.0;
     for (let i = 0; i < this.embeddingDim; i++) {
       for (let j = 0; j < this.vocabSize; j++) {
-        const clippedGrad = Math.max(-clipValue, Math.min(clipValue, this.gradWeights[i][j]));
-        this.weights[i][j] += this.learningRate * clippedGrad;
+        const clippedGrad = Math.max(
+          -clipValue,
+          Math.min(clipValue, this.gradWeights[i][j]),
+        );
+        this.weights[i][j] -= this.learningRate * clippedGrad;
       }
     }
 
     for (let j = 0; j < this.vocabSize; j++) {
-      const clippedGrad = Math.max(-clipValue, Math.min(clipValue, this.gradBias[j]));
-      this.bias[j] += this.learningRate * clippedGrad;
+      const clippedGrad = Math.max(
+        -clipValue,
+        Math.min(clipValue, this.gradBias[j]),
+      );
+      this.bias[j] -= this.learningRate * clippedGrad;
     }
   }
 

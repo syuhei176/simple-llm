@@ -4,9 +4,9 @@ import { Optimizer } from './optimizer';
 export class LayerNorm {
   epsilon: number;
   gamma: number[]; // スケールパラメータ
-  beta: number[];  // シフトパラメータ
+  beta: number[]; // シフトパラメータ
   dim: number;
-  learningRate: number = 0.001;
+  learningRate: number = 0.01;
 
   // 勾配アキュムレータ
   gradGamma: number[];
@@ -36,7 +36,8 @@ export class LayerNorm {
   forward(x: number[]): number[] {
     // 平均と分散を計算
     const mean = x.reduce((sum, val) => sum + val, 0) / this.dim;
-    const variance = x.reduce((sum, val) => sum + Math.pow(val - mean, 2), 0) / this.dim;
+    const variance =
+      x.reduce((sum, val) => sum + Math.pow(val - mean, 2), 0) / this.dim;
     const std = Math.sqrt(variance + this.epsilon);
 
     // 正規化してスケール・シフト
@@ -48,7 +49,7 @@ export class LayerNorm {
    * バッチ処理用の順伝播
    */
   forwardBatch(batch: number[][]): number[][] {
-    this.lastInput = batch.map(row => [...row]);
+    this.lastInput = batch.map((row) => [...row]);
     this.lastMean = [];
     this.lastVar = [];
     this.lastStd = [];
@@ -57,7 +58,8 @@ export class LayerNorm {
     return batch.map((x, idx) => {
       // 平均と分散を計算
       const mean = x.reduce((sum, val) => sum + val, 0) / this.dim;
-      const variance = x.reduce((sum, val) => sum + Math.pow(val - mean, 2), 0) / this.dim;
+      const variance =
+        x.reduce((sum, val) => sum + Math.pow(val - mean, 2), 0) / this.dim;
       const std = Math.sqrt(variance + this.epsilon);
 
       // キャッシュに保存
@@ -94,11 +96,11 @@ export class LayerNorm {
     const gradNormalized = gradOutput.map((g, i) => g * this.gamma[i]);
 
     const meanGrad = gradNormalized.reduce((sum, val) => sum + val, 0) / N;
-    const meanGradNorm = gradNormalized.reduce((sum, val, i) =>
-      sum + val * normalized[i], 0) / N;
+    const meanGradNorm =
+      gradNormalized.reduce((sum, val, i) => sum + val * normalized[i], 0) / N;
 
-    const gradInput = gradNormalized.map((g, i) =>
-      (g - meanGrad - normalized[i] * meanGradNorm) / std
+    const gradInput = gradNormalized.map(
+      (g, i) => (g - meanGrad - normalized[i] * meanGradNorm) / std,
     );
 
     return gradInput;
@@ -116,13 +118,19 @@ export class LayerNorm {
    * 累積した勾配でパラメータを更新
    */
   updateParameters(): void {
-    const clipValue = 5.0;
+    const clipValue = 1.0;
     for (let i = 0; i < this.dim; i++) {
-      const clippedGradGamma = Math.max(-clipValue, Math.min(clipValue, this.gradGamma[i]));
-      const clippedGradBeta = Math.max(-clipValue, Math.min(clipValue, this.gradBeta[i]));
+      const clippedGradGamma = Math.max(
+        -clipValue,
+        Math.min(clipValue, this.gradGamma[i]),
+      );
+      const clippedGradBeta = Math.max(
+        -clipValue,
+        Math.min(clipValue, this.gradBeta[i]),
+      );
 
-      this.gamma[i] += this.learningRate * clippedGradGamma;
-      this.beta[i] += this.learningRate * clippedGradBeta;
+      this.gamma[i] -= this.learningRate * clippedGradGamma;
+      this.beta[i] -= this.learningRate * clippedGradBeta;
     }
   }
 
@@ -154,13 +162,15 @@ export class LayerNorm {
  */
 export function layerNormalize(
   vector: number[],
-  epsilon: number = 1e-8
-): { normalized: number[], mean: number, std: number } {
+  epsilon: number = 1e-8,
+): { normalized: number[]; mean: number; std: number } {
   const mean = vector.reduce((sum, val) => sum + val, 0) / vector.length;
-  const variance = vector.reduce((sum, val) => sum + Math.pow(val - mean, 2), 0) / vector.length;
+  const variance =
+    vector.reduce((sum, val) => sum + Math.pow(val - mean, 2), 0) /
+    vector.length;
   const std = Math.sqrt(variance + epsilon);
 
-  const normalized = vector.map(val => (val - mean) / std);
+  const normalized = vector.map((val) => (val - mean) / std);
 
   return { normalized, mean, std };
 }
@@ -168,6 +178,9 @@ export function layerNormalize(
 /**
  * バッチに対してLayer Normalizationを適用（パラメータなし版）
  */
-export function batchLayerNormalize(batch: number[][], epsilon: number = 1e-8): number[][] {
-  return batch.map(vector => layerNormalize(vector, epsilon).normalized);
+export function batchLayerNormalize(
+  batch: number[][],
+  epsilon: number = 1e-8,
+): number[][] {
+  return batch.map((vector) => layerNormalize(vector, epsilon).normalized);
 }
